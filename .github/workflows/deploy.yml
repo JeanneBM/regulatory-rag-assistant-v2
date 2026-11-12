@@ -1,0 +1,47 @@
+name: Deploy to Azure
+# Manual: provisions and deploys with azd using OpenID Connect (no stored secrets).
+# Repository variables: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID,
+# AZURE_ENV_NAME, AZURE_LOCATION. Optional: REGRAG_ALLOWED_IP_RANGES, AZURE_SEARCH_SKU,
+# AZURE_BUDGET_AMOUNT, AZURE_BUDGET_EMAIL.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: deploy-${{ vars.AZURE_ENV_NAME }}
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: azure
+    timeout-minutes: 45
+    env:
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
+      AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+      AZURE_PRINCIPAL_TYPE: ServicePrincipal
+      REGRAG_ALLOWED_IP_RANGES: ${{ vars.REGRAG_ALLOWED_IP_RANGES }}
+      AZURE_SEARCH_SKU: ${{ vars.AZURE_SEARCH_SKU || 'basic' }}
+      AZURE_BUDGET_AMOUNT: ${{ vars.AZURE_BUDGET_AMOUNT || '0' }}
+      AZURE_BUDGET_EMAIL: ${{ vars.AZURE_BUDGET_EMAIL }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: Azure/setup-azd@0b7e3a35ab00f2eee7080c845eb39c3f0ebfa553 # v2.4.0
+      - uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Log in to azd with federated credentials
+        run: >
+          azd auth login --client-id "$AZURE_CLIENT_ID" --tenant-id "$AZURE_TENANT_ID"
+          --federated-credential-provider github
+      - run: azd provision --no-prompt
+      - run: azd deploy --no-prompt
+      - name: Show endpoint
+        run: azd env get-value WEB_URL >> "$GITHUB_STEP_SUMMARY"

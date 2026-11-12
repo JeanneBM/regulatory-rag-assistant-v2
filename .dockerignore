@@ -1,0 +1,15 @@
+.git
+.github
+.azure
+.venv
+.local
+.pytest_cache
+.ruff_cache
+**/__pycache__
+infra
+tests
+docs
+evidence
+scripts
+*.md
+.env

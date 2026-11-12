@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": { "value": "${AZURE_ENV_NAME}" },
+    "location": { "value": "${AZURE_LOCATION}" },
+    "principalId": { "value": "${AZURE_PRINCIPAL_ID}" },
+    "principalType": { "value": "${AZURE_PRINCIPAL_TYPE=User}" },
+    "webAppExists": { "value": "${SERVICE_WEB_RESOURCE_EXISTS=false}" },
+    "chatModelName": { "value": "${AZURE_OPENAI_CHAT_MODEL=gpt-4.1-mini}" },
+    "chatModelVersion": { "value": "${AZURE_OPENAI_CHAT_MODEL_VERSION=2025-04-14}" },
+    "chatDeploymentSku": { "value": "${AZURE_OPENAI_CHAT_SKU=GlobalStandard}" },
+    "embeddingDeploymentSku": { "value": "${AZURE_OPENAI_EMBEDDING_SKU=GlobalStandard}" },
+    "searchSku": { "value": "${AZURE_SEARCH_SKU=basic}" },
+    "semanticRanker": { "value": "${AZURE_SEARCH_SEMANTIC_PLAN=free}" },
+    "allowedIpRanges": { "value": "${REGRAG_ALLOWED_IP_RANGES=}" },
+    "budgetAmount": { "value": "${AZURE_BUDGET_AMOUNT=0}" },
+    "budgetContactEmail": { "value": "${AZURE_BUDGET_EMAIL=}" }
+  }
+}

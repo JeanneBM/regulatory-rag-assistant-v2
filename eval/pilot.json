@@ -1,0 +1,12 @@
+[
+  {"id": "D01", "question": "Under DORA, what is the role of the management body in ICT risk governance?", "expected": {"act": "DORA", "article": "5"}},
+  {"id": "D02", "question": "What does DORA say about the ICT risk management framework?", "expected": {"act": "DORA", "article": "6"}},
+  {"id": "D03", "question": "What does DORA require for ICT business continuity and response and recovery plans?", "expected": {"act": "DORA", "article": "11"}},
+  {"id": "D04", "question": "What does DORA require for the ICT-related incident management process?", "expected": {"act": "DORA", "article": "17"}},
+  {"id": "A01", "question": "What does the AI Act say about AI literacy for staff of providers and deployers?", "expected": {"act": "AI_ACT", "article": "4"}},
+  {"id": "A02", "question": "What does the AI Act prohibit regarding AI social scoring of natural persons?", "expected": {"act": "AI_ACT", "article": "5"}},
+  {"id": "A03", "question": "Under the AI Act, what transparency obligations apply to AI systems intended to interact directly with natural persons?", "expected": {"act": "AI_ACT", "article": "50"}},
+  {"id": "A04", "question": "Under the AI Act, what technical documentation must providers of general-purpose AI models prepare?", "expected": {"act": "AI_ACT", "article": "53"}},
+  {"id": "N01", "question": "How do I bake a chocolate cake?", "expected": null},
+  {"id": "N02", "question": "What VAT rate does DORA set for the ICT risk management framework of financial entities?", "expected": null}
+]
