@@ -1,7 +1,7 @@
 """Runtime settings, read from environment variables only.
 
 No secrets are required for the Azure backend: every Azure call authenticates with
-Microsoft Entra ID (managed identity in Azure, `az login` locally).
+Microsoft Entra ID (`az login` locally).
 """
 import os
 from dataclasses import dataclass
@@ -48,12 +48,7 @@ class Settings:
     top_k: int = 8
     verify_claims: bool = True
     claim_policy: str = "strict"                # strict: supported only | lenient: + partial
-    max_question_chars: int = 1000
-    rate_limit_per_minute: int = 20
-    daily_generation_limit: int = 500
 
-    appinsights_connection_string: str = ""
-    log_questions: bool = False
 
     @property
     def generation_enabled(self) -> bool:
@@ -82,11 +77,6 @@ class Settings:
             top_k=int(_number("REGRAG_TOP_K", 8)),
             verify_claims=_flag("REGRAG_VERIFY_CLAIMS", True),
             claim_policy=os.getenv("REGRAG_CLAIM_POLICY", "strict").strip().lower(),
-            max_question_chars=int(_number("REGRAG_MAX_QUESTION_CHARS", 1000)),
-            rate_limit_per_minute=int(_number("REGRAG_RATE_LIMIT_PER_MINUTE", 20)),
-            daily_generation_limit=int(_number("REGRAG_DAILY_GENERATION_LIMIT", 500)),
-            appinsights_connection_string=os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING", ""),
-            log_questions=_flag("REGRAG_LOG_QUESTIONS", False),
         )
         settings.validate()
         return settings

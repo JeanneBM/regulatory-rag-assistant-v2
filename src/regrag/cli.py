@@ -1,4 +1,4 @@
-"""Command line: regrag ingest | ask | serve | eval | stats."""
+"""Command line: regrag ingest | ask | eval | stats."""
 import argparse
 import json
 import sys
@@ -44,9 +44,6 @@ def main(argv: list[str] | None = None) -> int:
     ask = commands.add_parser("ask", help="Ask one question")
     ask.add_argument("question")
     ask.add_argument("--act", choices=list(ACTS))
-    serve = commands.add_parser("serve", help="Run the web UI and API")
-    serve.add_argument("--host", default="127.0.0.1")
-    serve.add_argument("--port", type=int, default=8000)
     evaluate = commands.add_parser("eval", help="Run the pilot question set")
     evaluate.add_argument("--cases", type=Path, default=DEFAULT_CASES)
     evaluate.add_argument("--retrieval-only", action="store_true", help="Skip all model calls")
@@ -57,8 +54,6 @@ def main(argv: list[str] | None = None) -> int:
     try:
         settings = Settings.from_env()
         if args.command == "ingest":
-            from regrag.telemetry import configure
-            configure(settings)
             manifest = _ingest(settings, args.target)
             print(json.dumps({k: manifest[k] for k in ("corpus_sha256", "units", "fetched_at")}
                              | {"search": manifest.get("search")}, indent=2))
@@ -67,12 +62,6 @@ def main(argv: list[str] | None = None) -> int:
             result = build_assistant(settings, log=lambda m: print(m, file=sys.stderr)).ask(
                 args.question, args.act)
             print(json.dumps(result, ensure_ascii=False, indent=2))
-        elif args.command == "serve":
-            import uvicorn
-
-            from regrag.api import create_app
-            uvicorn.run(create_app(settings), host=args.host, port=args.port,
-                        proxy_headers=False, server_header=False)
         elif args.command == "eval":
             from regrag.evaluation import load_cases, run
             from regrag.pipeline import build_assistant

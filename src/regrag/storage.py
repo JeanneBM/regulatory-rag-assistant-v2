@@ -110,9 +110,3 @@ class BlobCorpusStore:
             return None
         payload = json.loads(self.container.download_blob(name).readall())
         return manifest, payload["units"]
-
-    def save_report(self, name: str, report: dict) -> str:
-        blob = f"eval/{name}"
-        self._upload(blob, json.dumps(report, ensure_ascii=False, indent=2),
-                     "application/json", overwrite=False)
-        return f"{self.container.url}/{blob}"
