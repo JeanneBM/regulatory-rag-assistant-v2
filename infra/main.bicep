@@ -11,7 +11,7 @@ targetScope = 'subscription'
 param environmentName string
 
 @minLength(1)
-@description('Region offering the chosen Azure OpenAI models, Azure AI Search and Container Apps, e.g. swedencentral.')
+@description('Region offering the chosen Azure OpenAI models, Azure AI Search and Container Apps, e.g. polandcentral.')
 param location string
 
 @description('Object ID of the deploying user or service principal. Gets the data-plane roles needed to run the CLI locally. Empty to skip.')
@@ -23,14 +23,14 @@ param principalType string = 'User'
 @description('Chat model used for answers and claim verification.')
 param chatModelName string = 'gpt-4.1-mini'
 param chatModelVersion string = '2025-04-14'
-@description('GlobalStandard, DataZoneStandard (EU data zone processing) or Standard, as available in the region.')
-param chatDeploymentSku string = 'GlobalStandard'
+@description('DataZoneStandard keeps model processing inside the data zone (EU for EU regions); GlobalStandard may process in any region.')
+param chatDeploymentSku string = 'DataZoneStandard'
 @description('Chat deployment capacity in thousands of tokens per minute.')
 param chatCapacity int = 30
 
 param embeddingModelName string = 'text-embedding-3-small'
 param embeddingModelVersion string = '1'
-param embeddingDeploymentSku string = 'GlobalStandard'
+param embeddingDeploymentSku string = 'DataZoneStandard'
 param embeddingCapacity int = 50
 param embeddingDimensions int = 1536
 

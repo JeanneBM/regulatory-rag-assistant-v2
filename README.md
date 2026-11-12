@@ -79,7 +79,7 @@ Requirements: [Azure Developer CLI](https://aka.ms/azd), Azure CLI, and Owner (o
 ```bash
 azd auth login && az login
 azd env new regrag-dev
-azd env set AZURE_LOCATION swedencentral
+azd env set AZURE_LOCATION polandcentral
 azd env set REGRAG_ALLOWED_IP_RANGES "203.0.113.10/32"   # optional: restrict the web app to your IP
 azd env set AZURE_BUDGET_AMOUNT 50 && azd env set AZURE_BUDGET_EMAIL you@example.com   # optional
 azd up
@@ -101,7 +101,9 @@ regrag eval          # full ten-question pilot; writes JSON and a manual-review 
 
 Your user gets the same data-plane roles as the ingest job, so `regrag ingest --target azure` also works from a workstation.
 
-**Parameters** (`azd env set NAME value`): `AZURE_OPENAI_CHAT_MODEL` / `_VERSION` (default `gpt-4.1-mini` / `2025-04-14`), `AZURE_OPENAI_CHAT_SKU` (`GlobalStandard`, or `DataZoneStandard` to keep processing in the EU data zone where offered), `AZURE_SEARCH_SKU` (`basic`; `free` disables the semantic ranker and allows one service per subscription), `REGRAG_ALLOWED_IP_RANGES`, `AZURE_BUDGET_AMOUNT`, `AZURE_BUDGET_EMAIL`. Model availability differs by region, and Sweden Central offers the defaults.
+**Region.** The default recommendation is `polandcentral` (Warsaw). Azure AI Search there supports the semantic ranker. The model deployments use `DataZoneStandard`, so prompts and answers are processed inside the EU data zone, while the corpus, index and logs stay in Poland. Microsoft's [AI Search region list](https://learn.microsoft.com/azure/search/search-region-support) (updated 23 October 2026) says Sweden Central is in high demand and blocks the creation of new search services. Model availability changes, so check before deploying: `az cognitiveservices model list --location polandcentral -o table`.
+
+**Parameters** (`azd env set NAME value`): `AZURE_OPENAI_CHAT_MODEL` / `_VERSION` (default `gpt-4.1-mini` / `2025-04-14`), `AZURE_OPENAI_CHAT_SKU` / `AZURE_OPENAI_EMBEDDING_SKU` (default `DataZoneStandard`; `GlobalStandard` may process in any region and sometimes has more capacity), `AZURE_SEARCH_SKU` (`basic`; `free` disables the semantic ranker and allows one service per subscription), `REGRAG_ALLOWED_IP_RANGES`, `AZURE_BUDGET_AMOUNT`, `AZURE_BUDGET_EMAIL`.
 
 **Cost.** Azure AI Search Basic bills a fixed hourly rate and is the main fixed cost. Container Apps scale to zero. OpenAI is billed per token: v1's ten-question pilot used about 31k tokens, and v2 adds one verification call per answered question. Embedding both acts costs a fraction of a cent and is skipped when the corpus has not changed. Check prices for your region in the [Azure pricing calculator](https://azure.microsoft.com/pricing/calculator/). **Remove everything with `azd down --purge`.**
 
