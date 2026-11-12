@@ -141,13 +141,20 @@ class SearchPublisher:
             self._build(name, units)
             built = True
         previous = self._current_alias_target()
-        self.index_client.create_or_update_alias(SearchAlias(name=self.alias, indexes=[name]))
-        self.log(f"Alias {self.alias} -> {name}")
-        keep = {name, previous}
         pruned = []
-        for other in self.index_client.list_index_names():
-            if other.startswith(f"{self.prefix}-") and other not in keep:
-                self.index_client.delete_index(other)
-                pruned.append(other)
+        if previous == name:
+            # Unchanged corpus: nothing moves, so the rollback index stays as it is.
+            self.log(f"Alias {self.alias} already points to {name}")
+        else:
+            self.index_client.create_or_update_alias(SearchAlias(name=self.alias, indexes=[name]))
+            self.log(f"Alias {self.alias} -> {name}")
+            # Prune only after a real swap, keeping the index just replaced for rollback.
+            # Without a previous alias target there is no known-good index to fall back
+            # to, so nothing is deleted.
+            if previous is not None:
+                for other in self.index_client.list_index_names():
+                    if other.startswith(f"{self.prefix}-") and other not in {name, previous}:
+                        self.index_client.delete_index(other)
+                        pruned.append(other)
         return {"index": name, "built": built, "previous": previous, "pruned": pruned,
                 "embedding": self.embedder.identity, "embedding_tokens": self.embedder.tokens}

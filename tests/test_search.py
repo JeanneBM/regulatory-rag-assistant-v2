@@ -100,6 +100,26 @@ def test_unchanged_corpus_reuses_index_without_embedding():
     assert client.embedding_requests == []
 
 
+def test_unchanged_reimport_keeps_the_rollback_index():
+    service, client = FakeIndexService(), FakeOpenAI()
+    first = publisher(service, client).publish(UNITS, "a" * 64)["index"]
+    second = publisher(service, client).publish(UNITS[:1], "b" * 64)["index"]
+    assert set(service.indexes) == {first, second}
+    again = publisher(service, client).publish(UNITS[:1], "b" * 64)
+    assert not again["built"] and again["pruned"] == []
+    assert set(service.indexes) == {first, second}, "weekly re-import must not delete the rollback index"
+    third = publisher(service, client).publish(UNITS, "c" * 64)
+    assert set(service.indexes) == {second, third["index"]} and third["pruned"] == [first]
+
+
+def test_first_publish_without_alias_deletes_nothing():
+    service, client = FakeIndexService(), FakeOpenAI()
+    service.indexes = {"regrag-orphan": None}
+    result = publisher(service, client).publish(UNITS, "d" * 64)
+    assert service.aliases["regrag"] == result["index"]
+    assert "regrag-orphan" in service.indexes and result["pruned"] == []
+
+
 def test_rejected_upload_never_moves_alias():
     service, client = FakeIndexService(), FakeOpenAI()
     service.aliases["regrag"] = "regrag-live"

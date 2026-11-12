@@ -50,13 +50,17 @@ def run_case(assistant, case: dict, retrieval_only: bool) -> dict:
         retrieved=[e["id"] for e in result["evidence"]],
         expected_retrieved=(expected in retrieved) if expected else None,
         expected_rank=(retrieved.index(expected) + 1) if expected in retrieved else None,
-        claims=[{"citation": c["citation"], "statement": c["statement"], "support": c["support"],
-                 "support_note": c["support_note"], "quote": c["quote"]} for c in result["claims"]],
-        rejected_claims=[{"citation": c["citation"], "statement": c["statement"],
-                          "support": c["support"], "support_note": c["support_note"]}
-                         for c in result["rejected_claims"]],
+        claims=[_claim(c) for c in result["claims"]],
+        # Rejected claims keep their quotes so a reviewer can judge whether the
+        # verifier was right to drop them.
+        rejected_claims=[_claim(c) for c in result["rejected_claims"]],
         usage=result.get("usage", {}),
     )
+    if expected and not retrieval_only:
+        def cites(claims):
+            return any((c["act"], str(c["article"])) == expected for c in claims)
+        row["cited_before_verification"] = cites(result["claims"] + result["rejected_claims"])
+        row["cited_after_verification"] = cites(result["claims"])
     if retrieval_only:
         if expected:
             row["check"] = "retrieval_hit" if row["expected_retrieved"] else "retrieval_miss"
@@ -71,6 +75,11 @@ def run_case(assistant, case: dict, retrieval_only: bool) -> dict:
                         and not result["claims"] else "expected_abstention_missing")
     row["elapsed_ms"] = round((perf_counter() - start) * 1000)
     return row
+
+
+def _claim(claim: dict) -> dict:
+    return {key: claim.get(key) for key in
+            ("citation", "statement", "support", "support_note", "support_method", "quote")}
 
 
 def summarise(rows: list[dict], retrieval_only: bool = False) -> dict:
@@ -92,6 +101,17 @@ def summarise(rows: list[dict], retrieval_only: bool = False) -> dict:
         "correct_abstentions": "n/a" if retrieval_only else f"{abstained}/{len(controls)}",
         "controls_without_evidence": f"{sum(r['check'] == 'no_evidence' for r in controls)}/{len(controls)}",
         "claim_support_labels": dict(support),
+        # Same retrieved fragments, same generation: the effect of verification alone.
+        "verification": "n/a" if retrieval_only else {
+            "claims_generated": sum(len(r.get("claims", [])) + len(r.get("rejected_claims", [])) for r in rows),
+            "claims_shown": sum(len(r.get("claims", [])) for r in rows),
+            "rejected_by_rules": sum(c["support_method"] == "rule" for r in rows for c in r.get("rejected_claims", [])),
+            "rejected_by_model": sum(c["support_method"] == "model" for r in rows for c in r.get("rejected_claims", [])),
+            "expected_article_cited_before": f"{sum(bool(r.get('cited_before_verification')) for r in answerable)}"
+                                             f"/{len(answerable)}",
+            "expected_article_cited_after": f"{sum(bool(r.get('cited_after_verification')) for r in answerable)}"
+                                            f"/{len(answerable)}",
+        },
         "tokens": dict(tokens),
         "latency_ms": {"p50": statistics.median(latencies) if latencies else None,
                        "max": latencies[-1] if latencies else None},
@@ -108,18 +128,22 @@ def markdown(report: dict) -> str:
         f"| Expected article cited | {s['expected_article_cited']} |",
         f"| Correct abstentions | {s['correct_abstentions']} |",
         f"| Verifier labels | {s['claim_support_labels']} |",
+        f"| Verification effect | {s['verification']} |",
         f"| Tokens | {s['tokens']} |", "",
-        "Verifier labels are model judgements. Fill in the manual column before counting a "
-        "claim as supported.", "",
-        "| Case | Citation | Statement | Verifier | Manual review |", "| --- | --- | --- | --- | --- |",
+        "Verifier labels are model judgements. Fill in the manual column for every row: is the "
+        "statement fully supported by its quote, including conditions and exceptions? For rejected "
+        "rows this shows whether verification removed a wrong claim or lost a correct one.", "",
+        "| Case | Citation | Statement | Verifier | Shown | Manual review |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
     for row in report["cases"]:
-        claims = row.get("claims", []) + row.get("rejected_claims", [])
+        claims = [(c, "yes") for c in row.get("claims", [])] + [(c, "no") for c in row.get("rejected_claims", [])]
         if not claims:
-            lines.append(f"| {row['id']} | - | {row['check']} | - | |")
-        for claim in claims:
+            lines.append(f"| {row['id']} | - | {row['check']} | - | - | |")
+        for claim, shown in claims:
             statement = claim["statement"].replace("|", "\\|")
-            lines.append(f"| {row['id']} | {claim['citation']} | {statement} | {claim['support']} | |")
+            verdict = f"{claim['support']} ({claim['support_method']})"
+            lines.append(f"| {row['id']} | {claim['citation']} | {statement} | {verdict} | {shown} | |")
     return "\n".join(lines) + "\n"
 
 

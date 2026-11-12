@@ -33,12 +33,15 @@ def test_retrieval_only_run_reports_hits_and_writes_files(tmp_path):
     assert "Manual review" in Path(report["files"][1]).read_text()
 
 
-def test_full_run_separates_citation_abstention_and_support(tmp_path):
+def test_full_run_separates_citation_abstention_support_and_verification_effect(tmp_path):
     client = FakeOpenAI([
-        completion({"claims": [{"statement": "Financial entities need a documented ICT risk management "
-                                "framework within their overall risk management system.",
-                                "excerpt_id": "E1"}], "abstention_reason": ""}),
-        completion({"verdicts": [{"claim": 1, "support": "supported", "note": ""}]}),
+        completion({"claims": [
+            {"statement": "Financial entities need a documented ICT risk management framework within "
+                          "their overall risk management system.", "excerpt_id": "E1"},
+            {"statement": "Every financial entity must use the same framework.", "excerpt_id": "E1"}],
+            "abstention_reason": ""}),
+        completion({"verdicts": [{"claim": 1, "support": "supported", "note": ""},
+                                 {"claim": 2, "support": "partial", "note": "Overgeneralises."}]}),
     ])
     bot = Assistant(LocalRetriever([unit()]), Generator(client, "chat"), ModelVerifier(client, "judge"))
     report, code = run(bot, CASES, False, tmp_path, log=lambda _: None)
@@ -46,8 +49,16 @@ def test_full_run_separates_citation_abstention_and_support(tmp_path):
     assert code == 0
     assert summary["checks"] == {"citation_hit_needs_review": 1, "abstained": 1}
     assert summary["expected_article_cited"] == "1/1" and summary["correct_abstentions"] == "1/1"
-    assert summary["claim_support_labels"] == {"supported": 1}
+    assert summary["claim_support_labels"] == {"supported": 1, "partial": 1}
+    assert summary["verification"] == {
+        "claims_generated": 2, "claims_shown": 1, "rejected_by_rules": 0, "rejected_by_model": 1,
+        "expected_article_cited_before": "1/1", "expected_article_cited_after": "1/1"}
     assert summary["tokens"]["total_tokens"] == 240
+    rejected = report["cases"][0]["rejected_claims"][0]
+    assert rejected["quote"] == unit()["text"] and rejected["support_method"] == "model"
+    table = Path(report["files"][1]).read_text()
+    row = "| D02 | DORA Article 6(1) | Every financial entity must use the same framework. | partial (model) | no |"
+    assert row in table
 
 
 def test_misses_and_errors_fail_the_run(tmp_path):

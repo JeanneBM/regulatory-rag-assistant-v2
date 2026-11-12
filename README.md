@@ -72,6 +72,22 @@ regrag serve        # http://127.0.0.1:8000
 
 The first command downloads both acts automatically (about 2 MB) into `.local/`. No manual download is needed. Without Azure configuration the local backend uses TF-IDF and returns evidence only (`retrieval_only`). To generate answers locally, set `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_CHAT_DEPLOYMENT` (see [.env.example](.env.example)) and run `az login`.
 
+## Evaluate the answer design first (no new Azure resources)
+
+The core of v2 is three things: point-level quotations, quotes attached by the application, and per-claim verification. They can be tested without Azure AI Search or Container Apps, using local retrieval and an existing Azure OpenAI chat deployment (for example the one from v1):
+
+```bash
+pip install -e ".[local]"
+export AZURE_OPENAI_ENDPOINT=https://<your-resource>.openai.azure.com/
+export AZURE_OPENAI_CHAT_DEPLOYMENT=<your gpt-4.1-mini deployment>
+export AZURE_OPENAI_API_KEY=<key>      # or omit and use `az login` with the Cognitive Services OpenAI User role
+regrag eval
+```
+
+One run produces both sides of the comparison on the same retrieved fragments and the same generation. `summary.verification` reports claims generated and claims shown, rejections by rule and by the model, and whether the expected article was cited before and after verification. The Markdown report lists every claim, including the rejected ones with their quotes, and has a manual-review column. Filling in that column shows whether verification removed wrong claims or lost correct ones. Run the same ten questions against v1 to compare.
+
+The full Azure stack below is for running the assistant as a service. The first evaluation does not need it.
+
 ## Deploy to Azure
 
 Requirements: [Azure Developer CLI](https://aka.ms/azd), Azure CLI, and Owner (or Contributor plus Role Based Access Control Administrator) rights on the subscription, because the template assigns roles. No local Docker is needed because the image is built in Azure Container Registry.
