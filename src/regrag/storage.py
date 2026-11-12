@@ -93,10 +93,18 @@ class BlobCorpusStore:
         self._upload("active.json", json.dumps(manifest, ensure_ascii=False, indent=2),
                      "application/json", overwrite=True)
 
-    def active(self):
-        if not self._exists("active.json"):
+    def active_manifest(self) -> dict | None:
+        from azure.core.exceptions import ResourceNotFoundError
+
+        try:
+            return json.loads(self.container.download_blob("active.json").readall())
+        except ResourceNotFoundError:
             return None
-        manifest = json.loads(self.container.download_blob("active.json").readall())
+
+    def active(self):
+        manifest = self.active_manifest()
+        if manifest is None:
+            return None
         name = corpus_name(manifest["corpus_sha256"])
         if not self._exists(name):
             return None

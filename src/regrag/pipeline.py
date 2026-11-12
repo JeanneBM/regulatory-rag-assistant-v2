@@ -113,8 +113,7 @@ def build_assistant(settings: Settings, log=print) -> Assistant:
         if settings.storage_account_url:
             from regrag.storage import BlobCorpusStore
             try:
-                active = BlobCorpusStore(azure_clients.blob_container(settings)).active()
-                manifest = active[0] if active else None
+                manifest = BlobCorpusStore(azure_clients.blob_container(settings)).active_manifest()
             except Exception as exc:  # metadata only; search keeps working
                 log(f"Corpus manifest unavailable: {type(exc).__name__}")
     else:

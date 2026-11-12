@@ -45,22 +45,18 @@ def run_case(assistant, case: dict, retrieval_only: bool) -> dict:
                    elapsed_ms=round((perf_counter() - start) * 1000))
         return row
     retrieved = [(e["act"], str(e["article"])) for e in result["evidence"]]
+    rank = next((i for i, article in enumerate(retrieved, 1) if article == expected), None)
     row.update(
         status=result["status"],
         retrieved=[e["id"] for e in result["evidence"]],
-        expected_retrieved=(expected in retrieved) if expected else None,
-        expected_rank=(retrieved.index(expected) + 1) if expected in retrieved else None,
+        expected_retrieved=(rank is not None) if expected else None,
+        expected_rank=rank,
         claims=[_claim(c) for c in result["claims"]],
         # Rejected claims keep their quotes so a reviewer can judge whether the
         # verifier was right to drop them.
         rejected_claims=[_claim(c) for c in result["rejected_claims"]],
         usage=result.get("usage", {}),
     )
-    if expected and not retrieval_only:
-        def cites(claims):
-            return any((c["act"], str(c["article"])) == expected for c in claims)
-        row["cited_before_verification"] = cites(result["claims"] + result["rejected_claims"])
-        row["cited_after_verification"] = cites(result["claims"])
     if retrieval_only:
         if expected:
             row["check"] = "retrieval_hit" if row["expected_retrieved"] else "retrieval_miss"
@@ -68,6 +64,9 @@ def run_case(assistant, case: dict, retrieval_only: bool) -> dict:
             row["check"] = "distractors_retrieved" if retrieved else "no_evidence"
     elif expected:
         cited = any((c["act"], str(c["article"])) == expected for c in result["claims"])
+        row["cited_after_verification"] = cited
+        row["cited_before_verification"] = cited or any(
+            (c["act"], str(c["article"])) == expected for c in result["rejected_claims"])
         row["check"] = ("citation_hit_needs_review" if result["status"] == "answered" and cited
                         else "expected_answer_missing")
     else:

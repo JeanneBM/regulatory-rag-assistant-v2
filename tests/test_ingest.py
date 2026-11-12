@@ -1,13 +1,15 @@
 import json
+from unittest.mock import Mock
 
 import pytest
+from azure.core.exceptions import ResourceNotFoundError
 
 from conftest import EXTRA_ACTS, FakeCellar, act_document
 from regrag import ingest
 from regrag.cellar import SourceError, fetch_act
 from regrag.parser import ParseError
 from regrag.sources import ACTS, CELLAR_HOST
-from regrag.storage import LocalCorpusStore
+from regrag.storage import BlobCorpusStore, LocalCorpusStore
 
 
 def test_fetch_upgrades_cellar_redirects_to_https(cellar):
@@ -46,6 +48,20 @@ def test_corpus_digest_ignores_fetch_time(cellar, tmp_path):
     first = ingest.run_ingest(LocalCorpusStore(tmp_path / "a"), log=lambda _: None)
     second = ingest.run_ingest(LocalCorpusStore(tmp_path / "b"), log=lambda _: None)
     assert first["corpus_sha256"] == second["corpus_sha256"]
+
+
+def test_blob_manifest_downloads_only_the_active_pointer():
+    container = Mock()
+    manifest = {"corpus_sha256": "example"}
+    container.download_blob.return_value.readall.return_value = json.dumps(manifest).encode()
+    store = BlobCorpusStore(container)
+
+    assert store.active_manifest() == manifest
+    container.download_blob.assert_called_once_with("active.json")
+    container.get_blob_client.assert_not_called()
+
+    container.download_blob.side_effect = ResourceNotFoundError("missing pointer")
+    assert store.active_manifest() is None
 
 
 def test_failed_import_keeps_previous_corpus(monkeypatch, cellar, tmp_path):
