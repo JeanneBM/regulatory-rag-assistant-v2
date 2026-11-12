@@ -8,7 +8,9 @@ The application runs on Azure: Azure AI Search does the retrieval, Container App
 > (9 November 2026, lexical retrieval with GPT-4.1 mini), the system cited the expected article for 8/8 answerable
 > questions and abstained on 2/2 controls. Manual review found cases where a real quotation supported only part of a claim
 > ([v1 validation report](https://github.com/JeanneBM/regulatory-rag-assistant/blob/main/evidence/regulatory-rag-validation-2026-11-09.md)).
-> v2 is built around that finding: point-level quotations and claim-support verification. The v1 figures do not
+> v2 is built around that finding: point-level quotations and claim-support verification. On the real official
+> texts it imports 113/113 AI Act and 64/64 DORA articles as 1,478 citable units
+> ([pre-deployment report](evidence/azure-stack-validation-2026-11-12.md)). The v1 figures do not
 > describe v2. Run `regrag eval` against a deployment and record the result before quoting numbers for this version.
 > The tool supports research. It does not give legal advice or assess compliance.
 
