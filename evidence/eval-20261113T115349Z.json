@@ -1,0 +1,535 @@
+{
+  "utc": "2026-11-13T11:53:49.451944+00:00",
+  "mode": "full",
+  "backend": "local-tfidf",
+  "corpus_sha256": "523d3aec58255eb733a255f313eef40d2867367ec983b91631d69dafbe5dcd26",
+  "summary": {
+    "checks": {
+      "citation_hit_needs_review": 7,
+      "error": 1,
+      "abstained": 2
+    },
+    "expected_article_retrieved": "7/8",
+    "expected_article_ranked_first": "7/8",
+    "expected_article_cited": "7/8",
+    "correct_abstentions": "2/2",
+    "controls_without_evidence": "0/2",
+    "claim_support_labels": {
+      "supported": 21,
+      "unsupported": 5
+    },
+    "verification": {
+      "claims_generated": 26,
+      "claims_shown": 21,
+      "rejected_by_rules": 5,
+      "rejected_by_model": 0,
+      "expected_article_cited_before": "7/8",
+      "expected_article_cited_after": "7/8"
+    },
+    "tokens": {
+      "prompt_tokens": 14158,
+      "completion_tokens": 1680,
+      "total_tokens": 15838
+    },
+    "latency_ms": {
+      "p50": 2658.5,
+      "max": 7745
+    }
+  },
+  "cases": [
+    {
+      "id": "D01",
+      "question": "Under DORA, what is the role of the management body in ICT risk governance?",
+      "expected": {
+        "act": "DORA",
+        "article": "5"
+      },
+      "status": "answered",
+      "retrieved": [
+        "DORA-art-5-par-2-pt-a",
+        "DORA-art-5-par-2-pt-h",
+        "DORA-art-5-par-2-pt-b",
+        "DORA-art-5-par-2-pt-c",
+        "DORA-art-5-par-2-pt-f",
+        "DORA-art-5-par-2-pt-d",
+        "DORA-art-5-par-4",
+        "DORA-art-5-par-2-pt-g"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [
+        {
+          "citation": "DORA Article 5(2), point (a)",
+          "statement": "The management body of the financial entity shall define, approve, oversee and be responsible for the implementation of all arrangements related to the ICT risk management framework.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "2. The management body of the financial entity shall define, approve, oversee and be responsible for the implementation of all arrangements related to the ICT risk management framework referred to in Article 6(1).\nFor the purposes of the first subparagraph, the management body shall:\n(a) bear the ultimate responsibility for managing the financial entity’s ICT risk;"
+        },
+        {
+          "citation": "DORA Article 5(2), point (a)",
+          "statement": "The management body shall bear the ultimate responsibility for managing the financial entity’s ICT risk.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "2. The management body of the financial entity shall define, approve, oversee and be responsible for the implementation of all arrangements related to the ICT risk management framework referred to in Article 6(1).\nFor the purposes of the first subparagraph, the management body shall:\n(a) bear the ultimate responsibility for managing the financial entity’s ICT risk;"
+        },
+        {
+          "citation": "DORA Article 5(2), point (h)",
+          "statement": "The management body shall approve and periodically review the financial entity’s policy on arrangements regarding the use of ICT services provided by ICT third-party service providers.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "2. The management body of the financial entity shall define, approve, oversee and be responsible for the implementation of all arrangements related to the ICT risk management framework referred to in Article 6(1).\nFor the purposes of the first subparagraph, the management body shall:\n(h) approve and periodically review the financial entity’s policy on arrangements regarding the use of ICT services provided by ICT third-party service providers;"
+        },
+        {
+          "citation": "DORA Article 5(4)",
+          "statement": "Members of the management body shall actively keep up to date with sufficient knowledge and skills to understand and assess ICT risk and its impact on the operations of the financial entity.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "4. Members of the management body of the financial entity shall actively keep up to date with sufficient knowledge and skills to understand and assess ICT risk and its impact on the operations of the financial entity, including by following specific training on a regular basis, commensurate to the ICT risk being managed."
+        }
+      ],
+      "rejected_claims": [],
+      "usage": {
+        "prompt_tokens": 2094,
+        "completion_tokens": 227,
+        "total_tokens": 2321
+      },
+      "cited_after_verification": true,
+      "cited_before_verification": true,
+      "check": "citation_hit_needs_review",
+      "elapsed_ms": 5097
+    },
+    {
+      "id": "D02",
+      "question": "What does DORA say about the ICT risk management framework?",
+      "expected": {
+        "act": "DORA",
+        "article": "6"
+      },
+      "check": "error",
+      "error_type": "GenerationError",
+      "error": "Model returned more than 4 claims",
+      "elapsed_ms": 1462
+    },
+    {
+      "id": "D03",
+      "question": "What does DORA require for ICT business continuity and response and recovery plans?",
+      "expected": {
+        "act": "DORA",
+        "article": "11"
+      },
+      "status": "answered",
+      "retrieved": [
+        "DORA-art-11-par-8",
+        "DORA-art-33-par-3-pt-c",
+        "DORA-art-11-par-6-pt-a",
+        "DORA-art-11-par-7",
+        "DORA-art-11-par-2-pt-a",
+        "DORA-art-5-par-2-pt-e",
+        "DORA-art-11-par-4",
+        "DORA-art-60-pt-2"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [
+        {
+          "citation": "DORA Article 11(8)",
+          "statement": "DORA requires financial entities to keep readily accessible records of activities before and during disruption events when their ICT business continuity plans and ICT response and recovery plans are activated.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "8. Financial entities shall keep readily accessible records of activities before and during disruption events when their ICT business continuity plans and ICT response and recovery plans are activated."
+        },
+        {
+          "citation": "DORA Article 11(6), point (a)",
+          "statement": "Financial entities shall test their ICT business continuity plans and ICT response and recovery plans at least yearly and in the event of substantive changes to ICT systems supporting critical or important functions.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "6. As part of their comprehensive ICT risk management, financial entities shall:\n(a) test the ICT business continuity plans and the ICT response and recovery plans in relation to ICT systems supporting all functions at least yearly, as well as in the event of any substantive changes to ICT systems supporting critical or important functions;"
+        },
+        {
+          "citation": "DORA Article 11(2), point (a)",
+          "statement": "Financial entities shall implement the ICT business continuity policy through dedicated, appropriate and documented arrangements, plans, procedures and mechanisms aiming to ensure the continuity of their critical or important functions.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "2. Financial entities shall implement the ICT business continuity policy through dedicated, appropriate and documented arrangements, plans, procedures and mechanisms aiming to:\n(a) ensure the continuity of the financial entity’s critical or important functions;"
+        },
+        {
+          "citation": "DORA Article 5(2), point (e)",
+          "statement": "The management body of the financial entity shall approve, oversee and periodically review the implementation of the ICT business continuity policy and ICT response and recovery plans.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "2. The management body of the financial entity shall define, approve, oversee and be responsible for the implementation of all arrangements related to the ICT risk management framework referred to in Article 6(1).\nFor the purposes of the first subparagraph, the management body shall:\n(e) approve, oversee and periodically review the implementation of the financial entity’s ICT business continuity policy and ICT response and recovery plans, referred to, respectively, in Article 11(1) and (3), which may be adopted as a dedicated specific policy forming an integral part of the financial entity’s overall business continuity policy and response and recovery plan;"
+        }
+      ],
+      "rejected_claims": [],
+      "usage": {
+        "prompt_tokens": 2001,
+        "completion_tokens": 247,
+        "total_tokens": 2248
+      },
+      "cited_after_verification": true,
+      "cited_before_verification": true,
+      "check": "citation_hit_needs_review",
+      "elapsed_ms": 3002
+    },
+    {
+      "id": "D04",
+      "question": "What does DORA require for the ICT-related incident management process?",
+      "expected": {
+        "act": "DORA",
+        "article": "17"
+      },
+      "status": "answered",
+      "retrieved": [
+        "DORA-art-17-par-3-pt-a",
+        "DORA-art-17-par-1",
+        "DORA-art-17-par-3-pt-c",
+        "DORA-art-17-par-3-pt-f",
+        "DORA-art-17-par-3-pt-e",
+        "DORA-art-17-par-3-pt-b",
+        "DORA-art-17-par-3-pt-d",
+        "DORA-art-17-par-2"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [
+        {
+          "citation": "DORA Article 17(3), point (a)",
+          "statement": "DORA requires the ICT-related incident management process to put in place early warning indicators.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "3. The ICT-related incident management process referred to in paragraph 1 shall:\n(a) put in place early warning indicators;"
+        },
+        {
+          "citation": "DORA Article 17(3), point (c)",
+          "statement": "DORA requires the ICT-related incident management process to assign roles and responsibilities for different ICT-related incident types and scenarios.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "3. The ICT-related incident management process referred to in paragraph 1 shall:\n(c) assign roles and responsibilities that need to be activated for different ICT-related incident types and scenarios;"
+        },
+        {
+          "citation": "DORA Article 17(3), point (f)",
+          "statement": "DORA requires the ICT-related incident management process to establish ICT-related incident response procedures to mitigate impacts and ensure timely recovery.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "3. The ICT-related incident management process referred to in paragraph 1 shall:\n(f) establish ICT-related incident response procedures to mitigate impacts and ensure that services become operational and secure in a timely manner."
+        },
+        {
+          "citation": "DORA Article 17(3), point (e)",
+          "statement": "DORA requires the ICT-related incident management process to ensure that at least major ICT-related incidents are reported to relevant senior management and the management body.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "3. The ICT-related incident management process referred to in paragraph 1 shall:\n(e) ensure that at least major ICT-related incidents are reported to relevant senior management and inform the management body of at least major ICT-related incidents, explaining the impact, response and additional controls to be established as a result of such ICT-related incidents;"
+        }
+      ],
+      "rejected_claims": [],
+      "usage": {
+        "prompt_tokens": 1680,
+        "completion_tokens": 227,
+        "total_tokens": 1907
+      },
+      "cited_after_verification": true,
+      "cited_before_verification": true,
+      "check": "citation_hit_needs_review",
+      "elapsed_ms": 2315
+    },
+    {
+      "id": "A01",
+      "question": "What does the AI Act say about AI literacy for staff of providers and deployers?",
+      "expected": {
+        "act": "AI_ACT",
+        "article": "4"
+      },
+      "status": "answered",
+      "retrieved": [
+        "AI_ACT-art-4",
+        "AI_ACT-art-3-pt-56",
+        "AI_ACT-art-95-par-2-pt-c",
+        "AI_ACT-art-66-pt-f",
+        "AI_ACT-art-50-par-6",
+        "AI_ACT-art-2-par-1-pt-c",
+        "AI_ACT-art-62-par-3-pt-d",
+        "AI_ACT-art-62-par-3-pt-a"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [
+        {
+          "citation": "AI Act Article 4",
+          "statement": "The AI Act states that providers and deployers of AI systems shall take measures to ensure a sufficient level of AI literacy of their staff and other persons dealing with AI systems on their behalf, considering their technical knowledge, experience, education, training, and the context of use.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "Providers and deployers of AI systems shall take measures to ensure, to their best extent, a sufficient level of AI literacy of their staff and other persons dealing with the operation and use of AI systems on their behalf, taking into account their technical knowledge, experience, education and training and the context the AI systems are to be used in, and considering the persons or groups of persons on whom the AI systems are to be used."
+        },
+        {
+          "citation": "AI Act Article 3, point (56)",
+          "statement": "The AI Act defines 'AI literacy' as skills, knowledge, and understanding that enable providers, deployers, and affected persons to make informed deployment of AI systems and to be aware of the opportunities, risks, and possible harm of AI.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "For the purposes of this Regulation, the following definitions apply:\n(56) ‘AI literacy’ means skills, knowledge and understanding that allow providers, deployers and affected persons, taking into account their respective rights and obligations in the context of this Regulation, to make an informed deployment of AI systems, as well as to gain awareness about the opportunities and risks of AI and possible harm it can cause;"
+        },
+        {
+          "citation": "AI Act Article 95(2), point (c)",
+          "statement": "The AI Act mentions that the AI Office and Member States shall facilitate the promotion of AI literacy, including through the drawing up of codes of conduct concerning the voluntary application of specific requirements, which include promoting AI literacy.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "2. The AI Office and the Member States shall facilitate the drawing up of codes of conduct concerning the voluntary application, including by deployers, of specific requirements to all AI systems, on the basis of clear objectives and key performance indicators to measure the achievement of those objectives, including elements such as, but not limited to:\n(c) promoting AI literacy, in particular that of persons dealing with the development, operation and use of AI;"
+        },
+        {
+          "citation": "AI Act Article 66, point (f)",
+          "statement": "The AI Act states that the Board shall support the Commission in promoting AI literacy, public awareness, and understanding of the benefits, risks, safeguards, rights, and obligations related to AI systems.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "The Board shall advise and assist the Commission and the Member States in order to facilitate the consistent and effective application of this Regulation. To that end, the Board may in particular:\n(f) support the Commission in promoting AI literacy, public awareness and understanding of the benefits, risks, safeguards and rights and obligations in relation to the use of AI systems;"
+        }
+      ],
+      "rejected_claims": [],
+      "usage": {
+        "prompt_tokens": 2006,
+        "completion_tokens": 300,
+        "total_tokens": 2306
+      },
+      "cited_after_verification": true,
+      "cited_before_verification": true,
+      "check": "citation_hit_needs_review",
+      "elapsed_ms": 3390
+    },
+    {
+      "id": "A02",
+      "question": "What does the AI Act prohibit regarding AI social scoring of natural persons?",
+      "expected": {
+        "act": "AI_ACT",
+        "article": "5"
+      },
+      "status": "answered",
+      "retrieved": [
+        "AI_ACT-art-5-par-1-pt-c",
+        "AI_ACT-art-2-par-8",
+        "AI_ACT-art-2-par-10",
+        "AI_ACT-art-6-par-3-text-1",
+        "AI_ACT-art-26-par-11",
+        "DORA-art-2-par-3-pt-d",
+        "AI_ACT-art-26-par-2",
+        "AI_ACT-art-14-par-4-pt-b"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [
+        {
+          "citation": "AI Act Article 5(1), point (c)",
+          "statement": "The AI Act prohibits the placing on the market, putting into service, or use of AI systems for the evaluation or classification of natural persons or groups based on their social behaviour or known, inferred, or predicted personal or personality characteristics, where the social score leads to detrimental or unfavourable treatment, with exceptions for certain research activities (E1).",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "1. The following AI practices shall be prohibited:\n(c) the placing on the market, the putting into service or the use of AI systems for the evaluation or classification of natural persons or groups of persons over a certain period of time based on their social behaviour or known, inferred or predicted personal or personality characteristics, with the social score leading to either or both of the following:\n(i) detrimental or unfavourable treatment of certain natural persons or groups of persons in social contexts that are unrelated to the contexts in which the data was originally generated or collected;\n(ii) detrimental or unfavourable treatment of certain natural persons or groups of persons that is unjustified or disproportionate to their social behaviour or its gravity;"
+        }
+      ],
+      "rejected_claims": [
+        {
+          "citation": "AI Act Article 2(8)",
+          "statement": "The AI Act's scope excludes activities related to AI systems or models prior to their being placed on the market or put into service, and also excludes natural persons using AI systems in purely personal non-professional activities (E2, E3).",
+          "support": "unsupported",
+          "support_note": "Statement contains figures not found in the cited text: 3",
+          "support_method": "rule",
+          "quote": "8. This Regulation does not apply to any research, testing or development activity regarding AI systems or AI models prior to their being placed on the market or put into service. Such activities shall be conducted in accordance with applicable Union law. Testing in real world conditions shall not be covered by that exclusion."
+        },
+        {
+          "citation": "AI Act Article 6(3)",
+          "statement": "High-risk AI systems that perform profiling of natural persons are always considered to be high-risk according to the classification rules (E4).",
+          "support": "unsupported",
+          "support_note": "Statement contains figures not found in the cited text: 4",
+          "support_method": "rule",
+          "quote": "Notwithstanding the first subparagraph, an AI system referred to in Annex III shall always be considered to be high-risk where the AI system performs profiling of natural persons."
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 1645,
+        "completion_tokens": 205,
+        "total_tokens": 1850
+      },
+      "cited_after_verification": true,
+      "cited_before_verification": true,
+      "check": "citation_hit_needs_review",
+      "elapsed_ms": 2215
+    },
+    {
+      "id": "A03",
+      "question": "Under the AI Act, what transparency obligations apply to AI systems intended to interact directly with natural persons?",
+      "expected": {
+        "act": "AI_ACT",
+        "article": "50"
+      },
+      "status": "answered",
+      "retrieved": [
+        "AI_ACT-art-50-par-1",
+        "AI_ACT-art-50-par-6",
+        "AI_ACT-art-50-par-5",
+        "AI_ACT-art-50-par-3",
+        "AI_ACT-art-26-par-11",
+        "AI_ACT-art-2-par-10",
+        "AI_ACT-art-5-par-1-pt-d",
+        "AI_ACT-art-26-par-2"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [
+        {
+          "citation": "AI Act Article 50(1)",
+          "statement": "AI systems intended to interact directly with natural persons must inform those persons that they are interacting with an AI system, unless this is obvious from the context, as per E1.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "1. Providers shall ensure that AI systems intended to interact directly with natural persons are designed and developed in such a way that the natural persons concerned are informed that they are interacting with an AI system, unless this is obvious from the point of view of a natural person who is reasonably well-informed, observant and circumspect, taking into account the circumstances and the context of use. This obligation shall not apply to AI systems authorised by law to detect, prevent, investigate or prosecute criminal offences, subject to appropriate safeguards for the rights and freedoms of third parties, unless those systems are available for the public to report a criminal offence."
+        }
+      ],
+      "rejected_claims": [
+        {
+          "citation": "AI Act Article 50(5)",
+          "statement": "The information about the interaction with an AI system must be provided in a clear and distinguishable manner at the latest at the time of the first interaction or exposure, according to E3.",
+          "support": "unsupported",
+          "support_note": "Statement contains figures not found in the cited text: 3",
+          "support_method": "rule",
+          "quote": "5. The information referred to in paragraphs 1 to 4 shall be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure. The information shall conform to the applicable accessibility requirements."
+        },
+        {
+          "citation": "AI Act Article 50(3)",
+          "statement": "Deployers of an emotion recognition system or biometric categorisation system must inform natural persons of the operation of the system, as specified in E4.",
+          "support": "unsupported",
+          "support_note": "Statement contains figures not found in the cited text: 4",
+          "support_method": "rule",
+          "quote": "3. Deployers of an emotion recognition system or a biometric categorisation system shall inform the natural persons exposed thereto of the operation of the system, and shall process the personal data in accordance with Regulations (EU) 2016/679 and (EU) 2018/1725 and Directive (EU) 2016/680, as applicable. This obligation shall not apply to AI systems used for biometric categorisation and emotion recognition, which are permitted by law to detect, prevent or investigate criminal offences, subject to appropriate safeguards for the rights and freedoms of third parties, and in accordance with Union law."
+        },
+        {
+          "citation": "AI Act Article 2(10)",
+          "statement": "The regulation does not apply to obligations of natural persons using AI systems in the course of a purely personal non-professional activity, as stated in E6.",
+          "support": "unsupported",
+          "support_note": "Statement contains figures not found in the cited text: 6",
+          "support_method": "rule",
+          "quote": "10. This Regulation does not apply to obligations of deployers who are natural persons using AI systems in the course of a purely personal non-professional activity."
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 1704,
+        "completion_tokens": 199,
+        "total_tokens": 1903
+      },
+      "cited_after_verification": true,
+      "cited_before_verification": true,
+      "check": "citation_hit_needs_review",
+      "elapsed_ms": 2044
+    },
+    {
+      "id": "A04",
+      "question": "Under the AI Act, what technical documentation must providers of general-purpose AI models prepare?",
+      "expected": {
+        "act": "AI_ACT",
+        "article": "53"
+      },
+      "status": "answered",
+      "retrieved": [
+        "AI_ACT-art-53-par-3",
+        "AI_ACT-art-53-par-1-pt-a",
+        "AI_ACT-art-53-par-1-pt-d",
+        "AI_ACT-art-53-par-1-pt-b",
+        "AI_ACT-art-55-par-1-pt-d",
+        "AI_ACT-art-55-par-1-pt-b",
+        "AI_ACT-art-101-par-3",
+        "AI_ACT-art-101-par-2"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [
+        {
+          "citation": "AI Act Article 53(1), point (a)",
+          "statement": "Providers of general-purpose AI models shall draw up and keep up-to-date the technical documentation of the model, including its training and testing process and the results of its evaluation, which shall contain, at a minimum, the information set out in Annex XI for the purpose of providing it, upon request, to the AI Office and the national competent authorities.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "1. Providers of general-purpose AI models shall:\n(a) draw up and keep up-to-date the technical documentation of the model, including its training and testing process and the results of its evaluation, which shall contain, at a minimum, the information set out in Annex XI for the purpose of providing it, upon request, to the AI Office and the national competent authorities;"
+        },
+        {
+          "citation": "AI Act Article 53(1), point (d)",
+          "statement": "Providers of general-purpose AI models shall draw up and make publicly available a sufficiently detailed summary about the content used for training of the general-purpose AI model, according to a template provided by the AI Office.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "1. Providers of general-purpose AI models shall:\n(d) draw up and make publicly available a sufficiently detailed summary about the content used for training of the general-purpose AI model, according to a template provided by the AI Office."
+        },
+        {
+          "citation": "AI Act Article 53(1), point (b)",
+          "statement": "Providers of general-purpose AI models shall draw up, keep up-to-date and make available information and documentation to providers of AI systems who intend to integrate the general-purpose AI model into their AI systems.",
+          "support": "supported",
+          "support_note": "",
+          "support_method": "model",
+          "quote": "1. Providers of general-purpose AI models shall:\n(b) draw up, keep up-to-date and make available information and documentation to providers of AI systems who intend to integrate the general-purpose AI model into their AI systems. Without prejudice to the need to observe and protect intellectual property rights and confidential business information or trade secrets in accordance with Union and national law, the information and documentation shall:\n(i) enable providers of AI systems to have a good understanding of the capabilities and limitations of the general-purpose AI model and to comply with their obligations pursuant to this Regulation; and\n(ii) contain, at a minimum, the elements set out in Annex XII;"
+        }
+      ],
+      "rejected_claims": [],
+      "usage": {
+        "prompt_tokens": 1902,
+        "completion_tokens": 241,
+        "total_tokens": 2143
+      },
+      "cited_after_verification": true,
+      "cited_before_verification": true,
+      "check": "citation_hit_needs_review",
+      "elapsed_ms": 7745
+    },
+    {
+      "id": "N01",
+      "question": "How do I bake a chocolate cake?",
+      "expected": null,
+      "status": "insufficient_evidence",
+      "retrieved": [],
+      "expected_retrieved": null,
+      "expected_rank": null,
+      "claims": [],
+      "rejected_claims": [],
+      "usage": {},
+      "check": "abstained",
+      "elapsed_ms": 4
+    },
+    {
+      "id": "N02",
+      "question": "What VAT rate does DORA set for the ICT risk management framework of financial entities?",
+      "expected": null,
+      "status": "insufficient_evidence",
+      "retrieved": [
+        "DORA-art-6-par-3",
+        "DORA-art-6-par-1",
+        "DORA-art-6-par-6",
+        "DORA-art-6-par-8-pt-a",
+        "DORA-art-16-par-3-pt-e",
+        "DORA-art-9-par-4-pt-f",
+        "DORA-art-16-par-3-pt-a",
+        "DORA-art-6-par-4"
+      ],
+      "expected_retrieved": null,
+      "expected_rank": null,
+      "claims": [],
+      "rejected_claims": [],
+      "usage": {
+        "prompt_tokens": 1126,
+        "completion_tokens": 34,
+        "total_tokens": 1160
+      },
+      "check": "abstained",
+      "elapsed_ms": 6373
+    }
+  ]
+}
