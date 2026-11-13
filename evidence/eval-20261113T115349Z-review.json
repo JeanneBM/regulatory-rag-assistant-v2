@@ -1,0 +1,247 @@
+{
+  "run": "eval-20261113T115349Z",
+  "reviewed": "2026-11-13",
+  "reviewer": "Claude (Opus 5.5), against the recorded quotations only. Not legal advice; confirm the partial and wrong rows.",
+  "question": "Is the statement fully supported by its quotation, including conditions and exceptions?",
+  "labels": {
+    "supported": "fully supported",
+    "partial": "core supported, a condition, exception, qualifier or actor is lost or changed",
+    "wrong": "contradicts or goes beyond the quotation in a way that changes the legal meaning"
+  },
+  "items": [
+    {
+      "case": "D01",
+      "shown": true,
+      "index": 0,
+      "citation": "DORA Article 5(2), point (a)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": "Text is from the introductory sentence of Article 5(2), but the citation says point (a): point units carry the text introducing the list."
+    },
+    {
+      "case": "D01",
+      "shown": true,
+      "index": 1,
+      "citation": "DORA Article 5(2), point (a)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": ""
+    },
+    {
+      "case": "D01",
+      "shown": true,
+      "index": 2,
+      "citation": "DORA Article 5(2), point (h)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": ""
+    },
+    {
+      "case": "D01",
+      "shown": true,
+      "index": 3,
+      "citation": "DORA Article 5(4)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": "Leaves out 'including by following specific training on a regular basis', an example of means, not a condition."
+    },
+    {
+      "case": "D03",
+      "shown": true,
+      "index": 0,
+      "citation": "DORA Article 11(8)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": "Verbatim."
+    },
+    {
+      "case": "D03",
+      "shown": true,
+      "index": 1,
+      "citation": "DORA Article 11(6), point (a)",
+      "verifier": "supported (model)",
+      "manual": "partial",
+      "reason": "Drops the scope of the yearly test: plans 'in relation to ICT systems supporting all functions'."
+    },
+    {
+      "case": "D03",
+      "shown": true,
+      "index": 2,
+      "citation": "DORA Article 11(2), point (a)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": ""
+    },
+    {
+      "case": "D03",
+      "shown": true,
+      "index": 3,
+      "citation": "DORA Article 5(2), point (e)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": ""
+    },
+    {
+      "case": "D04",
+      "shown": true,
+      "index": 0,
+      "citation": "DORA Article 17(3), point (a)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": ""
+    },
+    {
+      "case": "D04",
+      "shown": true,
+      "index": 1,
+      "citation": "DORA Article 17(3), point (c)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": ""
+    },
+    {
+      "case": "D04",
+      "shown": true,
+      "index": 2,
+      "citation": "DORA Article 17(3), point (f)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": "Paraphrase: 'timely recovery' for 'services become operational and secure in a timely manner'."
+    },
+    {
+      "case": "D04",
+      "shown": true,
+      "index": 3,
+      "citation": "DORA Article 17(3), point (e)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": "Simplified: the management body is to be informed, explaining impact, response and additional controls."
+    },
+    {
+      "case": "A01",
+      "shown": true,
+      "index": 0,
+      "citation": "AI Act Article 4",
+      "verifier": "supported (model)",
+      "manual": "partial",
+      "reason": "Drops 'to their best extent', which makes the obligation one of best efforts."
+    },
+    {
+      "case": "A01",
+      "shown": true,
+      "index": 1,
+      "citation": "AI Act Article 3, point (56)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": ""
+    },
+    {
+      "case": "A01",
+      "shown": true,
+      "index": 2,
+      "citation": "AI Act Article 95(2), point (c)",
+      "verifier": "supported (model)",
+      "manual": "partial",
+      "reason": "Inverts the structure: the duty is to facilitate codes of conduct; promoting AI literacy is one possible element of them."
+    },
+    {
+      "case": "A01",
+      "shown": true,
+      "index": 3,
+      "citation": "AI Act Article 66, point (f)",
+      "verifier": "supported (model)",
+      "manual": "wrong",
+      "reason": "The text says 'the Board may in particular: (f) support ...'; the statement says 'shall support'."
+    },
+    {
+      "case": "A02",
+      "shown": true,
+      "index": 0,
+      "citation": "AI Act Article 5(1), point (c)",
+      "verifier": "supported (model)",
+      "manual": "wrong",
+      "reason": "Invents 'exceptions for certain research activities'; also drops 'over a certain period of time' and conditions (i) and (ii)."
+    },
+    {
+      "case": "A02",
+      "shown": false,
+      "index": 0,
+      "citation": "AI Act Article 2(8)",
+      "verifier": "unsupported (rule)",
+      "manual": "wrong",
+      "reason": "Merges Article 2(10) into 2(8), widens 'research, testing or development activity' to all activities, drops the real-world testing carve-out. Removal was right, for the wrong reason (excerpt ID read as a figure)."
+    },
+    {
+      "case": "A02",
+      "shown": false,
+      "index": 1,
+      "citation": "AI Act Article 6(3)",
+      "verifier": "unsupported (rule)",
+      "manual": "wrong",
+      "reason": "Drops 'referred to in Annex III' and becomes circular. Removal was right, for the wrong reason."
+    },
+    {
+      "case": "A03",
+      "shown": true,
+      "index": 0,
+      "citation": "AI Act Article 50(1)",
+      "verifier": "supported (model)",
+      "manual": "partial",
+      "reason": "Shifts the duty from providers (design the system so that persons are informed) to the AI system; drops the law-enforcement exception."
+    },
+    {
+      "case": "A03",
+      "shown": false,
+      "index": 0,
+      "citation": "AI Act Article 50(5)",
+      "verifier": "unsupported (rule)",
+      "manual": "supported",
+      "reason": "Correct claim lost: rejected only because 'E3' was read as a figure."
+    },
+    {
+      "case": "A03",
+      "shown": false,
+      "index": 1,
+      "citation": "AI Act Article 50(3)",
+      "verifier": "unsupported (rule)",
+      "manual": "partial",
+      "reason": "Drops the exception for systems permitted by law to detect, prevent or investigate criminal offences."
+    },
+    {
+      "case": "A03",
+      "shown": false,
+      "index": 2,
+      "citation": "AI Act Article 2(10)",
+      "verifier": "unsupported (rule)",
+      "manual": "partial",
+      "reason": "Drops 'deployers' ('obligations of deployers who are natural persons'); marginal to the question."
+    },
+    {
+      "case": "A04",
+      "shown": true,
+      "index": 0,
+      "citation": "AI Act Article 53(1), point (a)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": "Verbatim."
+    },
+    {
+      "case": "A04",
+      "shown": true,
+      "index": 1,
+      "citation": "AI Act Article 53(1), point (d)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": "Verbatim."
+    },
+    {
+      "case": "A04",
+      "shown": true,
+      "index": 2,
+      "citation": "AI Act Article 53(1), point (b)",
+      "verifier": "supported (model)",
+      "manual": "supported",
+      "reason": "Core obligation only; points (i) and (ii) left out."
+    }
+  ]
+}
