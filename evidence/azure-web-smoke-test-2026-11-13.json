@@ -1,0 +1,380 @@
+{
+  "date": "2026-11-13",
+  "region": "polandcentral",
+  "ingest_status": "Succeeded (Azure CLI output supplied by operator)",
+  "health": {
+    "status": "ok",
+    "version": "2.0.0"
+  },
+  "ready": {
+    "status": "ready"
+  },
+  "info": {
+    "backend": "azure-ai-search-hybrid",
+    "generation": true,
+    "verification": "model",
+    "claim_policy": "strict",
+    "acts": {
+      "AI_ACT": {
+        "celex": "32024R1689",
+        "title": "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence",
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689"
+      },
+      "DORA": {
+        "celex": "32022R2554",
+        "title": "Regulation (EU) 2022/2554 on digital operational resilience for the financial sector",
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554"
+      }
+    },
+    "corpus": {
+      "corpus_sha256": null,
+      "fetched_at": null,
+      "units": null,
+      "parser_version": null
+    },
+    "disclaimer": "Research support only. Answers quote the original published acts, not consolidated versions, and are not legal advice or a compliance assessment."
+  },
+  "cases": [
+    {
+      "question": "What does DORA say about the ICT risk management framework?",
+      "act": "DORA",
+      "response": {
+        "question": "What does DORA say about the ICT risk management framework?",
+        "act_filter": "DORA",
+        "backend": "azure-ai-search-hybrid",
+        "evidence": [
+          {
+            "id": "DORA-art-6-par-2",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "2",
+            "point": null,
+            "label": "Article 6(2)",
+            "text": "2. The ICT risk management framework shall include at least strategies, policies, procedures, ICT protocols and tools that are necessary to duly and adequately protect all information assets and ICT assets, including computer software, hardware, servers, as well as to protect all relevant physical components and infrastructures, such as premises, data centres and sensitive designated areas, to ensure that all information assets and ICT assets are adequately protected from risks including damage and unauthorised access or usage.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.0317540317773819,
+            "reranker_score": 2.4489352703094482,
+            "citation": "DORA Article 6(2)"
+          },
+          {
+            "id": "DORA-art-6-par-8-pt-d",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "8",
+            "point": "d",
+            "label": "Article 6(8), point (d)",
+            "text": "8. The ICT risk management framework shall include a digital operational resilience strategy setting out how the framework shall be implemented. To that end, the digital operational resilience strategy shall include methods to address ICT risk and attain specific ICT objectives, by:\n(d) explaining the ICT reference architecture and any changes needed to reach specific business objectives;",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.03177805617451668,
+            "reranker_score": 2.4358198642730713,
+            "citation": "DORA Article 6(8), point (d)"
+          },
+          {
+            "id": "DORA-art-6-par-8-pt-e",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "8",
+            "point": "e",
+            "label": "Article 6(8), point (e)",
+            "text": "8. The ICT risk management framework shall include a digital operational resilience strategy setting out how the framework shall be implemented. To that end, the digital operational resilience strategy shall include methods to address ICT risk and attain specific ICT objectives, by:\n(e) outlining the different mechanisms put in place to detect ICT-related incidents, prevent their impact and provide protection from it;",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.029709506779909134,
+            "reranker_score": 2.3812315464019775,
+            "citation": "DORA Article 6(8), point (e)"
+          },
+          {
+            "id": "DORA-art-6-par-8-pt-f",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "8",
+            "point": "f",
+            "label": "Article 6(8), point (f)",
+            "text": "8. The ICT risk management framework shall include a digital operational resilience strategy setting out how the framework shall be implemented. To that end, the digital operational resilience strategy shall include methods to address ICT risk and attain specific ICT objectives, by:\n(f) evidencing the current digital operational resilience situation on the basis of the number of major ICT-related incidents reported and the effectiveness of preventive measures;",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.02881426177918911,
+            "reranker_score": 2.3659894466400146,
+            "citation": "DORA Article 6(8), point (f)"
+          },
+          {
+            "id": "DORA-art-6-par-8-pt-b",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "8",
+            "point": "b",
+            "label": "Article 6(8), point (b)",
+            "text": "8. The ICT risk management framework shall include a digital operational resilience strategy setting out how the framework shall be implemented. To that end, the digital operational resilience strategy shall include methods to address ICT risk and attain specific ICT objectives, by:\n(b) establishing the risk tolerance level for ICT risk, in accordance with the risk appetite of the financial entity, and analysing the impact tolerance for ICT disruptions;",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.029411764815449715,
+            "reranker_score": 2.3613812923431396,
+            "citation": "DORA Article 6(8), point (b)"
+          },
+          {
+            "id": "DORA-art-6-par-8-pt-c",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "8",
+            "point": "c",
+            "label": "Article 6(8), point (c)",
+            "text": "8. The ICT risk management framework shall include a digital operational resilience strategy setting out how the framework shall be implemented. To that end, the digital operational resilience strategy shall include methods to address ICT risk and attain specific ICT objectives, by:\n(c) setting out clear information security objectives, including key performance indicators and key risk metrics;",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.03128054738044739,
+            "reranker_score": 2.3484432697296143,
+            "citation": "DORA Article 6(8), point (c)"
+          },
+          {
+            "id": "DORA-art-6-par-8-pt-h",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "8",
+            "point": "h",
+            "label": "Article 6(8), point (h)",
+            "text": "8. The ICT risk management framework shall include a digital operational resilience strategy setting out how the framework shall be implemented. To that end, the digital operational resilience strategy shall include methods to address ICT risk and attain specific ICT objectives, by:\n(h) outlining a communication strategy in the event of ICT-related incidents the disclosure of which is required in accordance with Article 14.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.027984343469142914,
+            "reranker_score": 2.3405561447143555,
+            "citation": "DORA Article 6(8), point (h)"
+          },
+          {
+            "id": "DORA-art-6-par-3",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "3",
+            "point": null,
+            "label": "Article 6(3)",
+            "text": "3. In accordance with their ICT risk management framework, financial entities shall minimise the impact of ICT risk by deploying appropriate strategies, policies, procedures, ICT protocols and tools. They shall provide complete and updated information on ICT risk and on their ICT risk management framework to the competent authorities upon their request.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.0317460335791111,
+            "reranker_score": 2.3352391719818115,
+            "citation": "DORA Article 6(3)"
+          }
+        ],
+        "claims": [
+          {
+            "statement": "The digital operational resilience strategy within the ICT risk management framework shall include establishing the risk tolerance level for ICT risk in accordance with the financial entity's risk appetite and analyzing the impact tolerance for ICT disruptions.",
+            "unit_id": "DORA-art-6-par-8-pt-b",
+            "act": "DORA",
+            "article": "6",
+            "label": "Article 6(8), point (b)",
+            "citation": "DORA Article 6(8), point (b)",
+            "quote": "8. The ICT risk management framework shall include a digital operational resilience strategy setting out how the framework shall be implemented. To that end, the digital operational resilience strategy shall include methods to address ICT risk and attain specific ICT objectives, by:\n(b) establishing the risk tolerance level for ICT risk, in accordance with the risk appetite of the financial entity, and analysing the impact tolerance for ICT disruptions;",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "support": "supported",
+            "support_note": "",
+            "support_method": "model"
+          },
+          {
+            "statement": "Financial entities shall minimize the impact of ICT risk by deploying appropriate strategies, policies, procedures, ICT protocols and tools in accordance with their ICT risk management framework and provide complete and updated information on ICT risk and their framework to competent authorities upon request.",
+            "unit_id": "DORA-art-6-par-3",
+            "act": "DORA",
+            "article": "6",
+            "label": "Article 6(3)",
+            "citation": "DORA Article 6(3)",
+            "quote": "3. In accordance with their ICT risk management framework, financial entities shall minimise the impact of ICT risk by deploying appropriate strategies, policies, procedures, ICT protocols and tools. They shall provide complete and updated information on ICT risk and on their ICT risk management framework to the competent authorities upon their request.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "support": "supported",
+            "support_note": "",
+            "support_method": "model"
+          }
+        ],
+        "rejected_claims": [
+          {
+            "statement": "The ICT risk management framework shall include at least strategies, policies, procedures, ICT protocols and tools necessary to protect all information and ICT assets, including physical components and infrastructures, from risks such as damage and unauthorized access or usage.",
+            "unit_id": "DORA-art-6-par-2",
+            "act": "DORA",
+            "article": "6",
+            "label": "Article 6(2)",
+            "citation": "DORA Article 6(2)",
+            "quote": "2. The ICT risk management framework shall include at least strategies, policies, procedures, ICT protocols and tools that are necessary to duly and adequately protect all information assets and ICT assets, including computer software, hardware, servers, as well as to protect all relevant physical components and infrastructures, such as premises, data centres and sensitive designated areas, to ensure that all information assets and ICT assets are adequately protected from risks including damage and unauthorised access or usage.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "support": "partial",
+            "support_note": "Statement omits 'duly and adequately' and 'all relevant' qualifiers, and generalizes 'computer software, hardware, servers' to 'all information' assets.",
+            "support_method": "model",
+            "failed_checks": [
+              "additions"
+            ]
+          },
+          {
+            "statement": "The ICT risk management framework shall include a digital operational resilience strategy setting out how the framework shall be implemented, including methods to address ICT risk and attain specific ICT objectives.",
+            "unit_id": "DORA-art-6-par-8-pt-d",
+            "act": "DORA",
+            "article": "6",
+            "label": "Article 6(8), point (d)",
+            "citation": "DORA Article 6(8), point (d)",
+            "quote": "8. The ICT risk management framework shall include a digital operational resilience strategy setting out how the framework shall be implemented. To that end, the digital operational resilience strategy shall include methods to address ICT risk and attain specific ICT objectives, by:\n(d) explaining the ICT reference architecture and any changes needed to reach specific business objectives;",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "support": "partial",
+            "support_note": "Statement omits that the strategy shall include methods by listing only 'methods to address ICT risk and attain specific ICT objectives' without mentioning the detailed content such as point (d).",
+            "support_method": "model",
+            "failed_checks": [
+              "additions"
+            ]
+          }
+        ],
+        "abstention_reason": "",
+        "usage": {
+          "prompt_tokens": 2340,
+          "completion_tokens": 431,
+          "total_tokens": 2771
+        },
+        "timings_ms": {
+          "retrieve_ms": 427,
+          "generate_ms": 2954,
+          "verify_ms": 2026,
+          "total_ms": 5407
+        },
+        "disclaimer": "Research support only. Answers quote the original published acts, not consolidated versions, and are not legal advice or a compliance assessment.",
+        "corpus_sha256": null,
+        "claims_dropped": 0,
+        "status": "answered"
+      }
+    },
+    {
+      "question": "What VAT rate does DORA set for the ICT risk management framework of financial entities?",
+      "act": "DORA",
+      "response": {
+        "question": "What VAT rate does DORA set for the ICT risk management framework of financial entities?",
+        "act_filter": "DORA",
+        "backend": "azure-ai-search-hybrid",
+        "evidence": [
+          {
+            "id": "DORA-art-6-par-1",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "1",
+            "point": null,
+            "label": "Article 6(1)",
+            "text": "1. Financial entities shall have a sound, comprehensive and well-documented ICT risk management framework as part of their overall risk management system, which enables them to address ICT risk quickly, efficiently and comprehensively and to ensure a high level of digital operational resilience.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.03181818127632141,
+            "reranker_score": 1.9923789501190186,
+            "citation": "DORA Article 6(1)"
+          },
+          {
+            "id": "DORA-art-5-par-1",
+            "act": "DORA",
+            "article": "5",
+            "article_title": "Governance and organisation",
+            "paragraph": "1",
+            "point": null,
+            "label": "Article 5(1)",
+            "text": "1. Financial entities shall have in place an internal governance and control framework that ensures an effective and prudent management of ICT risk, in accordance with Article 6(4), in order to achieve a high level of digital operational resilience.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_5",
+            "score": 0.02059520035982132,
+            "reranker_score": 1.9578181505203247,
+            "citation": "DORA Article 5(1)"
+          },
+          {
+            "id": "DORA-art-8-par-2",
+            "act": "DORA",
+            "article": "8",
+            "article_title": "Identification",
+            "paragraph": "2",
+            "point": null,
+            "label": "Article 8(2)",
+            "text": "2. Financial entities shall, on a continuous basis, identify all sources of ICT risk, in particular the risk exposure to and from other financial entities, and assess cyber threats and ICT vulnerabilities relevant to their ICT supported business functions, information assets and ICT assets. Financial entities shall review on a regular basis, and at least yearly, the risk scenarios impacting them.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_8",
+            "score": 0.014921437948942184,
+            "reranker_score": 1.922548532485962,
+            "citation": "DORA Article 8(2)"
+          },
+          {
+            "id": "DORA-art-28-par-1-pt-a",
+            "act": "DORA",
+            "article": "28",
+            "article_title": "General principles",
+            "paragraph": "1",
+            "point": "a",
+            "label": "Article 28(1), point (a)",
+            "text": "1. Financial entities shall manage ICT third-party risk as an integral component of ICT risk within their ICT risk management framework as referred to in Article 6(1), and in accordance with the following principles:\n(a) financial entities that have in place contractual arrangements for the use of ICT services to run their business operations shall, at all times, remain fully responsible for compliance with, and the discharge of, all obligations under this Regulation and applicable financial services law;",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_28",
+            "score": 0.02143658697605133,
+            "reranker_score": 1.9188265800476074,
+            "citation": "DORA Article 28(1), point (a)"
+          },
+          {
+            "id": "DORA-art-4-par-3",
+            "act": "DORA",
+            "article": "4",
+            "article_title": "Proportionality principle",
+            "paragraph": "3",
+            "point": null,
+            "label": "Article 4(3)",
+            "text": "3. The competent authorities shall consider the application of the proportionality principle by financial entities when reviewing the consistency of the ICT risk management framework on the basis of the reports submitted upon the request of competent authorities pursuant to Article 6(5) and Article 16(2).",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_4",
+            "score": 0.01905352622270584,
+            "reranker_score": 1.9158135652542114,
+            "citation": "DORA Article 4(3)"
+          },
+          {
+            "id": "DORA-art-8-par-1",
+            "act": "DORA",
+            "article": "8",
+            "article_title": "Identification",
+            "paragraph": "1",
+            "point": null,
+            "label": "Article 8(1)",
+            "text": "1. As part of the ICT risk management framework referred to in Article 6(1), financial entities shall identify, classify and adequately document all ICT supported business functions, roles and responsibilities, the information assets and ICT assets supporting those functions, and their roles and dependencies in relation to ICT risk. Financial entities shall review as needed, and at least yearly, the adequacy of this classification and of any relevant documentation.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_8",
+            "score": 0.020330239087343216,
+            "reranker_score": 1.915459156036377,
+            "citation": "DORA Article 8(1)"
+          },
+          {
+            "id": "DORA-art-6-par-10",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "10",
+            "point": null,
+            "label": "Article 6(10)",
+            "text": "10. Financial entities may, in accordance with Union and national sectoral law, outsource the tasks of verifying compliance with ICT risk management requirements to intra-group or external undertakings. In case of such outsourcing, the financial entity remains fully responsible for the verification of compliance with the ICT risk management requirements.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.02941812574863434,
+            "reranker_score": 1.9000396728515625,
+            "citation": "DORA Article 6(10)"
+          },
+          {
+            "id": "DORA-art-6-par-7",
+            "act": "DORA",
+            "article": "6",
+            "article_title": "ICT risk management framework",
+            "paragraph": "7",
+            "point": null,
+            "label": "Article 6(7)",
+            "text": "7. Based on the conclusions from the internal audit review, financial entities shall establish a formal follow-up process, including rules for the timely verification and remediation of critical ICT audit findings.",
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554#art_6",
+            "score": 0.028371628373861313,
+            "reranker_score": 1.892595887184143,
+            "citation": "DORA Article 6(7)"
+          }
+        ],
+        "claims": [],
+        "rejected_claims": [],
+        "abstention_reason": "The provided excerpts from DORA do not mention or set any VAT rate for the ICT risk management framework of financial entities.",
+        "usage": {
+          "prompt_tokens": 1187,
+          "completion_tokens": 34,
+          "total_tokens": 1221
+        },
+        "timings_ms": {
+          "retrieve_ms": 298,
+          "generate_ms": 503,
+          "total_ms": 801
+        },
+        "disclaimer": "Research support only. Answers quote the original published acts, not consolidated versions, and are not legal advice or a compliance assessment.",
+        "corpus_sha256": null,
+        "claims_dropped": 0,
+        "status": "insufficient_evidence"
+      }
+    }
+  ]
+}
