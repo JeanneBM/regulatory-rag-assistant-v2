@@ -7,7 +7,7 @@ Imports the EU AI Act and DORA from official EU sources and generates cited answ
 | Component | Validation |
 | --- | --- |
 | CLI pilot | Completed on 13 November 2026 with local TF-IDF retrieval and Azure OpenAI `gpt-4.1-nano`. The expected article ranked first for 8/8 answerable questions and appeared in citations for 7/8 after verification. Both controls correctly abstained, with zero execution errors across all ten questions. |
-| FastAPI and web UI | Included in the repository. CI builds the container and smoke-tests `/healthz`. The pilot exercised the CLI. End-to-end validation of the web UI on Azure Container Apps and evaluation of Azure AI Search retrieval quality are pending. |
+| FastAPI and web UI | Local browser smoke test passed for a cited response and an abstention. Both questions also passed through the deployed Azure API with hybrid Azure AI Search and Azure OpenAI. See the [deployment and test manual](evidence/web-validation-manual.md). |
 
 The [final pilot review](evidence/eval-20261113T130444Z-review.md) records two important outcomes: verification rejected an unsupported exception in A02 and accepted an overgeneralised claim about DORA's simplified framework in D02. Claim support still requires manual review.
 
@@ -90,6 +90,8 @@ The first pilot and its manual review are in [evidence/](evidence/eval-20261113T
 The full Azure stack below is for running the assistant as a service. The first evaluation does not need it.
 
 ## Deploy to Azure
+
+The [deployment and test manual](evidence/web-validation-manual.md) documents the commands, pass criteria and captured evidence for the local browser test and the Azure API smoke test.
 
 Requirements: [Azure Developer CLI](https://aka.ms/azd), Azure CLI, and Owner (or Contributor plus Role Based Access Control Administrator) rights on the subscription, because the template assigns roles. No local Docker is needed because the image is built in Azure Container Registry.
 
