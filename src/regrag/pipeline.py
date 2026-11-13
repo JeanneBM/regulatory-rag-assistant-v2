@@ -74,6 +74,7 @@ class Assistant:
                     generated = self.generator.generate(question, evidence)
                 timings["generate_ms"] = round((perf_counter() - start) * 1000)
                 _add_usage(usage, generated["usage"])
+                result["claims_dropped"] = generated.get("claims_dropped", 0)
                 if not generated["claims"]:
                     result.update(status="insufficient_evidence", abstention_reason=(
                         generated["abstention_reason"] or "The model found the evidence insufficient."))
@@ -94,6 +95,7 @@ class Assistant:
             root.set_attribute("regrag.status", result["status"])
             root.set_attribute("regrag.claims_accepted", len(result["claims"]))
             root.set_attribute("regrag.claims_rejected", len(result["rejected_claims"]))
+            root.set_attribute("regrag.claims_dropped", result.get("claims_dropped", 0))
             for key, value in usage.items():
                 root.set_attribute(f"regrag.tokens.{key}", value)
         return result

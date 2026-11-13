@@ -33,15 +33,31 @@ def test_model_selects_excerpts_and_application_copies_full_unit_text():
 
 @pytest.mark.parametrize("payload, error", [
     ({"claims": [{"statement": "x", "excerpt_id": "E9"}], "abstention_reason": ""}, "unknown evidence"),
-    ({"claims": [{"statement": "x", "excerpt_id": "E1"}] * 5, "abstention_reason": ""}, "more than 4"),
     ({"claims": [{"statement": "x", "excerpt_id": "E1"}], "abstention_reason": "No."}, "same time"),
     ({"claims": [{"statement": " ", "excerpt_id": "E1"}], "abstention_reason": ""}, "statement"),
+    ({"claims": [{"statement": "(E1)", "excerpt_id": "E1"}], "abstention_reason": ""}, "statement"),
     ({"claims": "none"}, "claims list"),
 ])
 def test_invalid_model_output_is_an_error(payload, error):
     gen, _ = generator(completion(payload))
     with pytest.raises(GenerationError, match=error):
         gen.generate("q", EVIDENCE)
+
+
+def test_claims_over_the_limit_are_dropped_and_counted_not_fatal():
+    claims = [{"statement": f"Statement number {i}.", "excerpt_id": "E1"} for i in range(1, 7)]
+    gen, _ = generator(completion({"claims": claims, "abstention_reason": ""}))
+    result = gen.generate("q", EVIDENCE)
+    assert [c["statement"] for c in result["claims"]] == [f"Statement number {i}." for i in range(1, 5)]
+    assert result["claims_dropped"] == 2
+
+
+def test_excerpt_ids_never_reach_the_statement():
+    gen, _ = generator(completion({"claims": [
+        {"statement": "The framework is reviewed at least once a year (E2).", "excerpt_id": "E2"}],
+        "abstention_reason": ""}))
+    [claim] = gen.generate("q", EVIDENCE)["claims"]
+    assert claim["statement"] == "The framework is reviewed at least once a year."
 
 
 @pytest.mark.parametrize("reply, error", [
