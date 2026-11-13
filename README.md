@@ -1,18 +1,17 @@
 # Regulatory RAG Assistant v2
 
-Imports the EU AI Act and DORA from official EU sources and generates cited answers with Azure OpenAI.
-The application runs on Azure: Azure AI Search does the retrieval, Container Apps hosts the API, UI and weekly import job, and managed identities authenticate every call.
+Imports the EU AI Act and DORA from official EU sources and generates cited answers with Azure OpenAI. The repository includes a CLI and a FastAPI web UI. The Azure deployment configuration uses Container Apps for the API, UI and weekly import job, and Azure AI Search for hybrid retrieval.
 
-> **Status: research PoC, not yet evaluated on Azure.** v2 is a redesign of
-> [regulatory-rag-assistant](https://github.com/JeanneBM/regulatory-rag-assistant). In v1's 10-question pilot
-> (9 November 2026, lexical retrieval with GPT-4.1 mini), the system cited the expected article for 8/8 answerable
-> questions and abstained on 2/2 controls. Manual review found cases where a real quotation supported only part of a claim
-> ([v1 validation report](https://github.com/JeanneBM/regulatory-rag-assistant/blob/main/evidence/regulatory-rag-validation-2026-11-09.md)).
-> v2 is built around that finding: point-level quotations and claim-support verification. On the real official
-> texts it imports 113/113 AI Act and 64/64 DORA articles as 1,478 citable units
-> ([pre-deployment report](evidence/azure-stack-validation-2026-11-12.md)). The v1 figures do not
-> describe v2. Run `regrag eval` against a deployment and record the result before quoting numbers for this version.
-> The tool supports research. It does not give legal advice or assess compliance.
+## Project status
+
+| Component | Validation |
+| --- | --- |
+| CLI pilot | Completed on 13 November 2026 with local TF-IDF retrieval and Azure OpenAI `gpt-4.1-nano`. The expected article ranked first for 8/8 answerable questions and appeared in citations for 7/8 after verification. Both controls correctly abstained, with zero execution errors across all ten questions. |
+| FastAPI and web UI | Included in the repository. CI builds the container and smoke-tests `/healthz`. The pilot exercised the CLI. End-to-end validation of the web UI on Azure Container Apps and evaluation of Azure AI Search retrieval quality are pending. |
+
+The [final pilot review](evidence/eval-20261113T130444Z-review.md) records two important outcomes: verification rejected an unsupported exception in A02 and accepted an overgeneralised claim about DORA's simplified framework in D02. Claim support still requires manual review.
+
+The official-source import covered 113/113 AI Act and 64/64 DORA articles across 1,478 citable units, as recorded in the [pre-deployment report](evidence/azure-stack-validation-2026-11-12.md). V2 builds on the [v1 pilot](https://github.com/JeanneBM/regulatory-rag-assistant/blob/main/evidence/regulatory-rag-validation-2026-11-09.md) with point-level quotations and claim-support verification. The tool supports research. It does not give legal advice or assess compliance.
 
 ## Architecture
 
