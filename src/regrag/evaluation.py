@@ -43,6 +43,8 @@ def run_case(assistant, case: dict, retrieval_only: bool) -> dict:
     except Exception as exc:
         row.update(check="error", error_type=type(exc).__name__, error=str(exc)[:300],
                    elapsed_ms=round((perf_counter() - start) * 1000))
+        if not retrieval_only:
+            _record_retrieval_after_error(assistant, case, expected, row)
         return row
     retrieved = [(e["act"], str(e["article"])) for e in result["evidence"]]
     row.update(
@@ -54,6 +56,7 @@ def run_case(assistant, case: dict, retrieval_only: bool) -> dict:
         # Rejected claims keep their quotes so a reviewer can judge whether the
         # verifier was right to drop them.
         rejected_claims=[_claim(c) for c in result["rejected_claims"]],
+        claims_dropped=result.get("claims_dropped", 0),
         usage=result.get("usage", {}),
     )
     if expected and not retrieval_only:
@@ -77,9 +80,28 @@ def run_case(assistant, case: dict, retrieval_only: bool) -> dict:
     return row
 
 
+def _record_retrieval_after_error(assistant, case: dict, expected, row: dict) -> None:
+    """A generation error must not count as a retrieval miss: retrieve again and record it.
+
+    Retrieval is a read-only search, so repeating it does not change the outcome being
+    measured. If it fails as well, the row keeps only the error.
+    """
+    try:
+        evidence = assistant.retriever.retrieve(case["question"], case.get("act"))
+    except Exception:
+        return
+    retrieved = [(e["act"], str(e["article"])) for e in evidence]
+    row.update(retrieved=[e["id"] for e in evidence],
+               expected_retrieved=(expected in retrieved) if expected else None,
+               expected_rank=(retrieved.index(expected) + 1) if expected in retrieved else None,
+               retrieval_recorded_after_error=True)
+
+
 def _claim(claim: dict) -> dict:
+    # act/article/label make each claim replayable through the verification rules later.
     return {key: claim.get(key) for key in
-            ("citation", "statement", "support", "support_note", "support_method", "quote")}
+            ("citation", "act", "article", "label", "statement", "support", "support_note",
+             "support_method", "failed_checks", "quote")}
 
 
 def summarise(rows: list[dict], retrieval_only: bool = False) -> dict:
@@ -99,12 +121,14 @@ def summarise(rows: list[dict], retrieval_only: bool = False) -> dict:
         # Citation and abstention need generation; retrieval-only runs cannot measure them.
         "expected_article_cited": "n/a" if retrieval_only else f"{cited}/{len(answerable)}",
         "correct_abstentions": "n/a" if retrieval_only else f"{abstained}/{len(controls)}",
-        "controls_without_evidence": f"{sum(r['check'] == 'no_evidence' for r in controls)}/{len(controls)}",
+        # Counted from what was retrieved, so it means the same in full and retrieval-only runs.
+        "controls_without_evidence": f"{sum(r.get('retrieved') == [] for r in controls)}/{len(controls)}",
         "claim_support_labels": dict(support),
         # Same retrieved fragments, same generation: the effect of verification alone.
         "verification": "n/a" if retrieval_only else {
             "claims_generated": sum(len(r.get("claims", [])) + len(r.get("rejected_claims", [])) for r in rows),
             "claims_shown": sum(len(r.get("claims", [])) for r in rows),
+            "claims_dropped_over_limit": sum(r.get("claims_dropped", 0) for r in rows),
             "rejected_by_rules": sum(c["support_method"] == "rule" for r in rows for c in r.get("rejected_claims", [])),
             "rejected_by_model": sum(c["support_method"] == "model" for r in rows for c in r.get("rejected_claims", [])),
             "expected_article_cited_before": f"{sum(bool(r.get('cited_before_verification')) for r in answerable)}"
@@ -120,8 +144,11 @@ def summarise(rows: list[dict], retrieval_only: bool = False) -> dict:
 
 def markdown(report: dict) -> str:
     s = report["summary"]
+    models = report.get("models") or {}
     lines = [
         f"# Pilot run {report['utc'][:10]} ({report['mode']}, {report['backend']})", "",
+        f"Chat deployment: {models.get('chat') or '-'}; verifier deployment: {models.get('verifier') or '-'}; "
+        f"claim policy: {report.get('claim_policy', '-')}.", "",
         "| Check | Result |", "| --- | --- |",
         f"| Expected article retrieved | {s['expected_article_retrieved']} |",
         f"| Expected article ranked first | {s['expected_article_ranked_first']} |",
@@ -139,7 +166,8 @@ def markdown(report: dict) -> str:
     for row in report["cases"]:
         claims = [(c, "yes") for c in row.get("claims", [])] + [(c, "no") for c in row.get("rejected_claims", [])]
         if not claims:
-            lines.append(f"| {row['id']} | - | {row['check']} | - | - | |")
+            detail = f"error: {row.get('error', '')}" if row["check"] == "error" else row["check"]
+            lines.append(f"| {row['id']} | - | {detail.replace('|', chr(92) + '|')} | - | - | |")
         for claim, shown in claims:
             statement = claim["statement"].replace("|", "\\|")
             verdict = f"{claim['support']} ({claim['support_method']})"
@@ -156,6 +184,9 @@ def run(assistant, cases: list[dict], retrieval_only: bool, output_dir: Path, lo
     now = datetime.now(UTC)
     report = {"utc": now.isoformat(), "mode": "retrieval_only" if retrieval_only else "full",
               "backend": assistant.retriever.name,
+              "models": {"chat": getattr(assistant.generator, "deployment", None),
+                         "verifier": getattr(assistant.verifier, "deployment", None)},
+              "claim_policy": assistant.policy,
               "corpus_sha256": (assistant.manifest or {}).get("corpus_sha256"),
               "summary": summarise(rows, retrieval_only), "cases": rows}
     output_dir.mkdir(parents=True, exist_ok=True)
