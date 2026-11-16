@@ -73,6 +73,10 @@ QUALIFIERS = [
 ]
 
 SCOPE_ANNEX_RE = re.compile(r"\breferred to in Annex ([IVXLC]+)\b")
+DORA_SIMPLIFIED_FRAMEWORK_REF = "referred to in paragraph 1, second subparagraph, point (a)"
+DORA_SIMPLIFIED_FRAMEWORK_RE = re.compile(
+    r"\b(?:simplified ICT risk management framework|uproszczon\w* ram\w* zarządzania ryzykiem (?:związanym z )?ICT)\b",
+    re.IGNORECASE)
 
 VERIFIER_PROMPT = """You are a strict verifier of claims about EU legislation.
 
@@ -175,14 +179,21 @@ def rule_check(claim: dict) -> dict | None:
         return _partial("Statement mentions an exception or exclusion that the cited text does not contain")
     if TEXT_EXCEPTION_RE.search(quote) and not says_exception:
         return _partial("Statement omits an exception or derogation stated in the cited text")
+    scope_text = normalize(governing)
     for in_text, in_statement in QUALIFIERS:
-        found = in_text.search(normalize(governing))
+        found = in_text.search(scope_text)
         if found and not in_statement.search(statement):
             return _partial(f"Statement drops the qualifier '{found.group(0)}' of the cited text")
     # "an AI system referred to in Annex III" limits the scope to the systems listed there.
-    for annex in sorted(set(SCOPE_ANNEX_RE.findall(normalize(governing)))):
+    for annex in sorted(set(SCOPE_ANNEX_RE.findall(scope_text))):
         if not re.search(rf"\b(?:Annex|załącznik\w*)\s+{annex}\b", statement, re.IGNORECASE):
             return _partial(f"Statement drops the scope limit 'referred to in Annex {annex}' of the cited text")
+    # DORA Article 16(2) identifies the simplified framework through a cross-reference.
+    if (claim.get("act") == "DORA" and claim["article"] == "16"
+            and DORA_SIMPLIFIED_FRAMEWORK_REF in scope_text.casefold()
+            and not DORA_SIMPLIFIED_FRAMEWORK_RE.search(statement)
+            and DORA_SIMPLIFIED_FRAMEWORK_REF not in statement.casefold()):
+        return _partial("Statement drops the scope limit to the simplified ICT risk management framework")
     return None
 
 

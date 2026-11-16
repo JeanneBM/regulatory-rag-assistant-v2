@@ -95,6 +95,28 @@ def test_an_annex_that_limits_scope_must_be_kept():
     assert rule_check(claim(kept, PROFILING, "Article 6(3)", "6")) is None
 
 
+@pytest.mark.parametrize("statement, keeps_scope", [
+    ("The ICT risk management framework shall be documented, reviewed periodically and upon major "
+     "ICT-related incidents, and continuously improved based on lessons learned, with a report on the "
+     "review submitted to the competent authority upon request.", False),
+    ("The simplified ICT risk management framework must be documented and reviewed periodically.", True),
+    ("The ICT risk management framework referred to in paragraph 1, second subparagraph, point (a), "
+     "must be documented and reviewed periodically.", True),
+    ("Uproszczone ramy zarządzania ryzykiem związanym z ICT muszą być udokumentowane.", True),
+])
+def test_dora_article_16_framework_scope_must_be_kept(statement, keeps_scope):
+    quote = ("2. The ICT risk management framework referred to in paragraph 1, second subparagraph, point (a), "
+             "shall be documented and reviewed periodically and upon the occurrence of major ICT-related incidents "
+             "in compliance with supervisory instructions. It shall be continuously improved on the basis of "
+             "lessons derived from implementation and monitoring. A report on the review of the ICT risk "
+             "management framework shall be submitted to the competent authority upon its request.")
+    verdict = rule_check({**claim(statement, quote, "Article 16(2)", "16"), "act": "DORA"})
+    if keeps_scope:
+        assert verdict is None
+    else:
+        assert verdict["support"] == "partial" and "simplified" in verdict["note"]
+
+
 def test_figure_rule_ignores_excerpt_ids_left_in_a_statement():
     quote = "Providers shall keep the documentation up to date."
     assert rule_check(claim("Providers must keep the documentation up to date (E3).", quote)) is None
