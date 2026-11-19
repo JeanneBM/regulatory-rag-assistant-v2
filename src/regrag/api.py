@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field
 
 from regrag import __version__, telemetry
 from regrag.config import Settings
-from regrag.sources import ACTS
+from regrag.sources import all_sources
 
 STATIC = Path(__file__).resolve().parent / "static"
 SECURITY_HEADERS = {
@@ -137,7 +137,7 @@ def create_app(settings: Settings | None = None, assistant_factory=None) -> Fast
         question = body.question.strip()
         if len(question) < 3 or len(question) > settings.max_question_chars:
             raise HTTPException(422, f"Question must be 3-{settings.max_question_chars} characters")
-        if body.act is not None and body.act not in ACTS:
+        if body.act is not None and body.act not in all_sources():
             raise HTTPException(422, "Unknown act filter")
         if not limiter.allow(client_id(request)):
             raise HTTPException(429, "Too many requests; try again in a minute")

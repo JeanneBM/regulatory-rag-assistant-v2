@@ -9,10 +9,10 @@
 </head>
 <body>
   <header>
-    <p class="eyebrow">AI Act · DORA · official EU sources</p>
+    <p class="eyebrow">AI Act · DORA · NIST AI RMF</p>
     <h1>Regulatory RAG Assistant</h1>
-    <p class="lede">Ask about Regulation (EU) 2024/1689 or Regulation (EU) 2022/2554. Every statement
-      cites one provision and shows its full text, copied from the official act.</p>
+    <p class="lede">Ask about the AI Act, DORA or NIST AI RMF 1.0. Each statement cites an official source.
+      NIST AI RMF is voluntary guidance, not EU law.</p>
   </header>
 
   <main>
@@ -23,9 +23,10 @@
       <div class="controls">
         <label for="act" class="inline">Source</label>
         <select id="act" name="act">
-          <option value="">Both acts</option>
+          <option value="">All sources</option>
           <option value="AI_ACT">AI Act</option>
           <option value="DORA">DORA</option>
+          <option value="NIST_AI_RMF">NIST AI RMF 1.0 (voluntary)</option>
         </select>
         <button type="submit" id="submit">Search</button>
       </div>

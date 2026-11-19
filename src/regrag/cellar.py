@@ -20,7 +20,7 @@ class SourceError(RuntimeError):
 @dataclass(frozen=True)
 class SourceDocument:
     act: Act
-    html: str
+    html: str | bytes
     fetched_from: str
     sha256: str
 

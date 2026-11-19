@@ -14,6 +14,9 @@ class Act:
     short_name: str
     title: str
 
+    source_type: str = "eu_regulation"
+    version: str = "original published act"
+
     @property
     def eurlex_url(self) -> str:
         return EURLEX_URL.format(celex=self.celex)
@@ -39,3 +42,16 @@ ACTS: dict[str, Act] = {
         title="Regulation (EU) 2022/2554 on digital operational resilience for the financial sector",
     ),
 }
+
+NIST_RMF = Act("NIST_AI_RMF", "", 0, "NIST AI RMF 1.0",
+               "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+               "voluntary_framework", "1.0 (January 2023), NIST AI 100-1")
+NIST_RMF_URL = "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf"
+
+
+def all_sources() -> dict[str, Act]:
+    return {**ACTS, NIST_RMF.key: NIST_RMF}
+
+
+def source_url(source: Act) -> str:
+    return NIST_RMF_URL if source.key == NIST_RMF.key else source.eurlex_url

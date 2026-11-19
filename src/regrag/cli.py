@@ -7,7 +7,7 @@ from pathlib import Path
 import requests
 
 from regrag.config import Settings
-from regrag.sources import ACTS
+from regrag.sources import all_sources
 
 DEFAULT_CASES = Path(__file__).resolve().parents[2] / "eval" / "pilot.json"
 
@@ -43,7 +43,7 @@ def main(argv: list[str] | None = None) -> int:
     ingest.add_argument("--target", choices=["local", "azure"], default="local")
     ask = commands.add_parser("ask", help="Ask one question")
     ask.add_argument("question")
-    ask.add_argument("--act", choices=list(ACTS))
+    ask.add_argument("--act", choices=list(all_sources()))
     serve = commands.add_parser("serve", help="Run the web UI and API")
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", type=int, default=8000)

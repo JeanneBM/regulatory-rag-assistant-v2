@@ -313,7 +313,8 @@ def corpus_stats(units: list[dict]) -> dict:
             "articles": set(), "units": 0, "with_paragraph": 0, "with_point": 0,
             "with_title": 0, "max_chars": 0, "anchored": 0,
         })
-        entry["articles"].add(unit["article"])
+        if unit["article"] is not None:
+            entry["articles"].add(unit["article"])
         entry["units"] += 1
         entry["with_paragraph"] += bool(unit["paragraph"])
         entry["with_point"] += bool(unit["point"])

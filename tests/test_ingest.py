@@ -31,8 +31,8 @@ def test_fetch_fails_closed(monkeypatch, fake, error):
 def test_ingest_stores_raw_sources_corpus_and_manifest(cellar, tmp_path):
     store = LocalCorpusStore(tmp_path)
     manifest = ingest.run_ingest(store, log=lambda _: None)
-    assert manifest["units"] == 2 * (113 + 64)
-    assert set(manifest["acts"]) == {"AI_ACT", "DORA"}
+    assert manifest["units"] == 2 * (113 + 64) + 1
+    assert set(manifest["acts"]) == {"AI_ACT", "DORA", "NIST_AI_RMF"}
     dora = manifest["acts"]["DORA"]
     assert dora["fetched_from"] == FakeCellar.item("32022R2554")
     assert (tmp_path / "raw" / "32022R2554" / f"{dora['source_sha256']}.xhtml").exists()
@@ -78,6 +78,6 @@ def test_first_use_imports_once_and_new_acts_join_automatically(monkeypatch, cel
     monkeypatch.setitem(ACTS, "NIS2", EXTRA_ACTS["NIS2"])
     cellar.documents["NIS2"] = act_document(46)
     manifest, units = ingest.ensure_local_corpus(store, log=lambda _: None)
-    assert {u["act"] for u in units} == {"AI_ACT", "DORA", "NIS2"}
+    assert {u["act"] for u in units} == {"AI_ACT", "DORA", "NIS2", "NIST_AI_RMF"}
     assert len(cellar.calls) > calls
     assert json.loads((tmp_path / "active.json").read_text())["acts"]["NIS2"]["celex"] == "32022L2555"

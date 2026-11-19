@@ -9,8 +9,9 @@ import json
 from datetime import UTC, datetime
 
 from regrag.cellar import fetch_act
+from regrag.nist import fetch_framework
 from regrag.parser import PARSER_VERSION, parse_act, require_coverage
-from regrag.sources import ACTS, Act
+from regrag.sources import ACTS, NIST_RMF, Act, all_sources
 
 
 def corpus_digest(units: list[dict]) -> str:
@@ -19,6 +20,7 @@ def corpus_digest(units: list[dict]) -> str:
 
 
 def build_corpus(acts: list[Act] | None = None, fetch=fetch_act, now: datetime | None = None):
+    include_framework = acts is None
     acts = list(ACTS.values()) if acts is None else acts
     now = now or datetime.now(UTC)
     units, documents, summary = [], [], {}
@@ -28,12 +30,21 @@ def build_corpus(acts: list[Act] | None = None, fetch=fetch_act, now: datetime |
         require_coverage(parsed, act)
         for unit in parsed:
             unit.update(source_sha256=document.sha256, fetched_from=document.fetched_from,
-                        language="EN", version="original published act")
+                        language="EN", version=act.version, source_type=act.source_type)
         units.extend(parsed)
         documents.append(document)
         summary[act.key] = {
             "celex": act.celex, "title": act.title, "articles": act.articles,
             "units": len(parsed), "eurlex_url": act.eurlex_url,
+            "fetched_from": document.fetched_from, "source_sha256": document.sha256,
+        }
+    if include_framework:
+        document, parsed = fetch_framework()
+        units.extend(parsed)
+        documents.append(document)
+        summary[NIST_RMF.key] = {
+            "title": NIST_RMF.title, "version": NIST_RMF.version,
+            "source_type": NIST_RMF.source_type, "units": len(parsed),
             "fetched_from": document.fetched_from, "source_sha256": document.sha256,
         }
     manifest = {
@@ -42,7 +53,7 @@ def build_corpus(acts: list[Act] | None = None, fetch=fetch_act, now: datetime |
         "fetched_at": now.isoformat(),
         "units": len(units),
         "acts": summary,
-        "note": "Original published acts, not consolidated versions.",
+        "note": "Original published EU acts and voluntary NIST AI RMF 1.0 guidance.",
     }
     return manifest, units, documents
 
@@ -52,7 +63,7 @@ def run_ingest(store, publisher=None, fetch=fetch_act, acts: list[Act] | None = 
     manifest, units, documents = build_corpus(acts, fetch)
     for document in documents:
         manifest["acts"][document.act.key]["raw_uri"] = store.save_raw(
-            document.act.celex, document.sha256, document.html)
+            document.act.celex or document.act.key, document.sha256, document.html)
     store.save_corpus(manifest, units)
     log(f"Parsed {len(units)} citable units; corpus {manifest['corpus_sha256'][:12]}")
     if publisher is not None:
@@ -64,9 +75,9 @@ def run_ingest(store, publisher=None, fetch=fetch_act, acts: list[Act] | None = 
 def ensure_local_corpus(store, fetch=fetch_act, log=print) -> tuple[dict, list[dict]]:
     """Return the local corpus, importing it on first use or when ACTS gained an act."""
     current = store.active()
-    if current and set(ACTS) <= set(current[0]["acts"]):
+    if current and set(all_sources()) <= set(current[0]["acts"]):
         manifest, units = current
-        return manifest, [u for u in units if u["act"] in ACTS]
-    log("Importing the acts from the EU Publications Office (first use)")
+        return manifest, [u for u in units if u["act"] in all_sources()]
+    log("Importing EU acts and NIST AI RMF (first use or source update)")
     run_ingest(store, fetch=fetch, log=log)
     return store.active()

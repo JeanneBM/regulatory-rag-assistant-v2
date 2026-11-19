@@ -1,0 +1,65 @@
+{
+  "source": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
+  "version": "1.0 (January 2023)",
+  "source_sha256": "7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1",
+  "pdf_pages": 48,
+  "units": 48,
+  "validation": "Official PDF downloaded, parsed and searched locally; no Azure or LLM calls.",
+  "queries": [
+    {
+      "question": "What does GOVERN do in AI risk management?",
+      "hits": [
+        {
+          "id": "NIST_AI_RMF-page-1-part-1",
+          "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf#page=1",
+          "score": 0.2129976229137286
+        },
+        {
+          "id": "NIST_AI_RMF-page-28-part-1",
+          "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf#page=28",
+          "score": 0.12690643135707033
+        },
+        {
+          "id": "NIST_AI_RMF-page-39-part-1",
+          "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf#page=39",
+          "score": 0.11992030405119387
+        }
+      ]
+    },
+    {
+      "question": "How are risks mapped and measured?",
+      "hits": [
+        {
+          "id": "NIST_AI_RMF-page-36-part-1",
+          "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf#page=36",
+          "score": 0.10212022687471586
+        },
+        {
+          "id": "NIST_AI_RMF-page-34-part-1",
+          "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf#page=34",
+          "score": 0.0568830852039193
+        }
+      ]
+    },
+    {
+      "question": "Is this framework voluntary?",
+      "hits": [
+        {
+          "id": "NIST_AI_RMF-page-1-part-1",
+          "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf#page=1",
+          "score": 0.06073098518608646
+        },
+        {
+          "id": "NIST_AI_RMF-page-47-part-1",
+          "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf#page=47",
+          "score": 0.05680005178913439
+        },
+        {
+          "id": "NIST_AI_RMF-page-26-part-1",
+          "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf#page=26",
+          "score": 0.05268777845022639
+        }
+      ]
+    }
+  ]
+}

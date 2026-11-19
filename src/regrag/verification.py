@@ -151,6 +151,8 @@ def rule_check(claim: dict) -> dict | None:
     """Return an 'unsupported'/'partial' verdict when a cheap rule already fails."""
     statement = normalize(BARE_MARKER_RE.sub(" ", claim["statement"]))
     quote = normalize(claim["quote"])
+    if claim.get("act") == "NIST_AI_RMF" and STATEMENT_OBLIGATION_RE.search(statement):
+        return _partial("NIST AI RMF is voluntary guidance; do not present it as a legal obligation")
     evidence = f"{claim['label']} {claim['quote']}"
     act = ACTS.get(claim.get("act"))
     allowed = numbers(evidence) | numbers(claim.get("citation", "")) | numbers(act.title if act else "")
