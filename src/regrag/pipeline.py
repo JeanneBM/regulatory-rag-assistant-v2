@@ -5,13 +5,14 @@ from regrag import telemetry
 from regrag.config import Settings
 from regrag.generation import Generator, citation
 from regrag.retrieval import AzureSearchRetriever, LocalRetriever
-from regrag.sources import ACTS
+from regrag.sources import all_sources, source_url
 from regrag.verification import ModelVerifier, verify_claims
 
 DISCLAIMER = ("Research support only. Answers quote the original published acts, not "
-              "consolidated versions, and are not legal advice or a compliance assessment.")
+              "consolidated versions. NIST AI RMF is voluntary guidance, not EU law. "
+              "Answers are not legal advice or a compliance assessment.")
 EVIDENCE_FIELDS = ["id", "act", "article", "article_title", "paragraph", "point", "label",
-                   "text", "url", "score", "reranker_score"]
+                   "text", "url", "score", "reranker_score", "source_type", "version"]
 
 
 def _add_usage(total: dict, usage: dict) -> None:
@@ -37,8 +38,9 @@ class Assistant:
             "generation": self.generator is not None,
             "verification": "model" if self.verifier else "rules",
             "claim_policy": self.policy,
-            "acts": {key: {"celex": act.celex, "title": act.title, "url": act.eurlex_url}
-                     for key, act in ACTS.items()},
+            "acts": {key: {"celex": act.celex, "title": act.title, "url": source_url(act),
+                           "source_type": act.source_type, "version": act.version}
+                     for key, act in all_sources().items()},
             "corpus": {key: manifest.get(key) for key in ("corpus_sha256", "fetched_at", "units",
                                                           "parser_version")},
             "disclaimer": DISCLAIMER,

@@ -1,6 +1,6 @@
 # Regulatory RAG Assistant v2
 
-Imports the EU AI Act and DORA from official EU sources and generates cited answers with Azure OpenAI. The repository includes a CLI and a FastAPI web UI. The Azure deployment configuration uses Container Apps for the API, UI and weekly import job, and Azure AI Search for hybrid retrieval.
+Imports the EU AI Act and DORA from official EU sources, and NIST AI RMF 1.0 from NIST and generates cited answers with Azure OpenAI. The repository includes a CLI and a FastAPI web UI. The Azure deployment configuration uses Container Apps for the API, UI and weekly import job, and Azure AI Search for hybrid retrieval.
 
 ## Project status
 
@@ -12,6 +12,19 @@ Imports the EU AI Act and DORA from official EU sources and generates cited answ
 The [final pilot review](evidence/eval-20261113T130444Z-review.md) records two important outcomes: verification rejected an unsupported exception in A02 and accepted an overgeneralised claim about DORA's simplified framework in D02. Claim support still requires manual review.
 
 The official-source import covered 113/113 AI Act and 64/64 DORA articles across 1,478 citable units, as recorded in the [pre-deployment report](evidence/azure-stack-validation-2026-11-12.md). V2 builds on the [v1 pilot](https://github.com/JeanneBM/regulatory-rag-assistant/blob/main/evidence/regulatory-rag-validation-2026-11-09.md) with point-level quotations and claim-support verification. The tool supports research. It does not give legal advice or assess compliance.
+
+## NIST AI RMF 1.0
+
+The default import also fetches the official [NIST AI 100-1 PDF](https://doi.org/10.6028/NIST.AI.100-1), version 1.0 (January 2023). This is **voluntary guidance, not EU legislation**. Source type and version travel through retrieval, generation and citations; the answer prompt preserves this distinction and a rule rejects obligation wording for NIST claims under the default strict policy.
+
+```bash
+regrag ingest
+regrag ask "How does the framework describe GOVERN, MAP, MEASURE and MANAGE?" --act NIST_AI_RMF
+```
+
+The CLI, API `act` filter and web source selector accept `NIST_AI_RMF`. The importer preserves the original PDF bytes and SHA-256, validates the 48-page version and extracts page-addressable units with `#page=N` citation links. Page numbers refer to PDF viewer pages, not printed page numbers. Missing text, unexpected content types, redirects or a failed import leave the active corpus unchanged. Page-based extraction can split tables across pages; claim support still needs review.
+
+Existing local corpora are refreshed automatically when NIST is absent. Azure requires deploying this code and rerunning the ingest job to build the new versioned index (schema v2). No Azure deployment or model evaluation is implied by local validation. See [NIST validation](evidence/nist-ai-rmf-validation-2026-11-19.json).
 
 ## Architecture
 
@@ -69,7 +82,7 @@ regrag ask "What does DORA say about the ICT risk management framework?" --act D
 regrag serve        # http://127.0.0.1:8000
 ```
 
-The first command downloads both acts automatically (about 2 MB) into `.local/`. No manual download is needed. Without Azure configuration the local backend uses TF-IDF and returns evidence only (`retrieval_only`). To generate answers locally, set `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_CHAT_DEPLOYMENT` (see [.env.example](.env.example)) and run `az login`.
+The first command downloads both EU acts and the NIST AI RMF PDF automatically into `.local/`. No manual download is needed. Without Azure configuration the local backend uses TF-IDF and returns evidence only (`retrieval_only`). To generate answers locally, set `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_CHAT_DEPLOYMENT` (see [.env.example](.env.example)) and run `az login`.
 
 ## Evaluate the answer design first (no new Azure resources)
 

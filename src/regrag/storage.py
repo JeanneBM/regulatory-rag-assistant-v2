@@ -10,14 +10,14 @@ from typing import Protocol
 
 
 class CorpusStore(Protocol):
-    def save_raw(self, celex: str, sha256: str, html: str) -> str: ...
+    def save_raw(self, celex: str, sha256: str, html: str | bytes) -> str: ...
     def save_corpus(self, manifest: dict, units: list[dict]) -> str: ...
     def activate(self, manifest: dict) -> None: ...
     def active(self) -> tuple[dict, list[dict]] | None: ...
 
 
-def raw_name(celex: str, sha256: str) -> str:
-    return f"raw/{celex}/{sha256}.xhtml"
+def raw_name(celex: str, sha256: str, pdf: bool = False) -> str:
+    return f"raw/{celex}/{sha256}." + ("pdf" if pdf else "xhtml")
 
 
 def corpus_name(digest: str) -> str:
@@ -28,18 +28,18 @@ class LocalCorpusStore:
     def __init__(self, root: Path):
         self.root = Path(root)
 
-    def _write(self, name: str, data: str) -> Path:
+    def _write(self, name: str, data: str | bytes) -> Path:
         path = self.root / name
         path.parent.mkdir(parents=True, exist_ok=True)
         temporary = path.with_suffix(path.suffix + ".tmp")
-        temporary.write_text(data, encoding="utf-8")
+        temporary.write_bytes(data if isinstance(data, bytes) else data.encode("utf-8"))
         temporary.replace(path)
         return path
 
     def save_raw(self, celex, sha256, html):
-        path = self.root / raw_name(celex, sha256)
+        path = self.root / raw_name(celex, sha256, isinstance(html, bytes))
         if not path.exists():
-            self._write(raw_name(celex, sha256), html)
+            self._write(raw_name(celex, sha256, isinstance(html, bytes)), html)
         return str(path)
 
     def save_corpus(self, manifest, units):
@@ -71,15 +71,16 @@ class BlobCorpusStore:
     def _exists(self, name: str) -> bool:
         return self.container.get_blob_client(name).exists()
 
-    def _upload(self, name: str, data: str, content_type: str, overwrite: bool) -> None:
+    def _upload(self, name: str, data: str | bytes, content_type: str, overwrite: bool) -> None:
         from azure.storage.blob import ContentSettings
-        self.container.upload_blob(name, data.encode("utf-8"), overwrite=overwrite,
+        self.container.upload_blob(name, data if isinstance(data, bytes) else data.encode("utf-8"), overwrite=overwrite,
                                    content_settings=ContentSettings(content_type=content_type))
 
     def save_raw(self, celex, sha256, html):
-        name = raw_name(celex, sha256)
+        name = raw_name(celex, sha256, isinstance(html, bytes))
         if not self._exists(name):
-            self._upload(name, html, "application/xhtml+xml; charset=utf-8", overwrite=False)
+            content_type = "application/pdf" if isinstance(html, bytes) else "application/xhtml+xml; charset=utf-8"
+            self._upload(name, html, content_type, overwrite=False)
         return f"{self.container.url}/{name}"
 
     def save_corpus(self, manifest, units):

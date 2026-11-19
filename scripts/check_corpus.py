@@ -41,7 +41,7 @@ def main() -> int:
         if entry["with_title"] < 0.9 * entry["units"]:
             failures.append(f"{key}: article titles missing for many units")
     for unit in units:
-        if HEADING.search(unit["text"]):
+        if unit["act"] in ACTS and HEADING.search(unit["text"]):
             failures.append(f"{unit['id']}: contains a chapter or section heading")
             break
 

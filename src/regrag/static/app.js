@@ -11,7 +11,8 @@ function el(tag, className, text) {
 
 function link(url, text) {
   const a = el("a", "source", text);
-  if (url && url.startsWith("https://eur-lex.europa.eu/")) {
+  if (url && (url.startsWith("https://eur-lex.europa.eu/") ||
+              url.startsWith("https://nvlpubs.nist.gov/"))) {
     a.href = url;
     a.target = "_blank";
     a.rel = "noopener noreferrer";
@@ -65,7 +66,7 @@ async function ask(event) {
   const question = $("question").value.trim();
   if (question.length < 3) return;
   $("submit").disabled = true;
-  $("status").replaceChildren(el("p", "pending", "Searching the acts..."));
+  $("status").replaceChildren(el("p", "pending", "Searching the sources..."));
   try {
     const response = await fetch("/api/ask", {
       method: "POST",

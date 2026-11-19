@@ -76,6 +76,13 @@ EXTRA_ACTS = {"NIS2": Act("NIS2", "32022L2555", 46, "NIS2", "Directive (EU) 2022
 
 @pytest.fixture
 def cellar(monkeypatch):
+    from regrag.cellar import SourceDocument
+    from regrag.sources import NIST_RMF, NIST_RMF_URL
+    nist_unit = {**unit(), "id": "NIST_AI_RMF-page-1-part-1", "act": NIST_RMF.key,
+                 "article": None, "label": "PDF page 1, part 1", "text": "The Framework is voluntary.",
+                 "source_type": NIST_RMF.source_type, "version": NIST_RMF.version, "url": NIST_RMF_URL}
+    monkeypatch.setattr("regrag.ingest.fetch_framework", lambda: (
+        SourceDocument(NIST_RMF, b"%PDF-fake", NIST_RMF_URL, "a" * 64), [nist_unit]))
     fake = FakeCellar()
     monkeypatch.setattr("regrag.cellar.requests.get", fake)
     return fake

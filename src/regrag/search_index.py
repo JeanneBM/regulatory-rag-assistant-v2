@@ -11,12 +11,12 @@ import time
 
 from regrag.embeddings import embedding_text
 
-SCHEMA_VERSION = "1"
+SCHEMA_VERSION = "2"
 VECTOR_FIELD = "content_vector"
 SEMANTIC_CONFIG = "regrag-semantic"
 VECTOR_PROFILE = "regrag-hnsw-profile"
 RETRIEVABLE = ["id", "act", "celex", "article", "article_title", "paragraph", "point",
-               "label", "text", "url", "ordinal"]
+               "label", "text", "url", "ordinal", "source_type", "version"]
 
 
 def index_name(prefix: str, corpus_digest: str, embedding_identity: str) -> str:
@@ -52,6 +52,8 @@ def index_definition(name: str, dimensions: int, semantic: bool = True):
         SearchableField(name="article_title", analyzer_name="en.microsoft"),
         SearchableField(name="text", analyzer_name="en.microsoft"),
         SimpleField(name="url", type=string),
+        SimpleField(name="source_type", type=string, filterable=True),
+        SimpleField(name="version", type=string),
         SimpleField(name="ordinal", type=SearchFieldDataType.Int32, sortable=True),
         SearchField(name=VECTOR_FIELD, type="Collection(Edm.Single)", searchable=True,
                     vector_search_dimensions=dimensions, vector_search_profile_name=VECTOR_PROFILE,

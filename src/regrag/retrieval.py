@@ -8,12 +8,12 @@
 Both return evidence dictionaries with the unit fields plus scores. Scores are
 ranking signals, not confidence; thresholds are provisional until calibrated.
 """
-from regrag.sources import ACTS
+from regrag.sources import all_sources
 
 
 def _check_act(act: str | None) -> None:
     # The act key is interpolated into an OData filter, so only known keys pass.
-    if act is not None and act not in ACTS:
+    if act is not None and act not in all_sources():
         raise ValueError(f"Unknown act filter: {act}")
 
 
