@@ -44,8 +44,12 @@ class RateLimiter:
     def allow(self, client: str) -> bool:
         now = self.clock()
         with self.lock:
-            if len(self.hits) > self.max_clients:
-                self.hits.clear()
+            if client not in self.hits and len(self.hits) >= self.max_clients:
+                expired = [key for key, hits in self.hits.items() if not hits or hits[-1] <= now - 60]
+                for key in expired:
+                    del self.hits[key]
+                if len(self.hits) >= self.max_clients:
+                    return False
             window = self.hits[client]
             while window and window[0] <= now - 60:
                 window.popleft()
