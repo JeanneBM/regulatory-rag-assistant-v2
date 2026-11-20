@@ -95,3 +95,15 @@ def test_settings_validation(monkeypatch, env, error):
         monkeypatch.setenv(key, value)
     with pytest.raises(ValueError, match=error):
         Settings.from_env()
+
+def test_client_capacity_preserves_active_limits():
+    now = [0.0]
+    limiter = RateLimiter(1, clock=lambda: now[0], max_clients=2)
+    assert limiter.allow("a")
+    assert limiter.allow("b")
+    assert not limiter.allow("c")
+    assert not limiter.allow("a")
+    assert len(limiter.hits) == 2
+    now[0] = 61
+    assert limiter.allow("c")
+    assert len(limiter.hits) == 1
