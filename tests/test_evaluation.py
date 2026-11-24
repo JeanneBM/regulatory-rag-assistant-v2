@@ -104,3 +104,44 @@ def test_report_names_the_models_counts_dropped_claims_and_controls_without_evid
     saved = report["cases"][0]["claims"][0]
     assert (saved["act"], saved["article"], saved["label"]) == ("DORA", "6", "Article 6(1)")
     assert "Chat deployment: gpt-chat; verifier deployment: gpt-judge" in Path(report["files"][1]).read_text()
+
+
+def test_pdf_cases_match_units_not_null_articles(tmp_path):
+    from regrag.evaluation import run_case
+
+    page = unit(text="The Framework is voluntary and rights-preserving.")
+    page.update(id="NIST_AI_RMF-page-7-part-1", act="NIST_AI_RMF", article=None,
+                label="PDF page 7, part 1", source_type="voluntary_framework")
+    bot = Assistant(LocalRetriever([page]))
+    case = {"id": "RMF01", "question": "Is the Framework voluntary?", "act": "NIST_AI_RMF",
+            "expected": {"act": "NIST_AI_RMF", "unit_ids": [page["id"]]}}
+    assert run_case(bot, case, True)["check"] == "retrieval_hit"
+    case["expected"]["unit_ids"] = ["NIST_AI_RMF-page-25-part-1"]
+    assert run_case(bot, case, True)["check"] == "retrieval_miss"
+    p = tmp_path / "cases.json"
+    case["expected"] = {"act": "NIST_AI_RMF", "article": None}
+    p.write_text(json.dumps([case]))
+    import pytest
+    with pytest.raises(ValueError, match="null is not a locator"):
+        load_cases(p)
+
+
+def test_pdf_answer_keeps_locator_and_provenance(tmp_path):
+    page = unit(text="The Framework is voluntary and rights-preserving.")
+    page.update(id="NIST_AI_RMF-page-7-part-1", act="NIST_AI_RMF", article=None,
+                label="PDF page 7, part 1", source_type="voluntary_framework", version="1.0",
+                url="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf#page=7")
+    client = FakeOpenAI([
+        completion({"claims": [{"statement": "The Framework is voluntary.", "excerpt_id": "E1"}],
+                    "abstention_reason": ""}),
+        completion({"verdicts": [{"claim": 1, "support": "supported", "note": ""}]}),
+    ])
+    bot = Assistant(LocalRetriever([page]), Generator(client, "chat"), ModelVerifier(client, "judge"))
+    cases = [{"id": "RMF01", "question": "Is the Framework voluntary?", "act": "NIST_AI_RMF",
+              "expected": {"act": "NIST_AI_RMF", "unit_ids": [page["id"]]}}]
+    report, code = run(bot, cases, False, tmp_path, log=lambda _: None)
+    assert code == 0
+    assert report["summary"]["expected_article_cited"] == "1/1"
+    claim = report["cases"][0]["claims"][0]
+    assert (claim["unit_id"], claim["url"], claim["source_type"]) == (
+        page["id"], page["url"], "voluntary_framework")

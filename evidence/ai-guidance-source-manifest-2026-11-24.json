@@ -1,0 +1,65 @@
+{
+  "date": "2026-11-24",
+  "corpus_sha256": "82665d30347a547ad31655f8fa4ca2d75f38461fd2341a6eb0f3a0d4fd27d1e6",
+  "units": 1645,
+  "sources": {
+    "AI_ACT": {
+      "celex": "32024R1689",
+      "title": "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence",
+      "articles": 113,
+      "units": 877,
+      "eurlex_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689",
+      "fetched_from": "https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.03/DOC_1",
+      "source_sha256": "8f0b656302f9864cc87e040c371f209a9d65ae1a6cecc25ca5eb737e872d721a"
+    },
+    "DORA": {
+      "celex": "32022R2554",
+      "title": "Regulation (EU) 2022/2554 on digital operational resilience for the financial sector",
+      "articles": 64,
+      "units": 601,
+      "eurlex_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554",
+      "fetched_from": "https://publications.europa.eu/resource/cellar/0caf473a-85bd-11ed-9887-01aa75ed71a1.0006.03/DOC_1",
+      "source_sha256": "cf50d8f023d23b2a56f535aaee0760eba7f1925ef08a9858c5c31d43d414f46b"
+    },
+    "NIST_AI_RMF": {
+      "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+      "version": "1.0 (January 2023), NIST AI 100-1",
+      "source_type": "voluntary_framework",
+      "units": 48,
+      "fetched_from": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
+      "source_sha256": "7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1"
+    },
+    "NIST_GENAI": {
+      "title": "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile",
+      "version": "July 2024, NIST AI 600-1",
+      "source_type": "voluntary_framework",
+      "units": 64,
+      "fetched_from": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      "source_sha256": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a"
+    },
+    "GPAI_TRANSPARENCY": {
+      "title": "General-Purpose AI Code of Practice: Transparency",
+      "version": "Final, 10 July 2025",
+      "source_type": "voluntary_code",
+      "units": 6,
+      "fetched_from": "https://ec.europa.eu/newsroom/dae/redirection/document/118120",
+      "source_sha256": "407e3a0a66327847a4bddb811fe619c8a588892ec451d23435d06485c20a4cf8"
+    },
+    "GPAI_COPYRIGHT": {
+      "title": "General-Purpose AI Code of Practice: Copyright",
+      "version": "Final, 10 July 2025",
+      "source_type": "voluntary_code",
+      "units": 6,
+      "fetched_from": "https://ec.europa.eu/newsroom/dae/redirection/document/118115",
+      "source_sha256": "cdb3c117e8e51282ab61fad8af9d5cd1acaf1773a5eadce178c3d10498ca864a"
+    },
+    "GPAI_SAFETY_SECURITY": {
+      "title": "General-Purpose AI Code of Practice: Safety and Security",
+      "version": "Final, 10 July 2025",
+      "source_type": "voluntary_code",
+      "units": 43,
+      "fetched_from": "https://ec.europa.eu/newsroom/dae/redirection/document/118119",
+      "source_sha256": "d879f9b54c6068aae57ebaead9d90ddaa46f2503312b9185367a724fa8da2f4a"
+    }
+  }
+}

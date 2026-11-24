@@ -1,0 +1,350 @@
+{
+  "utc": "2026-11-24T11:40:16.335893+00:00",
+  "mode": "retrieval_only",
+  "backend": "local-tfidf",
+  "models": {
+    "chat": null,
+    "verifier": null
+  },
+  "claim_policy": "strict",
+  "corpus_sha256": "82665d30347a547ad31655f8fa4ca2d75f38461fd2341a6eb0f3a0d4fd27d1e6",
+  "summary": {
+    "checks": {
+      "retrieval_hit": 9,
+      "retrieval_miss": 1,
+      "no_evidence": 2
+    },
+    "expected_article_retrieved": "9/10",
+    "expected_article_ranked_first": "6/10",
+    "expected_article_cited": "n/a",
+    "correct_abstentions": "n/a",
+    "controls_without_evidence": "2/2",
+    "claim_support_labels": {},
+    "verification": "n/a",
+    "tokens": {},
+    "latency_ms": {
+      "p50": 2.0,
+      "max": 52
+    }
+  },
+  "cases": [
+    {
+      "id": "RMF01",
+      "question": "What are the four core functions GOVERN MAP MEASURE and MANAGE?",
+      "expected": {
+        "act": "NIST_AI_RMF",
+        "unit_ids": [
+          "NIST_AI_RMF-page-25-part-1"
+        ]
+      },
+      "status": "retrieval_only",
+      "retrieved": [
+        "NIST_AI_RMF-page-25-part-1",
+        "NIST_AI_RMF-page-8-part-1",
+        "NIST_AI_RMF-page-39-part-1",
+        "NIST_AI_RMF-page-5-part-1",
+        "NIST_AI_RMF-page-4-part-1",
+        "NIST_AI_RMF-page-30-part-1",
+        "NIST_AI_RMF-page-36-part-1",
+        "NIST_AI_RMF-page-26-part-1"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "retrieval_hit",
+      "elapsed_ms": 52
+    },
+    {
+      "id": "RMF02",
+      "question": "Is the AI Risk Management Framework voluntary?",
+      "expected": {
+        "act": "NIST_AI_RMF",
+        "unit_ids": [
+          "NIST_AI_RMF-page-7-part-1",
+          "NIST_AI_RMF-page-47-part-1"
+        ]
+      },
+      "status": "retrieval_only",
+      "retrieved": [
+        "NIST_AI_RMF-page-1-part-1",
+        "NIST_AI_RMF-page-48-part-1",
+        "NIST_AI_RMF-page-8-part-1",
+        "NIST_AI_RMF-page-2-part-1",
+        "NIST_AI_RMF-page-47-part-1",
+        "NIST_AI_RMF-page-4-part-1",
+        "NIST_AI_RMF-page-38-part-1",
+        "NIST_AI_RMF-page-27-part-1"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 5,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "retrieval_hit",
+      "elapsed_ms": 2
+    },
+    {
+      "id": "RMF03",
+      "question": "How does GOVERN establish accountability and risk management culture?",
+      "expected": {
+        "act": "NIST_AI_RMF",
+        "unit_ids": [
+          "NIST_AI_RMF-page-26-part-1",
+          "NIST_AI_RMF-page-27-part-1",
+          "NIST_AI_RMF-page-28-part-1",
+          "NIST_AI_RMF-page-29-part-1"
+        ]
+      },
+      "status": "retrieval_only",
+      "retrieved": [
+        "NIST_AI_RMF-page-27-part-1",
+        "NIST_AI_RMF-page-28-part-1",
+        "NIST_AI_RMF-page-1-part-1",
+        "NIST_AI_RMF-page-12-part-1",
+        "NIST_AI_RMF-page-39-part-1",
+        "NIST_AI_RMF-page-36-part-1",
+        "NIST_AI_RMF-page-26-part-1",
+        "NIST_AI_RMF-page-14-part-1"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "retrieval_hit",
+      "elapsed_ms": 2
+    },
+    {
+      "id": "RMF04",
+      "question": "How does MAP establish the context of an AI system?",
+      "expected": {
+        "act": "NIST_AI_RMF",
+        "unit_ids": [
+          "NIST_AI_RMF-page-29-part-1",
+          "NIST_AI_RMF-page-30-part-1",
+          "NIST_AI_RMF-page-31-part-1"
+        ]
+      },
+      "status": "retrieval_only",
+      "retrieved": [
+        "NIST_AI_RMF-page-32-part-1",
+        "NIST_AI_RMF-page-31-part-1",
+        "NIST_AI_RMF-page-35-part-1",
+        "NIST_AI_RMF-page-36-part-1",
+        "NIST_AI_RMF-page-30-part-1",
+        "NIST_AI_RMF-page-39-part-1",
+        "NIST_AI_RMF-page-46-part-1",
+        "NIST_AI_RMF-page-14-part-1"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 2,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "retrieval_hit",
+      "elapsed_ms": 2
+    },
+    {
+      "id": "GEN01",
+      "question": "What does the Generative AI Profile mean by confabulation?",
+      "expected": {
+        "act": "NIST_GENAI",
+        "unit_ids": [
+          "NIST_GENAI-page-10-part-1"
+        ]
+      },
+      "status": "retrieval_only",
+      "retrieved": [
+        "NIST_GENAI-page-1-part-1",
+        "NIST_GENAI-page-5-part-1",
+        "NIST_GENAI-page-64-part-1",
+        "NIST_GENAI-page-2-part-1",
+        "NIST_GENAI-page-60-part-1",
+        "NIST_GENAI-page-42-part-1",
+        "NIST_GENAI-page-35-part-1",
+        "NIST_GENAI-page-48-part-1"
+      ],
+      "expected_retrieved": false,
+      "expected_rank": null,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "retrieval_miss",
+      "elapsed_ms": 2
+    },
+    {
+      "id": "GEN02",
+      "question": "What action does MS-2.5-003 recommend for sources and citations?",
+      "expected": {
+        "act": "NIST_GENAI",
+        "unit_ids": [
+          "NIST_GENAI-page-35-part-1"
+        ]
+      },
+      "status": "retrieval_only",
+      "retrieved": [
+        "NIST_GENAI-page-35-part-1",
+        "NIST_GENAI-page-34-part-1",
+        "NIST_GENAI-page-38-part-1",
+        "NIST_GENAI-page-42-part-1",
+        "NIST_GENAI-page-36-part-1",
+        "NIST_GENAI-page-37-part-1",
+        "NIST_GENAI-page-32-part-1",
+        "NIST_GENAI-page-43-part-1"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "retrieval_hit",
+      "elapsed_ms": 2
+    },
+    {
+      "id": "GPAI01",
+      "question": "What technical documentation do signatories maintain under Measure 1.1 and Annex XI?",
+      "expected": {
+        "act": "GPAI_TRANSPARENCY",
+        "unit_ids": [
+          "GPAI_TRANSPARENCY-page-4-part-1"
+        ]
+      },
+      "status": "retrieval_only",
+      "retrieved": [
+        "GPAI_TRANSPARENCY-page-4-part-1",
+        "GPAI_TRANSPARENCY-page-5-part-1",
+        "GPAI_TRANSPARENCY-page-2-part-1",
+        "GPAI_TRANSPARENCY-page-6-part-1"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "retrieval_hit",
+      "elapsed_ms": 2
+    },
+    {
+      "id": "GPAI02",
+      "question": "How do signatories provide information to downstream providers?",
+      "expected": {
+        "act": "GPAI_TRANSPARENCY",
+        "unit_ids": [
+          "GPAI_TRANSPARENCY-page-5-part-1"
+        ]
+      },
+      "status": "retrieval_only",
+      "retrieved": [
+        "GPAI_TRANSPARENCY-page-6-part-1",
+        "GPAI_TRANSPARENCY-page-4-part-1",
+        "GPAI_TRANSPARENCY-page-5-part-1",
+        "GPAI_TRANSPARENCY-page-2-part-1"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 3,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "retrieval_hit",
+      "elapsed_ms": 2
+    },
+    {
+      "id": "GPAI03",
+      "question": "How do signatories respect rights reservations expressed through robots.txt?",
+      "expected": {
+        "act": "GPAI_COPYRIGHT",
+        "unit_ids": [
+          "GPAI_COPYRIGHT-page-5-part-1",
+          "GPAI_COPYRIGHT-page-6-part-1"
+        ]
+      },
+      "status": "retrieval_only",
+      "retrieved": [
+        "GPAI_COPYRIGHT-page-5-part-1",
+        "GPAI_COPYRIGHT-page-6-part-1",
+        "GPAI_COPYRIGHT-page-4-part-1"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "retrieval_hit",
+      "elapsed_ms": 1
+    },
+    {
+      "id": "GPAI04",
+      "question": "What Safety and Security Framework do signatories adopt under Commitment 1?",
+      "expected": {
+        "act": "GPAI_SAFETY_SECURITY",
+        "unit_ids": [
+          "GPAI_SAFETY_SECURITY-page-6-part-1",
+          "GPAI_SAFETY_SECURITY-page-7-part-1"
+        ]
+      },
+      "status": "retrieval_only",
+      "retrieved": [
+        "GPAI_SAFETY_SECURITY-page-6-part-1",
+        "GPAI_SAFETY_SECURITY-page-9-part-1",
+        "GPAI_SAFETY_SECURITY-page-7-part-1",
+        "GPAI_SAFETY_SECURITY-page-8-part-1",
+        "GPAI_SAFETY_SECURITY-page-18-part-1",
+        "GPAI_SAFETY_SECURITY-page-10-part-1",
+        "GPAI_SAFETY_SECURITY-page-16-part-1",
+        "GPAI_SAFETY_SECURITY-page-3-part-1"
+      ],
+      "expected_retrieved": true,
+      "expected_rank": 1,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "retrieval_hit",
+      "elapsed_ms": 2
+    },
+    {
+      "id": "CTRL01",
+      "question": "How do I bake a chocolate cake?",
+      "expected": null,
+      "status": "retrieval_only",
+      "retrieved": [],
+      "expected_retrieved": null,
+      "expected_rank": null,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "no_evidence",
+      "elapsed_ms": 2
+    },
+    {
+      "id": "CTRL02",
+      "question": "What is the weather in Wroclaw tomorrow?",
+      "expected": null,
+      "status": "retrieval_only",
+      "retrieved": [],
+      "expected_retrieved": null,
+      "expected_rank": null,
+      "claims": [],
+      "rejected_claims": [],
+      "claims_dropped": 0,
+      "usage": {},
+      "check": "no_evidence",
+      "elapsed_ms": 2
+    }
+  ],
+  "files": [
+    "generated JSON/Markdown reports under the selected --output directory"
+  ]
+}

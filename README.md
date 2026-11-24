@@ -1,11 +1,12 @@
 # Regulatory RAG Assistant v2
 
-Imports the EU AI Act and DORA from official EU sources, and NIST AI RMF 1.0 from NIST and generates cited answers with Azure OpenAI. The repository includes a CLI and a FastAPI web UI. The Azure deployment configuration uses Container Apps for the API, UI and weekly import job, and Azure AI Search for hybrid retrieval.
+Imports the EU AI Act, DORA, NIST AI RMF 1.0, the NIST Generative AI Profile and the three chapters of the EU GPAI Code of Practice from official sources. Generates cited answers with Azure OpenAI. The repository includes a CLI and a FastAPI web UI. The Azure deployment configuration uses Container Apps for the API, UI and weekly import job, and Azure AI Search for hybrid retrieval.
 
 ## Project status
 
 | Component | Validation |
 | --- | --- |
+| Additional AI guidance | Live local import and retrieval evaluated on 24 November 2026; 9/10 expected source locators retrieved, 6/10 ranked first and 2/2 controls without evidence. These new-source results do not establish model answer quality or Azure integration. [Evidence](evidence/ai-guidance-validation-2026-11-24.md). |
 | CLI pilot | Completed on 13 November 2026 with local TF-IDF retrieval and Azure OpenAI `gpt-4.1-nano`. The expected article ranked first for 8/8 answerable questions and appeared in citations for 7/8 after verification. Both controls correctly abstained, with zero execution errors across all ten questions. |
 | FastAPI and web UI | Local browser smoke test passed for a cited response and an abstention. Both questions also passed through the deployed Azure API with hybrid Azure AI Search and Azure OpenAI. See the [deployment and test manual](evidence/web-validation-manual.md). |
 
@@ -26,12 +27,47 @@ The CLI, API `act` filter and web source selector accept `NIST_AI_RMF`. The impo
 
 Existing local corpora are refreshed automatically when NIST is absent. Azure requires deploying this code and rerunning the ingest job to build the new versioned index (schema v2). No Azure deployment or model evaluation is implied by local validation. See [NIST validation](evidence/nist-ai-rmf-validation-2026-11-19.json).
 
+## Additional AI guidance
+
+| CLI/API source filter | Official document | Edition and status |
+| --- | --- | --- |
+| `NIST_GENAI` | [NIST AI 600-1: Generative AI Profile](https://doi.org/10.6028/NIST.AI.600-1) | July 2024; voluntary guidance, 64 PDF pages |
+| `GPAI_TRANSPARENCY` | [GPAI Code: Transparency](https://ec.europa.eu/newsroom/dae/redirection/document/118120) | Final, 10 July 2025; 6 PDF pages |
+| `GPAI_COPYRIGHT` | [GPAI Code: Copyright](https://ec.europa.eu/newsroom/dae/redirection/document/118115) | Final, 10 July 2025; 6 PDF pages |
+| `GPAI_SAFETY_SECURITY` | [GPAI Code: Safety and Security](https://ec.europa.eu/newsroom/dae/redirection/document/118119) | Final, 10 July 2025; 43 PDF pages |
+
+The [Commission's source page](https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai)
+identifies the Code as a voluntary compliance instrument for general-purpose AI model
+providers. Commitments refer to signatories; the Safety and Security chapter concerns
+models with systemic risk. These instruments are not additional EU regulations.
+The source type and edition are carried into model inputs, citations and evaluation reports.
+
+The new PDF editions are pinned by reviewed SHA-256 values, page counts and document
+markers in `sources.py`. Import rejects changed bytes and redirects. The Commission's
+PDF endpoints currently send a nonstandard MIME header; the importer checks the PDF
+signature and exact reviewed hash rather than trusting that header. Downloads are
+bounded while streaming, and original PDF bytes are preserved. Text is Unicode NFKC
+normalised for retrieval; quotations use that extracted text, with original viewer-page
+links. Tables can still span pages; a page hit is not proof of answer correctness.
+
+```bash
+regrag ingest
+regrag ask "What does the profile say about confabulation?" --act NIST_GENAI
+regrag ask "How are rights reservations handled?" --act GPAI_COPYRIGHT
+regrag eval --cases eval/ai-guidance.json --retrieval-only
+```
+
+Existing local corpora refresh when any registered source is missing. Azure needs an
+updated application image and a successful ingest before these source filters work.
+See [current validation and remaining gates](evidence/ai-guidance-validation-2026-11-24.md).
+
 ## Architecture
 
 ```mermaid
 flowchart LR
   EU["EU Publications Office (Cellar)<br/>official XHTML<br/>AI Act 32024R1689 · DORA 32022R2554"]
-  NIST["NIST AI RMF 1.0: official PDF"]
+  NIST["NIST AI RMF and GenAI Profile: official PDFs"]
+  GPAI["EU GPAI Code: three official chapter PDFs"]
   subgraph RG["Azure resource group"]
     JOB["Container Apps Job<br/>weekly import"]
     BLOB[("Blob Storage<br/>raw source snapshots · parsed corpus · manifest")]
@@ -43,6 +79,7 @@ flowchart LR
   USER((User)) -->|HTTPS| WEB
   EU --> JOB
   NIST --> JOB
+  GPAI --> JOB
   JOB -->|content-addressed snapshots| BLOB
   JOB -->|embed units| AOAI
   JOB -->|build index, swap alias| SEARCH
@@ -84,7 +121,7 @@ regrag ask "What does DORA say about the ICT risk management framework?" --act D
 regrag serve        # http://127.0.0.1:8000
 ```
 
-The first command downloads both EU acts and the NIST AI RMF PDF automatically into `.local/`. No manual download is needed. Without Azure configuration the local backend uses TF-IDF and returns evidence only (`retrieval_only`). To generate answers locally, set `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_CHAT_DEPLOYMENT` (see [.env.example](.env.example)) and run `az login`.
+The first command downloads both EU acts, both NIST PDFs and all three GPAI Code chapters automatically into `.local/`. No manual download is needed. Without Azure configuration the local backend uses TF-IDF and returns evidence only (`retrieval_only`). To generate answers locally, set `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_CHAT_DEPLOYMENT` (see [.env.example](.env.example)) and run `az login`.
 
 ## Evaluate the answer design first (no new Azure resources)
 

@@ -6,7 +6,7 @@ from conftest import EXTRA_ACTS, FakeCellar, act_document
 from regrag import ingest
 from regrag.cellar import SourceError, fetch_act
 from regrag.parser import ParseError
-from regrag.sources import ACTS, CELLAR_HOST
+from regrag.sources import ACTS, CELLAR_HOST, PDF_SOURCES
 from regrag.storage import LocalCorpusStore
 
 
@@ -31,8 +31,8 @@ def test_fetch_fails_closed(monkeypatch, fake, error):
 def test_ingest_stores_raw_sources_corpus_and_manifest(cellar, tmp_path):
     store = LocalCorpusStore(tmp_path)
     manifest = ingest.run_ingest(store, log=lambda _: None)
-    assert manifest["units"] == 2 * (113 + 64) + 1
-    assert set(manifest["acts"]) == {"AI_ACT", "DORA", "NIST_AI_RMF"}
+    assert manifest["units"] == 2 * (113 + 64) + 1 + len(PDF_SOURCES)
+    assert set(manifest["acts"]) == {"AI_ACT", "DORA", "NIST_AI_RMF", *PDF_SOURCES}
     dora = manifest["acts"]["DORA"]
     assert dora["fetched_from"] == FakeCellar.item("32022R2554")
     assert (tmp_path / "raw" / "32022R2554" / f"{dora['source_sha256']}.xhtml").exists()
@@ -78,6 +78,19 @@ def test_first_use_imports_once_and_new_acts_join_automatically(monkeypatch, cel
     monkeypatch.setitem(ACTS, "NIS2", EXTRA_ACTS["NIS2"])
     cellar.documents["NIS2"] = act_document(46)
     manifest, units = ingest.ensure_local_corpus(store, log=lambda _: None)
-    assert {u["act"] for u in units} == {"AI_ACT", "DORA", "NIS2", "NIST_AI_RMF"}
+    assert {u["act"] for u in units} == {"AI_ACT", "DORA", "NIS2", "NIST_AI_RMF", *PDF_SOURCES}
     assert len(cellar.calls) > calls
     assert json.loads((tmp_path / "active.json").read_text())["acts"]["NIS2"]["celex"] == "32022L2555"
+
+
+def test_failed_new_guidance_import_keeps_the_active_corpus(cellar, monkeypatch, tmp_path):
+    store = LocalCorpusStore(tmp_path)
+    before = ingest.run_ingest(store, log=lambda _: None)
+
+    def broken(spec):
+        raise SourceError("changed PDF edition")
+
+    monkeypatch.setattr("regrag.ingest.fetch_pdf_source", broken)
+    with pytest.raises(SourceError, match="changed PDF"):
+        ingest.run_ingest(store, log=lambda _: None)
+    assert store.active()[0]["corpus_sha256"] == before["corpus_sha256"]

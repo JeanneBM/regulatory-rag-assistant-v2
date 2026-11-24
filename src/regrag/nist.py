@@ -1,5 +1,6 @@
 """Import the versioned official NIST AI RMF PDF as page-addressable evidence."""
 import hashlib
+import unicodedata
 from io import BytesIO
 
 import requests
@@ -13,7 +14,7 @@ from regrag.sources import NIST_RMF, NIST_RMF_URL
 def parse_framework(data: bytes) -> list[dict]:
     try:
         reader = PdfReader(BytesIO(data), strict=True)
-        pages = [page.extract_text() or "" for page in reader.pages]
+        pages = [unicodedata.normalize("NFKC", page.extract_text() or "") for page in reader.pages]
     except Exception as exc:
         raise SourceError("NIST AI RMF: invalid or unreadable PDF") from exc
     full = " ".join(pages).upper()
