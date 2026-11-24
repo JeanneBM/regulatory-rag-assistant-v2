@@ -66,6 +66,11 @@ async function ask(event) {
   const question = $("question").value.trim();
   if (question.length < 3) return;
   $("submit").disabled = true;
+  $("claims").replaceChildren();
+  $("evidence").replaceChildren();
+  $("rejected").replaceChildren();
+  $("evidence-box").hidden = true;
+  $("rejected-box").hidden = true;
   $("status").replaceChildren(el("p", "pending", "Searching the sources..."));
   try {
     const response = await fetch("/api/ask", {
@@ -78,7 +83,6 @@ async function ask(event) {
     render(body);
   } catch (error) {
     $("status").replaceChildren(el("p", "error", `Request failed: ${error.message}`));
-    $("claims").replaceChildren();
   } finally {
     $("submit").disabled = false;
   }
