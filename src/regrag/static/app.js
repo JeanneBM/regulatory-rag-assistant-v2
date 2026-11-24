@@ -12,7 +12,8 @@ function el(tag, className, text) {
 function link(url, text) {
   const a = el("a", "source", text);
   if (url && (url.startsWith("https://eur-lex.europa.eu/") ||
-              url.startsWith("https://nvlpubs.nist.gov/"))) {
+              url.startsWith("https://nvlpubs.nist.gov/") ||
+              url.startsWith("https://ec.europa.eu/newsroom/dae/redirection/document/"))) {
     a.href = url;
     a.target = "_blank";
     a.rel = "noopener noreferrer";

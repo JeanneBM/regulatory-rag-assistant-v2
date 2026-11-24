@@ -1,0 +1,712 @@
+{
+  "tested_base": "eb4b7e98936c69feaca733b59b5655cab4743a65",
+  "date": "2026-11-24",
+  "tests_passed": 140,
+  "ruff": "pass",
+  "dependency_audit": "no known vulnerabilities found",
+  "ui_regression": "pass",
+  "azure_validation": "not run: no connected Azure session",
+  "live_model_calls": 0,
+  "eu_retrieval": {
+    "utc": "2026-11-24T13:04:58.141651+00:00",
+    "mode": "retrieval_only",
+    "backend": "local-tfidf",
+    "models": {
+      "chat": null,
+      "verifier": null
+    },
+    "claim_policy": "strict",
+    "corpus_sha256": "82665d30347a547ad31655f8fa4ca2d75f38461fd2341a6eb0f3a0d4fd27d1e6",
+    "summary": {
+      "checks": {
+        "retrieval_hit": 8,
+        "no_evidence": 1,
+        "distractors_retrieved": 1
+      },
+      "expected_article_retrieved": "8/8",
+      "expected_article_ranked_first": "8/8",
+      "expected_article_cited": "n/a",
+      "correct_abstentions": "n/a",
+      "controls_without_evidence": "1/2",
+      "claim_support_labels": {},
+      "verification": "n/a",
+      "tokens": {},
+      "latency_ms": {
+        "p50": 2.0,
+        "max": 16
+      }
+    },
+    "cases": [
+      {
+        "id": "D01",
+        "question": "Under DORA, what is the role of the management body in ICT risk governance?",
+        "expected": {
+          "act": "DORA",
+          "article": "5"
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "DORA-art-5-par-2-pt-a",
+          "DORA-art-5-par-2-pt-h",
+          "DORA-art-5-par-2-pt-b",
+          "DORA-art-5-par-2-pt-f",
+          "DORA-art-5-par-2-pt-c",
+          "DORA-art-5-par-2-pt-d",
+          "DORA-art-5-par-4",
+          "DORA-art-5-par-2-pt-g"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 16
+      },
+      {
+        "id": "D02",
+        "question": "What does DORA say about the ICT risk management framework?",
+        "expected": {
+          "act": "DORA",
+          "article": "6"
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "DORA-art-6-par-3",
+          "DORA-art-6-par-1",
+          "DORA-art-16-par-3-pt-e",
+          "DORA-art-6-par-8-pt-a",
+          "DORA-art-16-par-3-pt-a",
+          "NIST_AI_RMF-page-1-part-1",
+          "DORA-art-16-par-2",
+          "DORA-art-6-par-8-pt-g"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "D03",
+        "question": "What does DORA require for ICT business continuity and response and recovery plans?",
+        "expected": {
+          "act": "DORA",
+          "article": "11"
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "DORA-art-11-par-8",
+          "DORA-art-33-par-3-pt-c",
+          "DORA-art-11-par-6-pt-a",
+          "DORA-art-11-par-7",
+          "DORA-art-11-par-2-pt-a",
+          "DORA-art-5-par-2-pt-e",
+          "DORA-art-11-par-4",
+          "DORA-art-11-par-9"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "D04",
+        "question": "What does DORA require for the ICT-related incident management process?",
+        "expected": {
+          "act": "DORA",
+          "article": "17"
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "DORA-art-17-par-3-pt-a",
+          "DORA-art-17-par-1",
+          "DORA-art-17-par-3-pt-c",
+          "DORA-art-17-par-3-pt-f",
+          "DORA-art-17-par-3-pt-e",
+          "DORA-art-17-par-3-pt-b",
+          "DORA-art-17-par-3-pt-d",
+          "DORA-art-17-par-2"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "A01",
+        "question": "What does the AI Act say about AI literacy for staff of providers and deployers?",
+        "expected": {
+          "act": "AI_ACT",
+          "article": "4"
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "AI_ACT-art-4",
+          "AI_ACT-art-3-pt-56",
+          "AI_ACT-art-95-par-2-pt-c",
+          "AI_ACT-art-66-pt-f",
+          "AI_ACT-art-50-par-6",
+          "AI_ACT-art-2-par-1-pt-c",
+          "GPAI_TRANSPARENCY-page-3-part-1",
+          "GPAI_COPYRIGHT-page-2-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "A02",
+        "question": "What does the AI Act prohibit regarding AI social scoring of natural persons?",
+        "expected": {
+          "act": "AI_ACT",
+          "article": "5"
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "AI_ACT-art-5-par-1-pt-c",
+          "AI_ACT-art-2-par-8",
+          "AI_ACT-art-2-par-10",
+          "AI_ACT-art-26-par-11",
+          "AI_ACT-art-6-par-3-text-1",
+          "AI_ACT-art-14-par-4-pt-b",
+          "AI_ACT-art-26-par-2",
+          "GPAI_TRANSPARENCY-page-3-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "A03",
+        "question": "Under the AI Act, what transparency obligations apply to AI systems intended to interact directly with natural persons?",
+        "expected": {
+          "act": "AI_ACT",
+          "article": "50"
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "AI_ACT-art-50-par-1",
+          "AI_ACT-art-50-par-6",
+          "AI_ACT-art-50-par-5",
+          "AI_ACT-art-50-par-3",
+          "AI_ACT-art-26-par-11",
+          "AI_ACT-art-2-par-10",
+          "AI_ACT-art-26-par-2",
+          "AI_ACT-art-5-par-1-pt-d"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "A04",
+        "question": "Under the AI Act, what technical documentation must providers of general-purpose AI models prepare?",
+        "expected": {
+          "act": "AI_ACT",
+          "article": "53"
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "AI_ACT-art-53-par-3",
+          "AI_ACT-art-53-par-1-pt-a",
+          "AI_ACT-art-53-par-1-pt-d",
+          "AI_ACT-art-53-par-1-pt-b",
+          "AI_ACT-art-55-par-1-pt-d",
+          "AI_ACT-art-55-par-1-pt-b",
+          "AI_ACT-art-53-par-1-pt-c",
+          "AI_ACT-art-101-par-3"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "N01",
+        "question": "How do I bake a chocolate cake?",
+        "expected": null,
+        "status": "retrieval_only",
+        "retrieved": [],
+        "expected_retrieved": null,
+        "expected_rank": null,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "no_evidence",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "N02",
+        "question": "What VAT rate does DORA set for the ICT risk management framework of financial entities?",
+        "expected": null,
+        "status": "retrieval_only",
+        "retrieved": [
+          "DORA-art-6-par-3",
+          "DORA-art-6-par-1",
+          "DORA-art-6-par-6",
+          "DORA-art-6-par-4",
+          "DORA-art-14-par-2",
+          "DORA-art-9-par-4-pt-f",
+          "DORA-art-6-par-8-pt-a",
+          "DORA-art-11-par-3"
+        ],
+        "expected_retrieved": null,
+        "expected_rank": null,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "distractors_retrieved",
+        "elapsed_ms": 2
+      }
+    ]
+  },
+  "guidance_retrieval": {
+    "utc": "2026-11-24T13:04:59.773385+00:00",
+    "mode": "retrieval_only",
+    "backend": "local-tfidf",
+    "models": {
+      "chat": null,
+      "verifier": null
+    },
+    "claim_policy": "strict",
+    "corpus_sha256": "82665d30347a547ad31655f8fa4ca2d75f38461fd2341a6eb0f3a0d4fd27d1e6",
+    "summary": {
+      "checks": {
+        "retrieval_hit": 9,
+        "retrieval_miss": 1,
+        "no_evidence": 2
+      },
+      "expected_article_retrieved": "9/10",
+      "expected_article_ranked_first": "6/10",
+      "expected_article_cited": "n/a",
+      "correct_abstentions": "n/a",
+      "controls_without_evidence": "2/2",
+      "claim_support_labels": {},
+      "verification": "n/a",
+      "tokens": {},
+      "latency_ms": {
+        "p50": 1.0,
+        "max": 13
+      }
+    },
+    "cases": [
+      {
+        "id": "RMF01",
+        "question": "What are the four core functions GOVERN MAP MEASURE and MANAGE?",
+        "expected": {
+          "act": "NIST_AI_RMF",
+          "unit_ids": [
+            "NIST_AI_RMF-page-25-part-1"
+          ]
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "NIST_AI_RMF-page-25-part-1",
+          "NIST_AI_RMF-page-8-part-1",
+          "NIST_AI_RMF-page-39-part-1",
+          "NIST_AI_RMF-page-5-part-1",
+          "NIST_AI_RMF-page-4-part-1",
+          "NIST_AI_RMF-page-30-part-1",
+          "NIST_AI_RMF-page-36-part-1",
+          "NIST_AI_RMF-page-26-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 13
+      },
+      {
+        "id": "RMF02",
+        "question": "Is the AI Risk Management Framework voluntary?",
+        "expected": {
+          "act": "NIST_AI_RMF",
+          "unit_ids": [
+            "NIST_AI_RMF-page-7-part-1",
+            "NIST_AI_RMF-page-47-part-1"
+          ]
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "NIST_AI_RMF-page-1-part-1",
+          "NIST_AI_RMF-page-48-part-1",
+          "NIST_AI_RMF-page-8-part-1",
+          "NIST_AI_RMF-page-2-part-1",
+          "NIST_AI_RMF-page-47-part-1",
+          "NIST_AI_RMF-page-4-part-1",
+          "NIST_AI_RMF-page-38-part-1",
+          "NIST_AI_RMF-page-27-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 5,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "RMF03",
+        "question": "How does GOVERN establish accountability and risk management culture?",
+        "expected": {
+          "act": "NIST_AI_RMF",
+          "unit_ids": [
+            "NIST_AI_RMF-page-26-part-1",
+            "NIST_AI_RMF-page-27-part-1",
+            "NIST_AI_RMF-page-28-part-1",
+            "NIST_AI_RMF-page-29-part-1"
+          ]
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "NIST_AI_RMF-page-27-part-1",
+          "NIST_AI_RMF-page-28-part-1",
+          "NIST_AI_RMF-page-1-part-1",
+          "NIST_AI_RMF-page-12-part-1",
+          "NIST_AI_RMF-page-39-part-1",
+          "NIST_AI_RMF-page-36-part-1",
+          "NIST_AI_RMF-page-26-part-1",
+          "NIST_AI_RMF-page-14-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "RMF04",
+        "question": "How does MAP establish the context of an AI system?",
+        "expected": {
+          "act": "NIST_AI_RMF",
+          "unit_ids": [
+            "NIST_AI_RMF-page-29-part-1",
+            "NIST_AI_RMF-page-30-part-1",
+            "NIST_AI_RMF-page-31-part-1"
+          ]
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "NIST_AI_RMF-page-32-part-1",
+          "NIST_AI_RMF-page-31-part-1",
+          "NIST_AI_RMF-page-35-part-1",
+          "NIST_AI_RMF-page-36-part-1",
+          "NIST_AI_RMF-page-30-part-1",
+          "NIST_AI_RMF-page-39-part-1",
+          "NIST_AI_RMF-page-46-part-1",
+          "NIST_AI_RMF-page-14-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 2,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 1
+      },
+      {
+        "id": "GEN01",
+        "question": "What does the Generative AI Profile mean by confabulation?",
+        "expected": {
+          "act": "NIST_GENAI",
+          "unit_ids": [
+            "NIST_GENAI-page-10-part-1"
+          ]
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "NIST_GENAI-page-1-part-1",
+          "NIST_GENAI-page-5-part-1",
+          "NIST_GENAI-page-64-part-1",
+          "NIST_GENAI-page-2-part-1",
+          "NIST_GENAI-page-60-part-1",
+          "NIST_GENAI-page-42-part-1",
+          "NIST_GENAI-page-35-part-1",
+          "NIST_GENAI-page-48-part-1"
+        ],
+        "expected_retrieved": false,
+        "expected_rank": null,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_miss",
+        "elapsed_ms": 1
+      },
+      {
+        "id": "GEN02",
+        "question": "What action does MS-2.5-003 recommend for sources and citations?",
+        "expected": {
+          "act": "NIST_GENAI",
+          "unit_ids": [
+            "NIST_GENAI-page-35-part-1"
+          ]
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "NIST_GENAI-page-35-part-1",
+          "NIST_GENAI-page-34-part-1",
+          "NIST_GENAI-page-38-part-1",
+          "NIST_GENAI-page-42-part-1",
+          "NIST_GENAI-page-36-part-1",
+          "NIST_GENAI-page-37-part-1",
+          "NIST_GENAI-page-32-part-1",
+          "NIST_GENAI-page-43-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 1
+      },
+      {
+        "id": "GPAI01",
+        "question": "What technical documentation do signatories maintain under Measure 1.1 and Annex XI?",
+        "expected": {
+          "act": "GPAI_TRANSPARENCY",
+          "unit_ids": [
+            "GPAI_TRANSPARENCY-page-4-part-1"
+          ]
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "GPAI_TRANSPARENCY-page-4-part-1",
+          "GPAI_TRANSPARENCY-page-5-part-1",
+          "GPAI_TRANSPARENCY-page-2-part-1",
+          "GPAI_TRANSPARENCY-page-6-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 1
+      },
+      {
+        "id": "GPAI02",
+        "question": "How do signatories provide information to downstream providers?",
+        "expected": {
+          "act": "GPAI_TRANSPARENCY",
+          "unit_ids": [
+            "GPAI_TRANSPARENCY-page-5-part-1"
+          ]
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "GPAI_TRANSPARENCY-page-6-part-1",
+          "GPAI_TRANSPARENCY-page-4-part-1",
+          "GPAI_TRANSPARENCY-page-5-part-1",
+          "GPAI_TRANSPARENCY-page-2-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 3,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 1
+      },
+      {
+        "id": "GPAI03",
+        "question": "How do signatories respect rights reservations expressed through robots.txt?",
+        "expected": {
+          "act": "GPAI_COPYRIGHT",
+          "unit_ids": [
+            "GPAI_COPYRIGHT-page-5-part-1",
+            "GPAI_COPYRIGHT-page-6-part-1"
+          ]
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "GPAI_COPYRIGHT-page-5-part-1",
+          "GPAI_COPYRIGHT-page-6-part-1",
+          "GPAI_COPYRIGHT-page-4-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 1
+      },
+      {
+        "id": "GPAI04",
+        "question": "What Safety and Security Framework do signatories adopt under Commitment 1?",
+        "expected": {
+          "act": "GPAI_SAFETY_SECURITY",
+          "unit_ids": [
+            "GPAI_SAFETY_SECURITY-page-6-part-1",
+            "GPAI_SAFETY_SECURITY-page-7-part-1"
+          ]
+        },
+        "status": "retrieval_only",
+        "retrieved": [
+          "GPAI_SAFETY_SECURITY-page-6-part-1",
+          "GPAI_SAFETY_SECURITY-page-9-part-1",
+          "GPAI_SAFETY_SECURITY-page-7-part-1",
+          "GPAI_SAFETY_SECURITY-page-8-part-1",
+          "GPAI_SAFETY_SECURITY-page-18-part-1",
+          "GPAI_SAFETY_SECURITY-page-10-part-1",
+          "GPAI_SAFETY_SECURITY-page-16-part-1",
+          "GPAI_SAFETY_SECURITY-page-3-part-1"
+        ],
+        "expected_retrieved": true,
+        "expected_rank": 1,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "retrieval_hit",
+        "elapsed_ms": 1
+      },
+      {
+        "id": "CTRL01",
+        "question": "How do I bake a chocolate cake?",
+        "expected": null,
+        "status": "retrieval_only",
+        "retrieved": [],
+        "expected_retrieved": null,
+        "expected_rank": null,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "no_evidence",
+        "elapsed_ms": 2
+      },
+      {
+        "id": "CTRL02",
+        "question": "What is the weather in Wroclaw tomorrow?",
+        "expected": null,
+        "status": "retrieval_only",
+        "retrieved": [],
+        "expected_retrieved": null,
+        "expected_rank": null,
+        "claims": [],
+        "rejected_claims": [],
+        "claims_dropped": 0,
+        "usage": {},
+        "check": "no_evidence",
+        "elapsed_ms": 1
+      }
+    ]
+  },
+  "api": {
+    "health": "pass",
+    "sources": [
+      {
+        "source": "AI_ACT",
+        "http_status": 200,
+        "status": "retrieval_only",
+        "evidence_count": 8,
+        "source_filter_verified": true
+      },
+      {
+        "source": "DORA",
+        "http_status": 200,
+        "status": "retrieval_only",
+        "evidence_count": 8,
+        "source_filter_verified": true
+      },
+      {
+        "source": "NIST_AI_RMF",
+        "http_status": 200,
+        "status": "retrieval_only",
+        "evidence_count": 8,
+        "source_filter_verified": true
+      },
+      {
+        "source": "NIST_GENAI",
+        "http_status": 200,
+        "status": "retrieval_only",
+        "evidence_count": 8,
+        "source_filter_verified": true
+      },
+      {
+        "source": "GPAI_TRANSPARENCY",
+        "http_status": 200,
+        "status": "retrieval_only",
+        "evidence_count": 4,
+        "source_filter_verified": true
+      },
+      {
+        "source": "GPAI_COPYRIGHT",
+        "http_status": 200,
+        "status": "retrieval_only",
+        "evidence_count": 3,
+        "source_filter_verified": true
+      },
+      {
+        "source": "GPAI_SAFETY_SECURITY",
+        "http_status": 200,
+        "status": "retrieval_only",
+        "evidence_count": 8,
+        "source_filter_verified": true
+      }
+    ],
+    "invalid_source_status": 422
+  },
+  "corpus": {
+    "sha256": "82665d30347a547ad31655f8fa4ca2d75f38461fd2341a6eb0f3a0d4fd27d1e6",
+    "units": 1645,
+    "sources": {
+      "AI_ACT": 877,
+      "DORA": 601,
+      "NIST_AI_RMF": 48,
+      "NIST_GENAI": 64,
+      "GPAI_TRANSPARENCY": 6,
+      "GPAI_COPYRIGHT": 6,
+      "GPAI_SAFETY_SECURITY": 43
+    }
+  }
+}

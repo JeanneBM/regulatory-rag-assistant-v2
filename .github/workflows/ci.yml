@@ -21,6 +21,8 @@ jobs:
       - run: pip install -e ".[dev]"
       - run: ruff check src tests scripts
       - run: python -m pytest
+      - name: Web citation links and stale-evidence regression
+        run: node scripts/test-web-ui.cjs
       - name: Audit locked runtime dependencies
         run: pip-audit --disable-pip --strict -r requirements.lock
 
