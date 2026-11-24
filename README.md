@@ -31,9 +31,10 @@ Existing local corpora are refreshed automatically when NIST is absent. Azure re
 ```mermaid
 flowchart LR
   EU["EU Publications Office (Cellar)<br/>official XHTML<br/>AI Act 32024R1689 · DORA 32022R2554"]
+  NIST["NIST AI RMF 1.0: official PDF"]
   subgraph RG["Azure resource group"]
     JOB["Container Apps Job<br/>weekly import"]
-    BLOB[("Blob Storage<br/>raw XHTML · parsed corpus · manifest")]
+    BLOB[("Blob Storage<br/>raw source snapshots · parsed corpus · manifest")]
     SEARCH[("Azure AI Search<br/>BM25 + vector + semantic ranker<br/>versioned index behind an alias")]
     AOAI["Azure OpenAI<br/>text-embedding-3-small · gpt-4.1-mini"]
     WEB["Container App<br/>FastAPI API + web UI"]
@@ -41,6 +42,7 @@ flowchart LR
   end
   USER((User)) -->|HTTPS| WEB
   EU --> JOB
+  NIST --> JOB
   JOB -->|content-addressed snapshots| BLOB
   JOB -->|embed units| AOAI
   JOB -->|build index, swap alias| SEARCH
