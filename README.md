@@ -2,6 +2,30 @@
 
 Imports the EU AI Act, DORA, NIST AI RMF 1.0, the NIST Generative AI Profile and the three chapters of the EU GPAI Code of Practice from official sources. Generates cited answers with Azure OpenAI. The repository includes a CLI and a FastAPI web UI. The Azure deployment configuration uses Container Apps for the API, UI and weekly import job, and Azure AI Search for hybrid retrieval.
 
+## Documents and example questions
+
+**What can I ask this assistant?** Questions about the imported EU regulations,
+AI risk frameworks and GPAI Code chapters. It retrieves official excerpts and,
+when a model is configured, uses them to generate cited answers.
+
+| Document | What it covers | Example question |
+| --- | --- | --- |
+| **EU AI Act** | AI regulation, including prohibited practices, requirements for high-risk systems and transparency. | “What transparency obligations apply to chatbots under Article 50?” |
+| **DORA** | Digital operational resilience in the financial sector: ICT risk management, incidents, testing and third-party risk. | “What does Article 6 say about the ICT risk management framework?” |
+| **NIST AI RMF 1.0** | Voluntary AI risk management through GOVERN, MAP, MEASURE and MANAGE. | “How do the four core functions support AI risk management?” |
+| **NIST AI 600-1: GenAI Profile** | Generative AI risks and suggested actions, including confabulation, information security and evaluation. | “What does action MS-2.5-003 recommend about checking sources and citations?” |
+| **GPAI Code — Transparency** | Technical documentation and information for downstream providers of AI systems. | “What information do signatories provide to downstream providers?” |
+| **GPAI Code — Copyright** | Copyright policies and identification of rights reservations when collecting training data. | “How do signatories respect rights reservations expressed through robots.txt?” |
+| **GPAI Code — Safety and Security** | Assessment and mitigation of systemic risks for general-purpose AI models with systemic risk. | “What Safety and Security Framework do signatories adopt under Commitment 1?” |
+
+**Are all these documents law?** AI Act and DORA are EU regulations. NIST documents
+are voluntary guidance; the GPAI Code is a voluntary compliance instrument with
+commitments for signatories. Answers should preserve these distinctions.
+
+These are example research questions, not guaranteed successful answers. The corpus
+uses the editions listed below; new-source model and Azure validation remain open.
+Without model configuration, the local application returns excerpts only.
+
 ## Project status
 
 | Component | Validation |
