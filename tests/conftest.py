@@ -83,6 +83,12 @@ def cellar(monkeypatch):
                  "source_type": NIST_RMF.source_type, "version": NIST_RMF.version, "url": NIST_RMF_URL}
     monkeypatch.setattr("regrag.ingest.fetch_framework", lambda: (
         SourceDocument(NIST_RMF, b"%PDF-fake", NIST_RMF_URL, "a" * 64), [nist_unit]))
+    def fake_pdf(spec):
+        item = {**nist_unit, "id": spec.source.key + "-page-1-part-1", "act": spec.source.key,
+                "source_type": spec.source.source_type, "version": spec.source.version, "url": spec.url}
+        return SourceDocument(spec.source, b"%PDF-fake", spec.url, "b" * 64), [item]
+
+    monkeypatch.setattr("regrag.ingest.fetch_pdf_source", fake_pdf)
     fake = FakeCellar()
     monkeypatch.setattr("regrag.cellar.requests.get", fake)
     return fake

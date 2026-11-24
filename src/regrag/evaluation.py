@@ -20,18 +20,47 @@ def load_cases(path: Path) -> list[dict]:
     for case in cases:
         if not {"id", "question"} <= set(case):
             raise ValueError(f"Invalid case: {case}")
+        _expected(case)
     return cases
 
 
-def _expected(case: dict) -> tuple[str, str] | None:
+def _expected(case: dict) -> dict | None:
     expected = case.get("expected")
-    return (expected["act"], str(expected["article"])) if expected else None
+    if expected is None:
+        return None
+    if not isinstance(expected, dict) or not isinstance(expected.get("act"), str):
+        raise ValueError("Expected evidence needs an act and either article or unit_ids")
+    if "unit_ids" in expected:
+        ids = expected["unit_ids"]
+        if "article" in expected or not isinstance(ids, list) or not ids or any(
+            not isinstance(value, str) or not value.strip() for value in ids
+        ):
+            raise ValueError("Expected unit_ids must be nonempty strings, without article")
+        return {"act": expected["act"], "unit_ids": ids}
+    if expected.get("article") is None:
+        raise ValueError("Expected evidence needs article or unit_ids; null is not a locator")
+    return {"act": expected["act"], "article": str(expected["article"])}
+
+
+def _matches(item: dict, expected: dict | None) -> bool:
+    if expected is None or item.get("act") != expected["act"]:
+        return False
+    if "unit_ids" in expected:
+        return item.get("unit_id", item.get("id")) in expected["unit_ids"]
+    return str(item.get("article")) == expected["article"]
+
+
+def _retrieval_result(evidence: list[dict], expected: dict | None) -> dict:
+    ranks = [rank for rank, item in enumerate(evidence, 1) if _matches(item, expected)]
+    return {"retrieved": [item["id"] for item in evidence],
+            "expected_retrieved": bool(ranks) if expected else None,
+            "expected_rank": ranks[0] if ranks else None}
 
 
 def run_case(assistant, case: dict, retrieval_only: bool) -> dict:
     expected = _expected(case)
     row = {"id": case["id"], "question": case["question"],
-           "expected": {"act": expected[0], "article": expected[1]} if expected else None}
+           "expected": expected}
     start = perf_counter()
     try:
         if retrieval_only:
@@ -46,12 +75,10 @@ def run_case(assistant, case: dict, retrieval_only: bool) -> dict:
         if not retrieval_only:
             _record_retrieval_after_error(assistant, case, expected, row)
         return row
-    retrieved = [(e["act"], str(e["article"])) for e in result["evidence"]]
+    retrieval = _retrieval_result(result["evidence"], expected)
     row.update(
         status=result["status"],
-        retrieved=[e["id"] for e in result["evidence"]],
-        expected_retrieved=(expected in retrieved) if expected else None,
-        expected_rank=(retrieved.index(expected) + 1) if expected in retrieved else None,
+        **retrieval,
         claims=[_claim(c) for c in result["claims"]],
         # Rejected claims keep their quotes so a reviewer can judge whether the
         # verifier was right to drop them.
@@ -61,16 +88,16 @@ def run_case(assistant, case: dict, retrieval_only: bool) -> dict:
     )
     if expected and not retrieval_only:
         def cites(claims):
-            return any((c["act"], str(c["article"])) == expected for c in claims)
+            return any(_matches(c, expected) for c in claims)
         row["cited_before_verification"] = cites(result["claims"] + result["rejected_claims"])
         row["cited_after_verification"] = cites(result["claims"])
     if retrieval_only:
         if expected:
             row["check"] = "retrieval_hit" if row["expected_retrieved"] else "retrieval_miss"
         else:
-            row["check"] = "distractors_retrieved" if retrieved else "no_evidence"
+            row["check"] = "distractors_retrieved" if retrieval["retrieved"] else "no_evidence"
     elif expected:
-        cited = any((c["act"], str(c["article"])) == expected for c in result["claims"])
+        cited = any(_matches(c, expected) for c in result["claims"])
         row["check"] = ("citation_hit_needs_review" if result["status"] == "answered" and cited
                         else "expected_answer_missing")
     else:
@@ -90,17 +117,14 @@ def _record_retrieval_after_error(assistant, case: dict, expected, row: dict) ->
         evidence = assistant.retriever.retrieve(case["question"], case.get("act"))
     except Exception:
         return
-    retrieved = [(e["act"], str(e["article"])) for e in evidence]
-    row.update(retrieved=[e["id"] for e in evidence],
-               expected_retrieved=(expected in retrieved) if expected else None,
-               expected_rank=(retrieved.index(expected) + 1) if expected in retrieved else None,
-               retrieval_recorded_after_error=True)
+    row.update(**_retrieval_result(evidence, expected), retrieval_recorded_after_error=True)
 
 
 def _claim(claim: dict) -> dict:
     # act/article/label make each claim replayable through the verification rules later.
     return {key: claim.get(key) for key in
-            ("citation", "act", "article", "label", "statement", "support", "support_note",
+            ("citation", "unit_id", "url", "source_type", "version", "act", "article", "label",
+             "statement", "support", "support_note",
              "support_method", "failed_checks", "quote")}
 
 
@@ -150,13 +174,14 @@ def markdown(report: dict) -> str:
         f"Chat deployment: {models.get('chat') or '-'}; verifier deployment: {models.get('verifier') or '-'}; "
         f"claim policy: {report.get('claim_policy', '-')}.", "",
         "| Check | Result |", "| --- | --- |",
-        f"| Expected article retrieved | {s['expected_article_retrieved']} |",
-        f"| Expected article ranked first | {s['expected_article_ranked_first']} |",
-        f"| Expected article cited | {s['expected_article_cited']} |",
+        f"| Expected source locator retrieved | {s['expected_article_retrieved']} |",
+        f"| Expected source locator ranked first | {s['expected_article_ranked_first']} |",
+        f"| Expected source locator cited | {s['expected_article_cited']} |",
         f"| Correct abstentions | {s['correct_abstentions']} |",
         f"| Verifier labels | {s['claim_support_labels']} |",
         f"| Verification effect | {s['verification']} |",
         f"| Tokens | {s['tokens']} |", "",
+        "JSON expected_article_* keys are retained for compatibility; for PDF cases they measure expected unit IDs.", "",
         "Verifier labels are model judgements. Fill in the manual column for every row: is the "
         "statement fully supported by its quote, including conditions and exceptions? For rejected "
         "rows this shows whether verification removed a wrong claim or lost a correct one.", "",

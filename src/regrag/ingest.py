@@ -11,7 +11,8 @@ from datetime import UTC, datetime
 from regrag.cellar import fetch_act
 from regrag.nist import fetch_framework
 from regrag.parser import PARSER_VERSION, parse_act, require_coverage
-from regrag.sources import ACTS, NIST_RMF, Act, all_sources
+from regrag.pdf_sources import fetch_pdf_source
+from regrag.sources import ACTS, PDF_SOURCES, Act, all_sources
 
 
 def corpus_digest(units: list[dict]) -> str:
@@ -39,21 +40,22 @@ def build_corpus(acts: list[Act] | None = None, fetch=fetch_act, now: datetime |
             "fetched_from": document.fetched_from, "source_sha256": document.sha256,
         }
     if include_framework:
-        document, parsed = fetch_framework()
-        units.extend(parsed)
-        documents.append(document)
-        summary[NIST_RMF.key] = {
-            "title": NIST_RMF.title, "version": NIST_RMF.version,
-            "source_type": NIST_RMF.source_type, "units": len(parsed),
-            "fetched_from": document.fetched_from, "source_sha256": document.sha256,
-        }
+        for document, parsed in [fetch_framework()] + [fetch_pdf_source(spec) for spec in PDF_SOURCES.values()]:
+            units.extend(parsed)
+            documents.append(document)
+            source = document.act
+            summary[source.key] = {
+                "title": source.title, "version": source.version,
+                "source_type": source.source_type, "units": len(parsed),
+                "fetched_from": document.fetched_from, "source_sha256": document.sha256,
+            }
     manifest = {
         "corpus_sha256": corpus_digest(units),
         "parser_version": PARSER_VERSION,
         "fetched_at": now.isoformat(),
         "units": len(units),
         "acts": summary,
-        "note": "Original published EU acts and voluntary NIST AI RMF 1.0 guidance.",
+        "note": "Original EU acts, voluntary NIST frameworks and the voluntary GPAI Code of Practice.",
     }
     return manifest, units, documents
 
@@ -78,6 +80,6 @@ def ensure_local_corpus(store, fetch=fetch_act, log=print) -> tuple[dict, list[d
     if current and set(all_sources()) <= set(current[0]["acts"]):
         manifest, units = current
         return manifest, [u for u in units if u["act"] in all_sources()]
-    log("Importing EU acts and NIST AI RMF (first use or source update)")
+    log("Importing official EU acts, NIST frameworks and GPAI Code (first use or source update)")
     run_ingest(store, fetch=fetch, log=log)
     return store.active()

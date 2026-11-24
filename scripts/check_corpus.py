@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 from regrag.parser import corpus_stats
-from regrag.sources import ACTS
+from regrag.sources import ACTS, NIST_RMF, PDF_SOURCES, all_sources
 from regrag.storage import LocalCorpusStore
 
 HEADING = re.compile(r"^(CHAPTER|SECTION)\s+[IVXLC\d]+$", re.MULTILINE)
@@ -44,6 +44,18 @@ def main() -> int:
         if unit["act"] in ACTS and HEADING.search(unit["text"]):
             failures.append(f"{unit['id']}: contains a chapter or section heading")
             break
+
+    for key in all_sources():
+        if key not in manifest["acts"]:
+            failures.append(f"Missing registered source {key}")
+    for key, pages in {NIST_RMF.key: 48, **{k: s.pages for k, s in PDF_SOURCES.items()}}.items():
+        source_units = [u for u in units if u["act"] == key]
+        observed = {int(u["id"].split("-page-")[1].split("-")[0]) for u in source_units}
+        if observed != set(range(1, pages + 1)):
+            failures.append(f"{key}: incomplete PDF page coverage")
+        if key in PDF_SOURCES and any(u.get("source_sha256") != PDF_SOURCES[key].sha256 for u in source_units):
+            failures.append(f"{key}: unexpected PDF edition hash")
+        notice(f"{key}: {len(source_units)} units, {len(observed)}/{pages} viewer pages")
 
     social_scoring = by_label.get(("AI_ACT", "Article 5(1), point (c)"))
     if not social_scoring or not re.search(r"^\(i\) ", social_scoring["text"], re.MULTILINE) \

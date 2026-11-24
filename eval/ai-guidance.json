@@ -1,0 +1,130 @@
+[
+  {
+    "id": "RMF01",
+    "question": "What are the four core functions GOVERN MAP MEASURE and MANAGE?",
+    "act": "NIST_AI_RMF",
+    "expected": {
+      "act": "NIST_AI_RMF",
+      "unit_ids": [
+        "NIST_AI_RMF-page-25-part-1"
+      ]
+    }
+  },
+  {
+    "id": "RMF02",
+    "question": "Is the AI Risk Management Framework voluntary?",
+    "act": "NIST_AI_RMF",
+    "expected": {
+      "act": "NIST_AI_RMF",
+      "unit_ids": [
+        "NIST_AI_RMF-page-7-part-1",
+        "NIST_AI_RMF-page-47-part-1"
+      ]
+    }
+  },
+  {
+    "id": "RMF03",
+    "question": "How does GOVERN establish accountability and risk management culture?",
+    "act": "NIST_AI_RMF",
+    "expected": {
+      "act": "NIST_AI_RMF",
+      "unit_ids": [
+        "NIST_AI_RMF-page-26-part-1",
+        "NIST_AI_RMF-page-27-part-1",
+        "NIST_AI_RMF-page-28-part-1",
+        "NIST_AI_RMF-page-29-part-1"
+      ]
+    }
+  },
+  {
+    "id": "RMF04",
+    "question": "How does MAP establish the context of an AI system?",
+    "act": "NIST_AI_RMF",
+    "expected": {
+      "act": "NIST_AI_RMF",
+      "unit_ids": [
+        "NIST_AI_RMF-page-29-part-1",
+        "NIST_AI_RMF-page-30-part-1",
+        "NIST_AI_RMF-page-31-part-1"
+      ]
+    }
+  },
+  {
+    "id": "GEN01",
+    "question": "What does the Generative AI Profile mean by confabulation?",
+    "act": "NIST_GENAI",
+    "expected": {
+      "act": "NIST_GENAI",
+      "unit_ids": [
+        "NIST_GENAI-page-10-part-1"
+      ]
+    }
+  },
+  {
+    "id": "GEN02",
+    "question": "What action does MS-2.5-003 recommend for sources and citations?",
+    "act": "NIST_GENAI",
+    "expected": {
+      "act": "NIST_GENAI",
+      "unit_ids": [
+        "NIST_GENAI-page-35-part-1"
+      ]
+    }
+  },
+  {
+    "id": "GPAI01",
+    "question": "What technical documentation do signatories maintain under Measure 1.1 and Annex XI?",
+    "act": "GPAI_TRANSPARENCY",
+    "expected": {
+      "act": "GPAI_TRANSPARENCY",
+      "unit_ids": [
+        "GPAI_TRANSPARENCY-page-4-part-1"
+      ]
+    }
+  },
+  {
+    "id": "GPAI02",
+    "question": "How do signatories provide information to downstream providers?",
+    "act": "GPAI_TRANSPARENCY",
+    "expected": {
+      "act": "GPAI_TRANSPARENCY",
+      "unit_ids": [
+        "GPAI_TRANSPARENCY-page-5-part-1"
+      ]
+    }
+  },
+  {
+    "id": "GPAI03",
+    "question": "How do signatories respect rights reservations expressed through robots.txt?",
+    "act": "GPAI_COPYRIGHT",
+    "expected": {
+      "act": "GPAI_COPYRIGHT",
+      "unit_ids": [
+        "GPAI_COPYRIGHT-page-5-part-1",
+        "GPAI_COPYRIGHT-page-6-part-1"
+      ]
+    }
+  },
+  {
+    "id": "GPAI04",
+    "question": "What Safety and Security Framework do signatories adopt under Commitment 1?",
+    "act": "GPAI_SAFETY_SECURITY",
+    "expected": {
+      "act": "GPAI_SAFETY_SECURITY",
+      "unit_ids": [
+        "GPAI_SAFETY_SECURITY-page-6-part-1",
+        "GPAI_SAFETY_SECURITY-page-7-part-1"
+      ]
+    }
+  },
+  {
+    "id": "CTRL01",
+    "question": "How do I bake a chocolate cake?",
+    "expected": null
+  },
+  {
+    "id": "CTRL02",
+    "question": "What is the weather in Wroclaw tomorrow?",
+    "expected": null
+  }
+]
