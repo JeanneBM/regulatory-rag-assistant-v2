@@ -4,12 +4,14 @@ The local checks and the Azure checks are separate. Keep all reports, including 
 This session validates the seven-source revision; the older two-source Azure smoke
 is not evidence for the NIST/GPAI additions. No new corpus features are planned in this session.
 
-**25 November session checkpoint:** the full guidance run completed and all 36 claims
-were source-reviewed, revealing false rejections and unsupported details in shown
-answers. See the [report and candidate fix](../evidence/azure-guidance-review-2026-11-25.md).
-The detailed EU report `eval-20261125T174632Z.json` is still needed. Keep the working
-Azure environment for review and a corrected evaluation; these rule/prompt changes
-need no new provisioning, embedding or import.
+**25 November session checkpoint:** the original guidance baseline was reviewed,
+then the ten-case EU rerun completed with retrieval/citations 8/8 and abstentions 2/2.
+[All 26 EU claims were assessed](../evidence/azure-eu-review-2026-11-25.md): four shown
+claims omit details and one qualifier rule falsely rejected a supported assertion.
+The latest narrow rule correction passed 158 offline tests; its live check and the
+new guidance rerun report remain pending. Keep the working Azure environment until
+review and evidence capture finish. These code changes need no new provisioning,
+embedding or import.
 
 ## 1. Prepare the checkout
 

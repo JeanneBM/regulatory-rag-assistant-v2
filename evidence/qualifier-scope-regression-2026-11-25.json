@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-25",
+  "base_commit": "460cc3daa82ab3e240b1cf3490b08f85e65b09b2",
+  "scope": "Offline reference-qualifier correction following the EU source review; not a live Azure rerun.",
+  "checks": [
+    {
+      "command": "python -m pytest",
+      "result": "passed",
+      "tests": 158
+    },
+    {
+      "command": "ruff check src tests scripts",
+      "result": "passed"
+    }
+  ],
+  "files_sha256": {
+    "src/regrag/verification.py": "a9ada29f1dcf49a11c5fd8ba8a9f135301516d86629e8973b9e7d1d4d1bcefb8",
+    "tests/test_verification_reference_scope.py": "6adef765f73f03fcae1db2dd8a1d3e862f2ccea79b044bda75afc039e73746db"
+  },
+  "regression_cases": [
+    "An unqualified article reference does not inherit a qualifier belonging to another reference.",
+    "The article that is qualified cannot be asserted unconditionally.",
+    "A later applicable qualifier is still checked after an unrelated qualified reference."
+  ],
+  "notes": [
+    "The full quote still reaches model verification after deterministic checks.",
+    "Existing EU rules, PDF numeric checks and strict model acceptance remain in place.",
+    "No original report data, deployment identifiers or credentials are included in this public artifact.",
+    "A live check of the narrow correction and the new guidance rerun report remain pending."
+  ]
+}

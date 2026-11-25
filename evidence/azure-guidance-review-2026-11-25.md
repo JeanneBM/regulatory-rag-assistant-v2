@@ -51,3 +51,11 @@ terminal summaries cover 22 cases with retrieval 18/18, citations 14/18 and abst
 Next: review the EU report, rerun the corrected full Azure evaluation and assess
 shown/rejected claims. Keep the working Azure environment until that evidence is
 captured. These rule, prompt and fixture changes require no new import or provisioning.
+
+## Later session update
+
+The detailed EU rerun has since been supplied and all 26 of its statements reviewed.
+Its automatic citations are 8/8; four shown claims remain partial and one reference
+qualifier caused a false rejection. See [the EU review](azure-eu-review-2026-11-25.md).
+The new post-correction guidance report is still needed. This original guidance
+baseline is preserved and is not relabelled as a result of the corrected code.

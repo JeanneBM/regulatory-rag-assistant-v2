@@ -212,9 +212,17 @@ def rule_check(claim: dict) -> dict | None:
     if TEXT_EXCEPTION_RE.search(quote) and not says_exception:
         return _partial("Statement omits an exception or derogation stated in the cited text")
     scope_text = normalize(governing)
+    statement_refs = set(ARTICLE_REF_RE.findall(statement))
     for in_text, in_statement in QUALIFIERS:
-        found = in_text.search(scope_text)
-        if found and not in_statement.search(statement):
+        if in_statement.search(statement):
+            continue
+        for found in in_text.finditer(scope_text):
+            qualified_ref = ARTICLE_REF_RE.match(scope_text[found.end():].lstrip(" ,"))
+            if qualified_ref and qualified_ref.group(1) not in statement_refs:
+                # In "Article A and, where applicable, Article B", the qualifier
+                # governs B. A claim only about A need not inherit it. The model
+                # still checks the full quote and the scope of the assertion.
+                continue
             return _partial(f"Statement drops the qualifier '{found.group(0)}' of the cited text")
     # "an AI system referred to in Annex III" limits the scope to the systems listed there.
     for annex in sorted(set(SCOPE_ANNEX_RE.findall(scope_text))):
