@@ -1,0 +1,32 @@
+{
+  "cases": 22,
+  "sources": 7,
+  "answerable": 18,
+  "controls": 4,
+  "expected_retrieved": "18/18",
+  "expected_ranked_first": "18/18",
+  "expected_cited": "18/18",
+  "correct_abstentions": "4/4",
+  "controls_without_evidence": "3/4",
+  "technical_errors": 0,
+  "claims_generated": 62,
+  "claims_shown": 58,
+  "claims_rejected": 4,
+  "shown_source_assessment": {
+    "supported": 46,
+    "partial": 11,
+    "wrong": 1
+  },
+  "rejected_source_assessment": {
+    "supported_false_rejection": 1,
+    "partial_justified_rejection": 3
+  },
+  "total_tokens": 112611,
+  "latency_p50_ms": 4526.0,
+  "latency_max_ms": 19263,
+  "scope": "Two full CLI development-set runs against real Azure services; later narrow reference-qualifier correction has a separate pending live check.",
+  "reviewer": "assistant source assessment; not independent expert sign-off",
+  "tested_application_commit_recorded": false,
+  "resolved_model_version_recorded": false,
+  "comparison_note": "Two transparency expected locators changed before the guidance rerun; original runs were not rescored."
+}

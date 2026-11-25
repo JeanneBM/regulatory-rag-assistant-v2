@@ -1,0 +1,11 @@
+[
+  {
+    "id": "SCOPE01",
+    "question": "Under Article 54(3)(a) of the AI Act, what must an authorised representative verify about Annex XI technical documentation and the provider's Article 53 obligations?",
+    "act": "AI_ACT",
+    "expected": {
+      "act": "AI_ACT",
+      "unit_ids": ["AI_ACT-art-54-par-3-pt-a"]
+    }
+  }
+]

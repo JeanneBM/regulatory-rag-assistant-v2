@@ -43,19 +43,15 @@ and scope. GPAI02 accepts page 5 for contacts and page 6 for actual provision of
 downstream information and safeguards. The original 8/10 score is unchanged.
 Future comparisons must distinguish expectation changes from quality improvements.
 
-The user-reported ten-case EU run had retrieval 8/8, citations 6/8 and abstentions
-2/2. Its detailed report is still needed, particularly for A01/A02. The combined
-terminal summaries cover 22 cases with retrieval 18/18, citations 14/18 and abstentions
-4/4; only the twelve-case guidance details have been source-reviewed here.
+At the time of this baseline assessment, the EU run was available only as a
+terminal summary: retrieval 8/8, citations 6/8 and abstentions 2/2. These are historical
+values; the baseline report above has not been rescored.
 
-Next: review the EU report, rerun the corrected full Azure evaluation and assess
-shown/rejected claims. Keep the working Azure environment until that evidence is
-captured. These rule, prompt and fixture changes require no new import or provisioning.
+## Later full-round update
 
-## Later session update
-
-The detailed EU rerun has since been supplied and all 26 of its statements reviewed.
-Its automatic citations are 8/8; four shown claims remain partial and one reference
-qualifier caused a false rejection. See [the EU review](azure-eu-review-2026-11-25.md).
-The new post-correction guidance report is still needed. This original guidance
-baseline is preserved and is not relabelled as a result of the corrected code.
+Both matching rerun reports have now been supplied and every shown/rejected statement
+reviewed. EU has citations 8/8; guidance has 10/10; controls abstain 4/4. The newer
+guidance source assessment finds 28/36 shown statements supported, 7 partial and one
+wrong actor. See the [combined evaluation](azure-full-evaluation-2026-11-25.md) for all
+22 cases and the remaining narrow regression. This earlier guidance baseline is
+retained as its original result.

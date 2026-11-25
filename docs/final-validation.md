@@ -4,14 +4,25 @@ The local checks and the Azure checks are separate. Keep all reports, including 
 This session validates the seven-source revision; the older two-source Azure smoke
 is not evidence for the NIST/GPAI additions. No new corpus features are planned in this session.
 
-**25 November session checkpoint:** the original guidance baseline was reviewed,
-then the ten-case EU rerun completed with retrieval/citations 8/8 and abstentions 2/2.
-[All 26 EU claims were assessed](../evidence/azure-eu-review-2026-11-25.md): four shown
-claims omit details and one qualifier rule falsely rejected a supported assertion.
-The latest narrow rule correction passed 158 offline tests; its live check and the
-new guidance rerun report remain pending. Keep the working Azure environment until
-review and evidence capture finish. These code changes need no new provisioning,
-embedding or import.
+**25 November session checkpoint:** both full Azure sets are complete and all
+62 statements have been source-reviewed: 22 cases, retrieval/citations 18/18,
+abstentions 4/4, zero technical errors. [Combined findings](../evidence/azure-full-evaluation-2026-11-25.md)
+record 46 supported, 11 partial and one wrong shown statement. Coverage is evaluated;
+strict semantic fidelity remains a measured limitation.
+
+The later reference-qualifier correction passed 158 offline tests. Its single
+[targeted case](../eval/reference-scope.json) still needs a live result. In the
+current authenticated lab checkout, after pulling the latest revision:
+
+```bash
+REGRAG_BACKEND=azure python -m regrag eval --cases eval/reference-scope.json --output .local/azure-reference-scope
+```
+
+This targeted check does not change either completed development set or erase its
+semantic failures. The CLI reports also do not attest the latest Container Apps
+image; capture a final deployed-image check when publishing the corrected web
+revision. Keep the environment until those results are saved, then record cleanup.
+These rule and evaluation-data changes need no new provisioning, embedding or import.
 
 ## 1. Prepare the checkout
 

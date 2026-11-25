@@ -27,17 +27,18 @@ are voluntary guidance; the GPAI Code is a voluntary compliance instrument with
 commitments for signatories. Answers should preserve these distinctions.
 
 These are example research questions, not guaranteed successful answers. The corpus
-uses the editions listed below. Full Azure evaluation ran on 25 November 2026;
-the [guidance source review](evidence/azure-guidance-review-2026-11-25.md) found answer-quality defects that still require a verified rerun.
+uses the editions listed below. The [full seven-source Azure evaluation](evidence/azure-full-evaluation-2026-11-25.md)
+is complete: 22 cases, expected-source retrieval/citations 18/18 and correct abstentions 4/4.
+Statement-level source assessment still finds semantic errors; these results do not establish fully faithful answers.
 Without model configuration, the local application returns excerpts only.
 
 ## Project status
 
 | Component | Validation |
 | --- | --- |
-| Azure EU rerun | 25 November 2026, 18:23 UTC: ten cases; retrieval, first rank and post-verification citations 8/8, abstentions 2/2, zero technical errors. All 26 generated claims were source-reviewed: 18/22 shown claims supported and 4 partial; three justified rejections and one false rejection. Citation coverage improved from the earlier 6/8, while answer-quality omissions remain. [EU findings](evidence/azure-eu-review-2026-11-25.md). |
-| Azure guidance baseline | Twelve cases before the correction: retrieval 10/10, citations 8/10 and abstentions 2/2. Source review found 19/25 shown claims supported, 5 partial and 1 wrong, plus 7 false rejections. The new guidance rerun report is still needed; results from different revisions are kept separate. [Guidance findings](evidence/azure-guidance-review-2026-11-25.md). |
-| Verification corrections | 25 November 2026: 158 offline tests and lint passed. The latest correction keeps a qualifier attached to its own article reference instead of extending it to another reference. Strict model verification remains in place; live validation of this narrow correction is pending. Synthetic model replies in offline tests do not prove live accuracy. [Current checks](evidence/qualifier-scope-regression-2026-11-25.json) · [Earlier PDF correction](evidence/verification-regression-2026-11-25.json). |
+| Full seven-source Azure evaluation | 25 November 2026: both full sets executed and reviewed, 22 cases; retrieval, first rank and post-verification citations 18/18, correct abstentions 4/4, zero technical errors. Real Azure Search and OpenAI via the CLI. [Results](evidence/azure-full-evaluation-2026-11-25.md) · [Aggregate JSON](evidence/azure-full-evaluation-2026-11-25.json). |
+| Claim fidelity | Assistant source assessment of all 62 statements: of 58 shown, 46 supported, 11 partial and 1 wrong; three justified rejections and one false rejection. All shown statements had model-supported labels. Strict semantic fidelity is not passed; missing conditions and the GPAI02 recipient/signatory error remain explicit limitations. [Full assessment summary](evidence/azure-full-evaluation-2026-11-25.md). |
+| Latest reference-qualifier correction | 158 offline tests and lint passed. The later narrow correction keeps a qualifier local to its article reference; its targeted live result remains pending. [Single regression case](eval/reference-scope.json) · [Offline checks](evidence/qualifier-scope-regression-2026-11-25.json). |
 | Azure web smoke | 25 November 2026: cited answers for NIST GenAI and GPAI Copyright, plus retrieval-gated abstention for an unrelated question, observed in the deployed UI. Three final trials; not a full seven-source evaluation. Cleanup pending. [Smoke evidence](evidence/azure-web-smoke-2026-11-25.md). |
 | Historical local regression | 24 November 2026: 140 tests, lint, locked-dependency audit, UI regression and seven-source API smoke passed. Local retrieval was 8/8 for EU articles and 9/10 for guidance locators. These are historical local results; see the later Azure run and review above. [Local evidence](evidence/final-local-validation-2026-11-24.json) · [Final session in Git Bash](docs/final-validation.md). |
 | Additional AI guidance | Live local import and retrieval evaluated on 24 November 2026; 9/10 expected source locators retrieved, 6/10 ranked first and 2/2 controls without evidence. These new-source results do not establish model answer quality or Azure integration. [Evidence](evidence/ai-guidance-validation-2026-11-24.md). |
@@ -93,7 +94,8 @@ regrag eval --cases eval/ai-guidance.json --retrieval-only
 
 Existing local corpora refresh when any registered source is missing. Azure needs an
 updated application image and a successful ingest before these source filters work.
-See [current validation and remaining gates](evidence/ai-guidance-validation-2026-11-24.md).
+See the [completed full Azure evaluation and remaining limitations](evidence/azure-full-evaluation-2026-11-25.md).
+The [earlier local baseline](evidence/ai-guidance-validation-2026-11-24.md) is retained for comparison.
 
 ## Architecture
 

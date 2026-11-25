@@ -47,5 +47,6 @@ to model verification. Six synthetic scope regressions and all prior tests pass
 
 The original run was not recalculated with the correction. Live confirmation of
 the narrow rule change remains pending. The report does not record its application
-commit or resolved model version. The new guidance rerun report is still needed;
-its earlier baseline is not combined with this EU run as one corrected-version score.
+commit or resolved model version. The matching guidance rerun has now been reviewed;
+see the [completed combined evaluation](azure-full-evaluation-2026-11-25.md). Earlier
+baseline runs remain separate from this full round.
