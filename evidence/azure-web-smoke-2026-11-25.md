@@ -15,6 +15,12 @@ Earlier NIST attempts returned ResourceNotFoundError while an import execution w
 reported Running. The streaming-log command later found no replicas. Successful
 later requests show recovery; the exact cause of the earlier error was not established.
 
+## First-run waiting time
+
+**First-run waiting time:** for this fresh seven-source lab, allow roughly **10–15 minutes after the ingest job starts** before trying the first questions. This is an operational allowance based on the 25 November session, not a measured service guarantee; downloads, embedding, indexing and retries can take longer. The web page can already be visible while the search alias is not yet available. `azd deploy` starts import asynchronously and does not wait for it to finish. Prefer a successful ingest execution plus a cited smoke answer as the readiness signal. If it is still failing after that allowance, inspect execution status and logs rather than restarting deployment or launching duplicate imports.
+
+The operator screenshots show failed earlier requests and successful later requests. Exact deployment-to-readiness timing was not captured, so the range above should not be reported as a benchmark.
+
 ## Evidence limits
 
 - This is a three-question manual smoke, not a full evaluation of all seven sources.
