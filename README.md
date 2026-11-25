@@ -186,7 +186,11 @@ azd env set AZURE_BUDGET_AMOUNT 50 && azd env set AZURE_BUDGET_EMAIL you@example
 azd up
 ```
 
-`azd up` provisions [infra/main.bicep](infra/main.bicep), builds and deploys the image, then runs the [postdeploy hook](scripts/postdeploy.sh), which points the ingest job at the new image and starts the first import (about 2–5 minutes). Until the import finishes, questions fail with a search error. Follow the import:
+`azd up` provisions [infra/main.bicep](infra/main.bicep), builds and deploys the image, then runs the [postdeploy hook](scripts/postdeploy.sh), which points the ingest job at the new image and starts the first import. Until the import finishes, questions can fail with a search error.
+
+**First-run waiting time:** for this fresh seven-source lab, allow roughly **10–15 minutes after the ingest job starts** before trying the first questions. This is an operational allowance based on the 25 November session, not a measured service guarantee; downloads, embedding, indexing and retries can take longer. The web page can already be visible while the search alias is not yet available. `azd deploy` starts import asynchronously and does not wait for it to finish. Prefer a successful ingest execution plus a cited smoke answer as the readiness signal. If it is still failing after that allowance, inspect execution status and logs rather than restarting deployment or launching duplicate imports.
+
+Follow the import:
 
 ```bash
 az containerapp job execution list -n "$(azd env get-value INGEST_JOB_NAME)" -g "$(azd env get-value AZURE_RESOURCE_GROUP)" -o table
