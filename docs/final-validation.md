@@ -4,6 +4,13 @@ The local checks and the Azure checks are separate. Keep all reports, including 
 This session validates the seven-source revision; the older two-source Azure smoke
 is not evidence for the NIST/GPAI additions. No new corpus features are planned in this session.
 
+**25 November session checkpoint:** the full guidance run completed and all 36 claims
+were source-reviewed, revealing false rejections and unsupported details in shown
+answers. See the [report and candidate fix](../evidence/azure-guidance-review-2026-11-25.md).
+The detailed EU report `eval-20261125T174632Z.json` is still needed. Keep the working
+Azure environment for review and a corrected evaluation; these rule/prompt changes
+need no new provisioning, embedding or import.
+
 ## 1. Prepare the checkout
 
 For a new checkout:
@@ -47,13 +54,10 @@ only full model evaluation can establish whether the assistant abstains.
 
 ## 3. Authenticate and select the Azure route
 
-```bash
-az login
-az account show --query '{name:name,state:state}' -o json
-```
-
-Use the intended subscription (`az account set --subscription '<SUBSCRIPTION_ID>'`)
-before deploying. Do not send access tokens or keys in chat or commit them.
+Reuse the authenticated session and selected azd environment when they already work.
+For a new session, authenticate with `az login --use-device-code` and select the
+intended subscription before deploying. Do not send access tokens or keys in chat
+or commit them.
 
 - **Existing deployment:** use its original azd environment and recorded resource group;
   verify ownership before changing or deleting it. Deploy this revision with `azd deploy`
@@ -70,7 +74,7 @@ or incomplete deployment blocks the following checks.
 From the selected, successfully deployed azd environment:
 
 ```bash
-azd env get-values > .env.azure
+azd env get-values | tr -d '\r' > .env.azure
 set -a
 source .env.azure
 set +a
@@ -90,7 +94,8 @@ REGRAG_BACKEND=azure regrag eval --cases eval/pilot.json --output .local/final-a
 REGRAG_BACKEND=azure regrag eval --cases eval/ai-guidance.json --output .local/final-azure-guidance
 ```
 
-Open the Markdown reports. For every shown and rejected claim, review its quotation,
+Open the JSON reports for full quotations and use the Markdown tables as a checklist.
+For every shown and rejected claim, review its quotation,
 conditions, exceptions, signatory scope and legal force. A correct citation is not proof
 that the claim follows from it. Check both controls; errors are not abstentions.
 Record usage, latency, model/deployment names, the tested commit and the result.

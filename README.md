@@ -27,15 +27,18 @@ are voluntary guidance; the GPAI Code is a voluntary compliance instrument with
 commitments for signatories. Answers should preserve these distinctions.
 
 These are example research questions, not guaranteed successful answers. The corpus
-uses the editions listed below. A three-question Azure web smoke passed on 25 November 2026; broader answer-quality evaluation remains open.
+uses the editions listed below. Full Azure evaluation ran on 25 November 2026;
+the [guidance source review](evidence/azure-guidance-review-2026-11-25.md) found answer-quality defects that still require a verified rerun.
 Without model configuration, the local application returns excerpts only.
 
 ## Project status
 
 | Component | Validation |
 | --- | --- |
+| Full Azure evaluation | 25 November 2026: the twelve-case guidance run retrieved expected sources 10/10, cited them 8/10 after verification and correctly abstained 2/2, with zero technical errors. Source review found 19/25 shown claims fully supported, 5 partial and 1 wrong, plus 7 false rejections. The user-reported EU run adds retrieval 8/8, citations 6/8 and abstentions 2/2; its detailed JSON is still needed for review. Answer quality remains open. [Guidance findings](evidence/azure-guidance-review-2026-11-25.md). |
+| Verification correction | 25 November 2026: 152 offline tests, lint and UI regression passed. The new synthetic regression examples verify model routing, source context and strict filtering. Live Azure validation of this correction remains pending; model responses in these tests are fakes. [Check results](evidence/verification-regression-2026-11-25.json). |
 | Azure web smoke | 25 November 2026: cited answers for NIST GenAI and GPAI Copyright, plus retrieval-gated abstention for an unrelated question, observed in the deployed UI. Three final trials; not a full seven-source evaluation. Cleanup pending. [Smoke evidence](evidence/azure-web-smoke-2026-11-25.md). |
-| Final local regression | 24 November 2026: 140 tests, lint, locked-dependency audit, UI regression and seven-source API smoke passed. Retrieval remains 8/8 for EU articles and 9/10 for guidance locators; full seven-source model/Azure evaluation is still open; see the later web smoke above. [Final local evidence](evidence/final-local-validation-2026-11-24.json) · [Final session in Git Bash](docs/final-validation.md). |
+| Historical local regression | 24 November 2026: 140 tests, lint, locked-dependency audit, UI regression and seven-source API smoke passed. Local retrieval was 8/8 for EU articles and 9/10 for guidance locators. These are historical local results; see the later Azure run and review above. [Local evidence](evidence/final-local-validation-2026-11-24.json) · [Final session in Git Bash](docs/final-validation.md). |
 | Additional AI guidance | Live local import and retrieval evaluated on 24 November 2026; 9/10 expected source locators retrieved, 6/10 ranked first and 2/2 controls without evidence. These new-source results do not establish model answer quality or Azure integration. [Evidence](evidence/ai-guidance-validation-2026-11-24.md). |
 | CLI pilot | Completed on 13 November 2026 with local TF-IDF retrieval and Azure OpenAI `gpt-4.1-nano`. The expected article ranked first for 8/8 answerable questions and appeared in citations for 7/8 after verification. Both controls correctly abstained, with zero execution errors across all ten questions. |
 | FastAPI and web UI | Local browser smoke test passed for a cited response and an abstention. Both questions also passed through the deployed Azure API with hybrid Azure AI Search and Azure OpenAI. See the [deployment and test manual](evidence/web-validation-manual.md). |
@@ -46,7 +49,7 @@ The official-source import covered 113/113 AI Act and 64/64 DORA articles across
 
 ## NIST AI RMF 1.0
 
-The default import also fetches the official [NIST AI 100-1 PDF](https://doi.org/10.6028/NIST.AI.100-1), version 1.0 (January 2023). This is **voluntary guidance, not EU legislation**. Source type and version travel through retrieval, generation and citations; the answer prompt preserves this distinction and a rule rejects obligation wording for NIST claims under the default strict policy.
+The default import also fetches the official [NIST AI 100-1 PDF](https://doi.org/10.6028/NIST.AI.100-1), version 1.0 (January 2023). This is **voluntary guidance, not EU legislation**. Source type and version travel through retrieval, generation, verification and citations. A rule rejects explicit mandatory wording for NIST claims; descriptive prerequisites such as governance requiring attention are sent to the model for semantic review.
 
 ```bash
 regrag ingest
@@ -136,7 +139,7 @@ flowchart LR
 3. **Index.** Units are embedded and uploaded to a new index named after the corpus digest, the embedding deployment and the schema version. The alias moves only after every document has been counted. An unchanged corpus re-uses its index, so the weekly import costs no embeddings. The previous index is kept for rollback, and older ones are deleted.
 4. **Retrieve.** A hybrid keyword and vector query, filtered by act if requested, is re-ranked by the semantic ranker. The assistant abstains without calling the model when no result reaches the reranker threshold. The threshold is a provisional 1.2 out of 4 that needs calibration.
 5. **Generate.** Azure OpenAI returns statements through a strict JSON schema. Each statement cites one excerpt ID from an enum of the excerpts actually supplied. **The model never writes quotations.** The application attaches the full text of the cited unit, so a quote cannot be invented, altered or cut before a condition. Excerpt IDs the model writes into a statement ("(E3)", "according to E3") are removed. At most four claims are kept; extras are dropped and counted rather than failing the answer.
-6. **Verify.** Each claim is checked against its quotation. Rules first: figures and article references must appear in the cited text; a power ("may") must not become an obligation ("shall") or the reverse; the statement must not invent an exception, and must keep the exceptions, limiting qualifiers ("to their best extent", "where appropriate") and Annex scope limits of the cited text. Then a second model call answers five checks (actor, modality, conditions, exceptions, additions) and labels the claim `supported`, `partial` or `unsupported`; a `supported` label with a failed check is downgraded to `partial`. Under the default `strict` policy only `supported` claims are shown. Rejected claims are listed with the reason. If none remain, the answer is an abstention.
+6. **Verify.** Each claim is checked against its quotation. Numeric and article-reference rules apply to all sources. EU paragraph/point units also have rules for legal force, exceptions, qualifiers and Annex scope. NIST claims have a guard against explicit mandatory wording. Whole PDF pages can contain unrelated measures and table rows, so their semantic scope and modality are checked by the model rather than page-wide exception keywords. The model receives the registered source type and edition and answers five checks (actor, modality, conditions, exceptions, additions), then labels the claim `supported`, `partial` or `unsupported`. A `supported` label with a failed check is downgraded to `partial`. Under the default `strict` policy only `supported` claims are shown. Rejected claims retain their reasons. If none remain, the answer is an abstention.
 
 Truncated, filtered or refused model replies, malformed output and verifier inconsistencies are errors, never abstentions. The verifier is itself a model, so it reduces partial-support errors without eliminating them. Manual review remains part of the evaluation.
 
@@ -165,7 +168,7 @@ export AZURE_OPENAI_API_KEY=<key>      # or omit and use `az login` with the Cog
 regrag eval
 ```
 
-One run produces both sides of the comparison on the same retrieved fragments and the same generation. `summary.verification` reports claims generated and claims shown, rejections by rule and by the model, and whether the expected article was cited before and after verification. The Markdown report lists every claim, including the rejected ones with their quotes, and has a manual-review column. Filling in that column shows whether verification removed wrong claims or lost correct ones. Run the same ten questions against v1 to compare. Reports also name the chat and verifier deployments, and a generation error still records what was retrieved.
+One run produces both sides of the comparison on the same retrieved fragments and the same generation. `summary.verification` reports claims generated and claims shown, rejections by rule and by the model, and whether the expected article was cited before and after verification. The Markdown report lists every shown and rejected claim and has a review column; the JSON preserves their full quotations. Review those quotations to determine whether verification removed wrong claims or lost correct ones. Reports also name the chat and verifier deployments, and a generation error still records what was retrieved.
 
 The first pilot and its manual review are in [evidence/](evidence/eval-20261113T115349Z-review.md): the model verifier passed 21 of 21 shown claims, of which manual review found 4 partial and 2 wrong. The rules for legal force, exceptions and qualifiers were added afterwards and are checked against those 26 reviewed claims (`tests/test_pilot_review.py`). That shows they do what was intended there, not how they generalise; the next pilot should add new questions.
 
@@ -239,7 +242,7 @@ All settings are environment variables, documented in [.env.example](.env.exampl
 ## Limitations
 
 - The corpus is the original published acts, not consolidated versions. Amendments, corrigenda, delegated and implementing acts, annexes and recitals are not indexed. Retrieval timestamps are not dates of application.
-- Retrieval thresholds are provisional, and the pilot set is small (8 answerable questions, 2 controls). Calibrate on 30–50 expert-reviewed questions, including adversarial ones, before relying on abstention behaviour.
+- Retrieval thresholds are provisional, and the two development sets are small (18 answerable questions, 4 controls). Calibrate on 30–50 expert-reviewed questions, including adversarial ones, before relying on abstention behaviour.
 - Claim verification is model-based and can be wrong in both directions. Keep the manual-review column in eval reports. The deterministic rules work on English quotations with English or Polish statements and catch only the patterns they name.
 - Each claim is checked against its own quotation. An answer can consist only of supported claims and still mislead by omission, for example by leaving out an exemption in another paragraph (AI Act Article 53(2) in the first pilot).
 - Point units carry the text introducing their list, so a claim drawn from that introduction is cited as the point.

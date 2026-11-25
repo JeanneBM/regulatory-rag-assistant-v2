@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-25",
+  "base_commit": "16fdb1a5d70dd266ec01f4af2c87be1a73a575c8",
+  "scope": "Offline candidate verification correction; synthetic examples and fake model replies, not live Azure validation.",
+  "python": "3.12.14",
+  "packages": {
+    "pytest": "9.2.0",
+    "ruff": "0.17.6",
+    "openai": "3.59.0",
+    "azure-search-documents": "12.1.0"
+  },
+  "checks": [
+    {
+      "command": "python -m pytest",
+      "result": "passed",
+      "tests": 152,
+      "warnings": 1,
+      "warning": "Host anyio pytest plugin uses a deprecated CallSpec2 alias."
+    },
+    {
+      "command": "ruff check src tests scripts",
+      "result": "passed"
+    },
+    {
+      "command": "node scripts/test-web-ui.cjs",
+      "result": "passed"
+    }
+  ],
+  "files_sha256": {
+    "src/regrag/verification.py": "e807e73288bd37af0619598e72adf64da5c00c2c82dd8ca0a0966c631e8efa31",
+    "src/regrag/generation.py": "abb9368b930cac00c9581e652d6e1218216a5857fc07d50e2be644f971166a44",
+    "eval/ai-guidance.json": "01f412ef05c79b9f57e58c8a9e498ba560698d6057bffd8a31bca47f8e428c8e",
+    "tests/test_verification_pdf.py": "c18c8e776c90116a12791236d119e5e45066acb22e57c6edd9e5e30280b132b1"
+  },
+  "notes": [
+    "New tests exercise PDF scope routing, NIST functional wording, registered source metadata, numeric rejection and strict actor-check handling.",
+    "Existing EU paragraph/point regression tests remain included.",
+    "GPAI01 expects PDF page 5; GPAI02 accepts pages 5 and 6. Original evaluation scores were not recomputed.",
+    "Raw user reports and statement-by-statement assessments remain private; this public evidence includes no deployment identifiers or original report payloads.",
+    "No dependency or infrastructure configuration changed. No live Azure calls were made for this correction."
+  ]
+}

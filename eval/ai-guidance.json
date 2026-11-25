@@ -78,7 +78,7 @@
     "expected": {
       "act": "GPAI_TRANSPARENCY",
       "unit_ids": [
-        "GPAI_TRANSPARENCY-page-4-part-1"
+        "GPAI_TRANSPARENCY-page-5-part-1"
       ]
     }
   },
@@ -89,7 +89,8 @@
     "expected": {
       "act": "GPAI_TRANSPARENCY",
       "unit_ids": [
-        "GPAI_TRANSPARENCY-page-5-part-1"
+        "GPAI_TRANSPARENCY-page-5-part-1",
+        "GPAI_TRANSPARENCY-page-6-part-1"
       ]
     }
   },

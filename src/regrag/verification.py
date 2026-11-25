@@ -5,19 +5,21 @@ support only part of a statement. Provenance checks cannot catch that, so every
 generated claim is checked against its quotation before it is shown:
 
 1. Deterministic rules. Figures and article references in the statement must occur
-   in the cited text. The legal force must match: a power ("may") must not become an
+   in the cited text. For EU paragraph/point units, the legal force must match: a power ("may") must not become an
    obligation ("shall") or the reverse. The statement must not invent an exception,
    and must keep the exceptions and limiting qualifiers ("to their best extent",
-   "where appropriate") of the cited text.
+   "where appropriate") of the cited text. PDF page units can contain several
+   unrelated measures, so their semantic scope and modality are checked by the model.
 2. A separate Azure OpenAI call answers five checks per claim (actor, modality,
    conditions, exceptions, additions) and then labels it `supported`, `partial` or
    `unsupported`. A `supported` label with a failed check is downgraded to `partial`.
 
-The rules for legal force, exceptions and qualifiers come from the manual review of
+The EU rules for legal force, exceptions and qualifiers come from the manual review of
 the 2026-11-13 pilot (evidence/eval-20261113T115349Z-review.md): the model verifier
 then labelled 21 of 21 shown claims `supported`, including one that turned "the Board
-may" into "shall" and one that invented a research exception. The rules are written
-to have few false positives; they cannot judge meaning, so the model check stays.
+may" into "shall" and one that invented a research exception. The 2026-11-25 guidance
+review found false rejections when these keyword rules were applied to full PDF pages;
+numeric checks remain, but applicability needs semantic review with the source type.
 
 Under the default `strict` policy only `supported` claims are returned; the others
 are reported as rejected with the reason. The verifier is itself a model, so it
@@ -26,7 +28,7 @@ reduces but does not eliminate unsupported claims. Manual review remains require
 import re
 
 from regrag.generation import BARE_MARKER_RE, structured_call
-from regrag.sources import ACTS
+from regrag.sources import ACTS, all_sources
 from regrag.text import normalize, numbers
 
 SUPPORT_LABELS = ["supported", "partial", "unsupported"]
@@ -46,6 +48,12 @@ STATEMENT_OBLIGATION_RE = re.compile(
     r"|musi|muszą|należy|powin\w*|zobowiązan\w*|obowiązan\w*|obowiązek|wymaga\w*)\b", re.IGNORECASE)
 STATEMENT_PERMISSION_RE = re.compile(
     r"\b(?:may|can|could|allowed|permitted|entitled|empowered|może|mogą|uprawnion\w*|wolno)\b",
+    re.IGNORECASE)
+# "requires attention" can describe a functional prerequisite in voluntary guidance.
+# Reserve the deterministic NIST guard for explicit mandatory wording; the model
+# still checks whether any other wording incorrectly asserts a legal duty.
+NIST_MANDATORY_RE = re.compile(
+    r"\b(?:shall|must|obliged|obligated|has\s+to|have\s+to|musi|muszą|zobowiązan\w*|obowiązan\w*)\b",
     re.IGNORECASE)
 # "Notwithstanding" overrides another provision rather than carving out an exception,
 # so a statement may leave it out; it still counts as exception wording in the text.
@@ -78,18 +86,32 @@ DORA_SIMPLIFIED_FRAMEWORK_RE = re.compile(
     r"\b(?:simplified ICT risk management framework|uproszczon\w* ram\w* zarządzania ryzykiem (?:związanym z )?ICT)\b",
     re.IGNORECASE)
 
-VERIFIER_PROMPT = """You are a strict verifier of claims about EU legislation.
+VERIFIER_PROMPT = """You are a strict verifier of claims about EU legislation,
+voluntary NIST frameworks and the voluntary GPAI Code of Practice.
+
+Use the supplied source_type and version. NIST recommendations are voluntary, not
+legal duties; a descriptive prerequisite such as governance requiring attention
+does not itself assert a legal duty. GPAI Code commitments concern signatories;
+do not turn them into legal duties for all providers.
 
 For each item, compare the statement with its evidence text alone and answer five
 checks with "ok" or "problem":
 - actor: the statement names the same addressee (who must or may act) as the evidence.
+  A recipient's duty must not become a provider's duty to ensure recipient behaviour.
+  Preserve the object of an action too: an AI model and its outputs are different.
 - modality: obligation, permission and prohibition are unchanged. "may" is not turned
   into "shall" or "must", and "shall" is not weakened to "may".
-- conditions: every condition, scope limit and qualifier the evidence attaches is kept
+- conditions: every condition, scope limit and qualifier attached to the claimed action is kept
   (for example "where ...", "to their best extent", "referred to in Annex III").
-- exceptions: every exception or derogation in the evidence is kept, and the statement
+- exceptions: every exception or derogation governing the claimed action is kept, and the statement
   mentions no exception that the evidence does not contain.
-- additions: the statement adds nothing that the evidence does not state.
+- additions: check every clause; the statement adds nothing that its own evidence does not state.
+  Do not fill gaps from another page or general knowledge.
+An evidence page may contain several measures, paragraphs or table rows. Find the
+passage supporting the claim and read its governing lead-in and scope. An exception
+or qualifier governing a different action on the same page does not apply to this
+claim. A word in a heading or proper name is not by itself an exception. Broad lead-ins
+can govern several measures, so keep applicable exemptions even across headings.
 Then label the claim:
 - supported: all five checks are ok.
 - partial: the core is in the evidence, but at least one check is a problem.
@@ -151,7 +173,7 @@ def rule_check(claim: dict) -> dict | None:
     """Return an 'unsupported'/'partial' verdict when a cheap rule already fails."""
     statement = normalize(BARE_MARKER_RE.sub(" ", claim["statement"]))
     quote = normalize(claim["quote"])
-    if claim.get("act") in {"NIST_AI_RMF", "NIST_GENAI"} and STATEMENT_OBLIGATION_RE.search(statement):
+    if claim.get("act") in {"NIST_AI_RMF", "NIST_GENAI"} and NIST_MANDATORY_RE.search(statement):
         return _partial("NIST frameworks are voluntary guidance; do not present them as a legal obligation")
     evidence = f"{claim['label']} {claim['quote']}"
     act = ACTS.get(claim.get("act"))
@@ -166,6 +188,14 @@ def rule_check(claim: dict) -> dict | None:
     refs = sorted(set(ARTICLE_REF_RE.findall(statement)) - cited, key=int)
     if refs:
         return _partial("Statement refers to articles not in the cited text: " + ", ".join(refs[:5]))
+
+    source = all_sources().get(claim.get("act"))
+    if source and source.source_type in {"voluntary_framework", "voluntary_code"}:
+        # PDF units are whole pages, often containing unrelated measures or table
+        # rows. A page-wide keyword cannot establish which action an exception,
+        # permission or qualifier governs. Keep numeric/reference checks above;
+        # send semantic scope and modality checks to the model with the full page.
+        return None
 
     governing = governing_text(claim["quote"])
     must, may = _force(governing)
@@ -208,9 +238,15 @@ class ModelVerifier:
     def verify(self, claims: list[dict]) -> tuple[list[dict], dict]:
         if not claims:
             return [], {}
-        payload = {"items": [{"claim": i, "statement": c["statement"],
-                              "evidence": f"{c['citation']}\n{c['quote']}"}
-                             for i, c in enumerate(claims, 1)]}
+        sources = all_sources()
+        items = []
+        for i, claim in enumerate(claims, 1):
+            source = sources.get(claim.get("act"))
+            items.append({"claim": i, "statement": claim["statement"],
+                          "source_type": source.source_type if source else claim.get("source_type", "unknown"),
+                          "version": source.version if source else claim.get("version", "unknown"),
+                          "evidence": f"{claim['citation']}\n{claim['quote']}"})
+        payload = {"items": items}
         output, usage = structured_call(self.client, self.deployment, VERIFIER_PROMPT, payload,
                                         "claim_verdicts", verdict_schema(len(claims)), self.max_tokens)
         verdicts = {}
