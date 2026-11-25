@@ -36,5 +36,14 @@
     "source_supported_assertions": "2/2",
     "technical_errors": 0,
     "evidence": "reference-scope-azure-2026-11-25.json"
-  }
+  },
+  "web_smoke": {
+    "result": "passed",
+    "evidence_type": "user screenshots after reported deployment completion",
+    "requests": 2,
+    "source_filter": "All sources",
+    "deployed_image_digest_recorded": false,
+    "evidence": "azure-final-web-smoke-2026-11-25.json"
+  },
+  "cleanup": "pending_confirmation"
 }

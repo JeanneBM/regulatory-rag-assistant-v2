@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-25",
+  "source": "user screenshots after reported deployment completion",
+  "result": "passed",
+  "requests": 2,
+  "source_filter_observed": "All sources",
+  "checks": {
+    "cited_article_54_3_a_answer": "passed",
+    "retrieval_gated_abstention": "passed",
+    "no_previous_answer_visible": "passed"
+  },
+  "backend_observed": "azure-ai-search-hybrid",
+  "model_verification_observed": true,
+  "corpus_prefix_matches_cli": true,
+  "deployed_image_digest_recorded": false,
+  "raw_api_report_recorded": false,
+  "cleanup": "pending_confirmation",
+  "limitations": [
+    "The positive screenshot is cut within the second answer card.",
+    "The full-evaluation semantic findings remain unchanged."
+  ]
+}

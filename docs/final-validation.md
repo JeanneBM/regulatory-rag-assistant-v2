@@ -15,15 +15,21 @@ The later reference-qualifier correction passed 158 offline tests and then its
 first and cited 1/1, both shown assertions supported by the quote, zero errors.
 The original full-set semantic findings remain unchanged.
 
-Next, publish the current web image in the existing authenticated lab checkout:
+After reported deployment completion, the [final UI smoke](../evidence/azure-final-web-smoke-2026-11-25.md)
+passed in two user screenshots: cited Article 54(3)(a) answer and retrieval-gated
+abstention with no previous answer cards visible. Both used All sources. This is
+visual functional evidence; a deployment image digest was not captured.
+
+Only cleanup confirmation remains for the dedicated lab. After saving the UI results:
 
 ```bash
-azd deploy
+azd down --purge &&
+az group exists --name '<RECORDED_GROUP>'
 ```
 
-Capture a cited answer and an unrelated-question abstention in that deployed revision,
-then record cleanup. CLI evaluation alone does not attest the current Container Apps
-image. No new provisioning, embedding or manual import is needed for this correction.
+The final resource-group result should be `false`. It has not yet been supplied.
+The original semantic findings remain recorded; no more model runs are needed for
+this session's validation record.
 
 ## 1. Prepare the checkout
 

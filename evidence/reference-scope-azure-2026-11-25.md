@@ -29,7 +29,7 @@ cohort. Their 11 partial and one wrong shown statement have not been relabelled.
 The raw operator reports and full quote review remain private. No deployment
 identifiers or raw report payloads are published here.
 
-The completed CLI evaluation does not attest a newly deployed web image. Next is
-publishing the current image, confirming a cited answer and an abstention in that
-revision, and recording cleanup of the dedicated lab. No new source import or
-infrastructure provisioning is required by this correction.
+The later [final web smoke](azure-final-web-smoke-2026-11-25.md) has also passed in
+user screenshots after reported deployment completion: cited answer and abstention.
+The remaining lab operation is cleanup confirmation. These functional observations
+do not record a deployment image digest.

@@ -74,7 +74,11 @@ findings are unchanged. The completed check can be reproduced with:
 REGRAG_BACKEND=azure python -m regrag eval --cases eval/reference-scope.json --output .local/azure-reference-scope
 ```
 
-No new import, embedding or infrastructure is needed. CLI results do not by themselves
-attest a current Container Apps image revision. The remaining operational steps are
-publishing the corrected web image, capturing a cited answer and an abstention in that
-revision, then recording cleanup. Answer-quality limitations remain explicit.
+After reported deployment completion, the [final functional UI smoke](azure-final-web-smoke-2026-11-25.md)
+passed in two user screenshots: a cited answer and an unrelated-question abstention
+with no previous answer cards visible. Both requests used All sources. A deployment
+image digest was not captured, so this is functional visual evidence.
+
+Cleanup confirmation is the remaining lab operation. No more model runs are needed
+for this session's validation record. The original answer-quality limitations remain
+explicit. Resource-group deletion has not yet been confirmed.
