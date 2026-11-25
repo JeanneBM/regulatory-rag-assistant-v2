@@ -46,7 +46,7 @@ def test_partial_framework_rejected(monkeypatch):
 def test_framework_download_fails_closed(status, content_type):
     def get(url, **kwargs):
         assert url == NIST_RMF_URL and kwargs["allow_redirects"] is False
-        return SimpleNamespace(status_code=status, headers={"Content-Type": content_type})
+        return SimpleNamespace(status_code=status, headers={"Content-Type": content_type}, close=lambda: None)
     with pytest.raises(SourceError):
         fetch_framework(get)
 
@@ -57,3 +57,21 @@ def test_raw_pdf_preserved_byte_for_byte(tmp_path):
     from pathlib import Path
     assert Path(path).suffix == ".pdf"
     assert Path(path).read_bytes() == data
+
+def test_framework_download_stops_at_size_limit(monkeypatch):
+    monkeypatch.setattr("regrag.nist.MAX_BYTES", 8)
+    closed = []
+    def chunks(chunk_size):
+        yield b"%PDF-"
+        yield b"1234"
+        pytest.fail("Download continued after exceeding the size limit")
+    response = SimpleNamespace(
+        status_code=200, headers={"Content-Type": "application/pdf"},
+        iter_content=chunks, close=lambda: closed.append(True),
+    )
+    def get(url, **kwargs):
+        assert kwargs["stream"] is True
+        return response
+    with pytest.raises(SourceError, match="too large"):
+        fetch_framework(get)
+    assert closed == [True]
