@@ -1,0 +1,33 @@
+{
+  "case": "SCOPE01",
+  "date": "2026-11-25",
+  "completed_utc": "2026-11-25T19:13:30.103369+00:00",
+  "scope": "Separate positive live regression after the narrow reference-qualifier correction.",
+  "backend": "azure-ai-search-hybrid",
+  "policy": "strict",
+  "cases": 1,
+  "controls": 0,
+  "expected_unit_retrieved": "1/1",
+  "expected_unit_ranked_first": "1/1",
+  "expected_unit_cited": "1/1",
+  "claims_generated": 2,
+  "claims_shown": 2,
+  "claims_rejected": 0,
+  "technical_errors": 0,
+  "source_assessment": {
+    "supported": 2
+  },
+  "tokens": {
+    "prompt_tokens": 2918,
+    "completion_tokens": 151,
+    "total_tokens": 3069
+  },
+  "elapsed_ms": 8897,
+  "reviewer": "assistant source assessment; not independent expert sign-off",
+  "notes": [
+    "Both assertions are supported by the recorded Article 54(3)(a) quotation.",
+    "The applicability qualifier belongs to the separate Article 55 reference.",
+    "The earlier 22-case source-assessment findings remain unchanged.",
+    "This CLI regression does not attest a newly deployed web image."
+  ]
+}

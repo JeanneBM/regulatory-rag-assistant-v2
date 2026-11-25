@@ -24,9 +24,17 @@
   "total_tokens": 112611,
   "latency_p50_ms": 4526.0,
   "latency_max_ms": 19263,
-  "scope": "Two full CLI development-set runs against real Azure services; later narrow reference-qualifier correction has a separate pending live check.",
+  "scope": "Two full CLI development-set runs against real Azure services; the later successful reference-qualifier regression is recorded separately.",
   "reviewer": "assistant source assessment; not independent expert sign-off",
   "tested_application_commit_recorded": false,
   "resolved_model_version_recorded": false,
-  "comparison_note": "Two transparency expected locators changed before the guidance rerun; original runs were not rescored."
+  "comparison_note": "Two transparency expected locators changed before the guidance rerun; original runs were not rescored.",
+  "targeted_reference_scope": {
+    "case": "SCOPE01",
+    "result": "passed",
+    "expected_unit_cited": "1/1",
+    "source_supported_assertions": "2/2",
+    "technical_errors": 0,
+    "evidence": "reference-scope-azure-2026-11-25.json"
+  }
 }

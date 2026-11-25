@@ -45,8 +45,9 @@ reference. The correction keeps that qualifier local and still sends the stateme
 to model verification. Six synthetic scope regressions and all prior tests pass
 (158 total); numeric/reference checks and strict acceptance remain active.
 
-The original run was not recalculated with the correction. Live confirmation of
-the narrow rule change remains pending. The report does not record its application
-commit or resolved model version. The matching guidance rerun has now been reviewed;
-see the [completed combined evaluation](azure-full-evaluation-2026-11-25.md). Earlier
-baseline runs remain separate from this full round.
+The original run was not recalculated with the correction. The later positive
+[SCOPE01 Azure regression](reference-scope-azure-2026-11-25.md) passed with both
+assertions supported and no false rejection. The original report does not record
+its application commit or resolved model version. The matching guidance rerun has
+also been reviewed; see the [combined evaluation](azure-full-evaluation-2026-11-25.md).
+Earlier baseline runs and the targeted regression remain separate from this full round.

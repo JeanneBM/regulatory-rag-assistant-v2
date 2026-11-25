@@ -53,5 +53,5 @@ Both matching rerun reports have now been supplied and every shown/rejected stat
 reviewed. EU has citations 8/8; guidance has 10/10; controls abstain 4/4. The newer
 guidance source assessment finds 28/36 shown statements supported, 7 partial and one
 wrong actor. See the [combined evaluation](azure-full-evaluation-2026-11-25.md) for all
-22 cases and the remaining narrow regression. This earlier guidance baseline is
-retained as its original result.
+22 cases. The later [SCOPE01 regression](reference-scope-azure-2026-11-25.md) has also
+passed in Azure. This earlier guidance baseline is retained as its original result.

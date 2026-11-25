@@ -64,14 +64,17 @@ The correction passed 158 offline tests and lint. It does not repair all semanti
 model errors listed above and these original run results have not been relabelled.
 
 The [single targeted case](../eval/reference-scope.json) requests verification tasks
-under Article 54(3)(a) and expects that exact source unit. It checks the later narrow
-change without changing either full development set. Its live result remains pending:
+under Article 54(3)(a) and expects that exact source unit. It passed at 19:13 UTC:
+unit retrieved, first and cited 1/1; both assertions supported by the quote; zero
+rejections and zero errors. [Live confirmation](reference-scope-azure-2026-11-25.md).
+This later result is separate from the two full development sets; their semantic
+findings are unchanged. The completed check can be reproduced with:
 
 ```bash
 REGRAG_BACKEND=azure python -m regrag eval --cases eval/reference-scope.json --output .local/azure-reference-scope
 ```
 
-No new import, embedding or infrastructure is needed. These CLI results do not by
-themselves attest a new Container Apps image revision. Preserve the working environment
-until the targeted result and any final deployed-image check are captured, then record
-cleanup. Answer-quality limitations remain explicit even after technical checks finish.
+No new import, embedding or infrastructure is needed. CLI results do not by themselves
+attest a current Container Apps image revision. The remaining operational steps are
+publishing the corrected web image, capturing a cited answer and an abstention in that
+revision, then recording cleanup. Answer-quality limitations remain explicit.

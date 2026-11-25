@@ -10,19 +10,20 @@ abstentions 4/4, zero technical errors. [Combined findings](../evidence/azure-fu
 record 46 supported, 11 partial and one wrong shown statement. Coverage is evaluated;
 strict semantic fidelity remains a measured limitation.
 
-The later reference-qualifier correction passed 158 offline tests. Its single
-[targeted case](../eval/reference-scope.json) still needs a live result. In the
-current authenticated lab checkout, after pulling the latest revision:
+The later reference-qualifier correction passed 158 offline tests and then its
+[SCOPE01 Azure regression](../evidence/reference-scope-azure-2026-11-25.md): exact unit
+first and cited 1/1, both shown assertions supported by the quote, zero errors.
+The original full-set semantic findings remain unchanged.
+
+Next, publish the current web image in the existing authenticated lab checkout:
 
 ```bash
-REGRAG_BACKEND=azure python -m regrag eval --cases eval/reference-scope.json --output .local/azure-reference-scope
+azd deploy
 ```
 
-This targeted check does not change either completed development set or erase its
-semantic failures. The CLI reports also do not attest the latest Container Apps
-image; capture a final deployed-image check when publishing the corrected web
-revision. Keep the environment until those results are saved, then record cleanup.
-These rule and evaluation-data changes need no new provisioning, embedding or import.
+Capture a cited answer and an unrelated-question abstention in that deployed revision,
+then record cleanup. CLI evaluation alone does not attest the current Container Apps
+image. No new provisioning, embedding or manual import is needed for this correction.
 
 ## 1. Prepare the checkout
 
