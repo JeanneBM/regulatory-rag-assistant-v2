@@ -41,11 +41,20 @@ def parse_framework(data: bytes) -> list[dict]:
 def fetch_framework(get=None):
     get = get or requests.get
     response = get(NIST_RMF_URL, headers={"Accept": "application/pdf", "User-Agent": USER_AGENT},
-                   timeout=(10, 120), allow_redirects=False)
-    if response.status_code != 200 or "application/pdf" not in response.headers.get("Content-Type", "").lower():
-        raise SourceError("NIST AI RMF: expected HTTP 200 and application/pdf without redirects")
-    data = response.content
-    if len(data) > MAX_BYTES or not data.startswith(b"%PDF-"):
-        raise SourceError("NIST AI RMF: invalid PDF or download too large")
+                   timeout=(10, 120), allow_redirects=False, stream=True)
+    try:
+        if response.status_code != 200 or "application/pdf" not in response.headers.get("Content-Type", "").lower():
+            raise SourceError("NIST AI RMF: expected HTTP 200 and application/pdf without redirects")
+        chunks, size = [], 0
+        for chunk in response.iter_content(chunk_size=65536):
+            size += len(chunk)
+            if size > MAX_BYTES:
+                raise SourceError("NIST AI RMF: download too large")
+            chunks.append(chunk)
+        data = b"".join(chunks)
+        if not data.startswith(b"%PDF-"):
+            raise SourceError("NIST AI RMF: invalid PDF")
+    finally:
+        response.close()
     units = parse_framework(data)
     return SourceDocument(NIST_RMF, data, NIST_RMF_URL, hashlib.sha256(data).hexdigest()), units
