@@ -2,6 +2,10 @@
 
 Imports the EU AI Act, DORA, NIST AI RMF 1.0, the NIST Generative AI Profile and the three chapters of the EU GPAI Code of Practice from official sources. Generates cited answers with Azure OpenAI. The repository includes a CLI and a FastAPI web UI. The Azure deployment configuration uses Container Apps for the API, UI and weekly import job, and Azure AI Search for hybrid retrieval.
 
+## Web interface
+
+![Regulatory RAG Assistant web interface with a question field, source selector and Azure hybrid-search backend](docs/images/regulatory-rag-web-ui.png)
+
 ## Documents and example questions
 
 **What can I ask this assistant?** Questions about the imported EU regulations,
