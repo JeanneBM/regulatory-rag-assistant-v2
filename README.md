@@ -27,14 +27,15 @@ are voluntary guidance; the GPAI Code is a voluntary compliance instrument with
 commitments for signatories. Answers should preserve these distinctions.
 
 These are example research questions, not guaranteed successful answers. The corpus
-uses the editions listed below; new-source model and Azure validation remain open.
+uses the editions listed below. A three-question Azure web smoke passed on 25 November 2026; broader answer-quality evaluation remains open.
 Without model configuration, the local application returns excerpts only.
 
 ## Project status
 
 | Component | Validation |
 | --- | --- |
-| Final local regression | 24 November 2026: 140 tests, lint, locked-dependency audit, UI regression and seven-source API smoke passed. Retrieval remains 8/8 for EU articles and 9/10 for guidance locators; current seven-source model/Azure validation is still open. [Final local evidence](evidence/final-local-validation-2026-11-24.json) · [Final session in Git Bash](docs/final-validation.md). |
+| Azure web smoke | 25 November 2026: cited answers for NIST GenAI and GPAI Copyright, plus retrieval-gated abstention for an unrelated question, observed in the deployed UI. Three final trials; not a full seven-source evaluation. Cleanup pending. [Smoke evidence](evidence/azure-web-smoke-2026-11-25.md). |
+| Final local regression | 24 November 2026: 140 tests, lint, locked-dependency audit, UI regression and seven-source API smoke passed. Retrieval remains 8/8 for EU articles and 9/10 for guidance locators; full seven-source model/Azure evaluation is still open; see the later web smoke above. [Final local evidence](evidence/final-local-validation-2026-11-24.json) · [Final session in Git Bash](docs/final-validation.md). |
 | Additional AI guidance | Live local import and retrieval evaluated on 24 November 2026; 9/10 expected source locators retrieved, 6/10 ranked first and 2/2 controls without evidence. These new-source results do not establish model answer quality or Azure integration. [Evidence](evidence/ai-guidance-validation-2026-11-24.md). |
 | CLI pilot | Completed on 13 November 2026 with local TF-IDF retrieval and Azure OpenAI `gpt-4.1-nano`. The expected article ranked first for 8/8 answerable questions and appeared in citations for 7/8 after verification. Both controls correctly abstained, with zero execution errors across all ten questions. |
 | FastAPI and web UI | Local browser smoke test passed for a cited response and an abstention. Both questions also passed through the deployed Azure API with hybrid Azure AI Search and Azure OpenAI. See the [deployment and test manual](evidence/web-validation-manual.md). |
