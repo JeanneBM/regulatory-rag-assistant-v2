@@ -135,6 +135,15 @@ flowchart LR
 | Managed identities | `id-web` (read-only) and `id-ingest` (write) | Least-privilege data-plane roles, see [rbac.bicep](infra/modules/rbac.bicep) |
 | Cost Management budget (optional) | E-mail alerts at 80 % actual and 100 % forecast spend | |
 
+**Azure resource inventory — 25 November 2026**
+
+![Azure Portal inventory of the 12 resources provisioned for the Regulatory RAG Assistant lab](docs/images/azure-resource-inventory-2026-11-25.png)
+
+Snapshot of the **12 lab resources** before cleanup: Container Apps (web app,
+environment and import job), ACR, Azure OpenAI/Foundry, Azure AI Search, Storage,
+two managed identities, Application Insights, Log Analytics and the Smart Detection
+action group.
+
 ## How an answer is built
 
 1. **Import.** The job asks Cellar for each CELEX resource with `Accept: application/xhtml+xml` and `Accept-Language: eng`. Every redirect is upgraded to HTTPS and pinned to `publications.europa.eu`. EUR-Lex pages answer scripts with a WAF challenge, so they are only used as citation links. Any HTTP error, foreign redirect, unexpected content type or missing article stops the import.
